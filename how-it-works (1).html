@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pinzom - How It Works</title>
+<style>
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #fdeef1;
+    color: #2b2130;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+  }
+
+  .logo {
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  .logo span {
+    color: #d6336c;
+  }
+
+  nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+  }
+
+  nav a {
+    font-weight: bold;
+    padding-bottom: 4px;
+  }
+
+  nav a.active {
+    color: #d6336c;
+    border-bottom: 2px solid #d6336c;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .search-box {
+    padding: 10px 18px;
+    border-radius: 20px;
+    border: 1px solid #ddc3cb;
+    background-color: white;
+  }
+
+  .login-btn {
+    font-weight: bold;
+  }
+
+  /* ---------- page title ---------- */
+  .title-section {
+    text-align: center;
+    padding: 60px 20px 40px;
+  }
+
+  .tag {
+    display: inline-block;
+    background-color: #f9d3dd;
+    color: #d6336c;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .title-section h1 {
+    font-size: 42px;
+    margin-bottom: 20px;
+  }
+
+  .title-section h1 em {
+    color: #d6336c;
+    font-style: italic;
+  }
+
+  .title-section p {
+    max-width: 600px;
+    margin: 0 auto;
+    color: #5c4f57;
+  }
+
+  /* ---------- step cards ---------- */
+  .steps {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    padding: 20px 60px 80px;
+    flex-wrap: wrap;
+  }
+
+  .step-card {
+    background-color: white;
+    border-radius: 16px;
+    padding: 30px 20px;
+    width: 250px;
+    text-align: center;
+  }
+
+  .step-number {
+    background-color: #f9d3dd;
+    color: #d6336c;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 0 auto 15px;
+  }
+
+  .step-icon {
+    font-size: 30px;
+    background-color: #f9d3dd;
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+  }
+
+  .step-card h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+
+  .step-card p {
+    font-size: 14px;
+    color: #5c4f57;
+  }
+
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">pinzom<span>•</span></div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Discover</a></li>
+        <li><a href="how-it-works.html" class="active">How It Works</a></li>
+        <li><a href="explore.html">Explore</a></li>
+        <li><a href="categories.html">Categories</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+      </ul>
+    </nav>
+    <div class="header-right">
+      <input class="search-box" type="text" placeholder="Search bakeries near you">
+      <a href="login.html" class="login-btn">Log in</a>
+    </div>
+  </header>
+
+  <section class="title-section">
+    <span class="tag">✦ Discovery made simple</span>
+    <h1>How Pinzom <em>Works</em></h1>
+    <p>No more wandering blindly through an unfamiliar town. Discover, filter, and walk right up to the best ovens near you.</p>
+  </section>
+
+  <section class="steps">
+    <div class="step-card">
+      <div class="step-number">1</div>
+      <div class="step-icon">🔍</div>
+      <h3>Search or Browse</h3>
+      <p>Locate hidden artisan bakeries within walking distance of your campus, university hostel, or new apartment.</p>
+    </div>
+
+    <div class="step-card">
+      <div class="step-number">2</div>
+      <div class="step-icon">🥐</div>
+      <h3>Filter by Craving</h3>
+      <p>Zero in immediately on fresh sourdough breads, flaky butter croissants, stuffed cookies, or custom birthday cakes.</p>
+    </div>
+
+    <div class="step-card">
+      <div class="step-number">3</div>
+      <div class="step-icon">⭐</div>
+      <h3>Friend & Local Reviews</h3>
+      <p>Read honest notes and ratings from fellow students and locals you actually trust, not bot reviews.</p>
+    </div>
+
+    <div class="step-card">
+      <div class="step-number">4</div>
+      <div class="step-icon">📍</div>
+      <h3>Get Direct Directions</h3>
+      <p>One tap launches Google Maps directly to the bakery door so you can grab warm pastries right out of the oven.</p>
+    </div>
+  </section>
+
+</body>
+</html>

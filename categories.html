@@ -1,24 +1,179 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Categories | Pinzom</title><link rel="stylesheet" href="style.css"></head>
-<body><header class="container nav">
-<a class="logo" href="index.html">pinzom<span>•</span></a>
-<nav class="nav-links">
-<a class="" href="index.html">Discover</a>
-<a class="" href="how-it-works.html">How It Works</a>
-<a class="" href="explore.html">Explore</a>
-<a class="active" href="categories.html">Categories</a>
-<a class="" href="reviews.html">Reviews</a>
-</nav>
-<input class="search" placeholder="⌕  Search bakeries near you">
-<a class="login-link" href="login.html">Log in</a>
-</header><main>
-<section class="container section-heading"><h1>Browse by category</h1><p>Whatever you're craving — pick a category to see what's nearby.</p></section>
-<section class="container cards">
-<div class="card category-card"><h2>Cakes</h2><p>Birthday cakes, custom orders, and slices by the piece.</p><div class="count">22 bakeries</div></div>
-<div class="card category-card"><h2>Pastries</h2><p>Croissants, danishes, and other flaky, buttery things.</p><div class="count">27 bakeries</div></div>
-<div class="card category-card"><h2>Donuts</h2><p>Glazed, filled, and everything in between.</p><div class="count">15 bakeries</div></div>
-<div class="card category-card"><h2>Cookies</h2><p>Classic chocolate chip to unusual flavors.</p><div class="count">31 bakeries</div></div>
-</section>
-</main><footer class="footer">© <span data-year></span> Pinzom · Discover your next favorite bakery.</footer><script src="script.js"></script></body></html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Categories | Pinzom</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .category-experience {
+        display: grid;
+        grid-template-columns: minmax(280px, 390px) 1fr;
+        gap: 40px;
+        align-items: stretch;
+        margin-bottom: 70px;
+      }
+      .category-selector {
+        display: grid;
+        gap: 14px;
+      }
+      .category-experience .category-card {
+        width: 100%;
+        text-align: left;
+        border: 2px solid transparent;
+        cursor: pointer;
+        padding: 24px;
+        border-radius: 20px;
+        transition:
+          border-color 0.2s ease,
+          transform 0.2s ease;
+      }
+      .category-experience .category-card:hover,
+      .category-experience .category-card.is-active {
+        border-color: #df2d70;
+        transform: translateY(-2px);
+      }
+      .category-experience .category-card:not(.is-active) {
+        background: white;
+      }
+      .category-experience .category-card h2 {
+        margin: 0 0 10px;
+      }
+      .category-experience .category-card p {
+        margin: 0 0 18px;
+      }
+      .category-visual {
+        margin: 0;
+        min-height: 560px;
+        border-radius: 30px;
+        background: linear-gradient(145deg, #ffd9e5, #fff9f5);
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+      }
+      .category-image {
+        display: none;
+        width: 88%;
+        height: auto;
+        max-height: 430px;
+        object-fit: contain;
+        object-position: center;
+        opacity: 0;
+        transform: scale(0.98);
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease;
+      }
+      .category-image.is-visible {
+        display: block;
+        opacity: 1;
+        transform: scale(1);
+      }
+      @media (max-width: 800px) {
+        .category-experience {
+          grid-template-columns: 1fr;
+        }
+        .category-visual {
+          min-height: 330px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="container nav">
+      <a class="logo" href="index.html">pinzom<span>•</span></a>
+      <nav class="nav-links">
+        <a class="" href="index.html">Discover</a>
+        <a class="" href="how-it-works.html">How It Works</a>
+        <a class="" href="explore.html">Explore</a>
+        <a class="active" href="categories.html">Categories</a>
+        <a class="" href="reviews.html">Reviews</a>
+      </nav>
+      <input class="search" placeholder="⌕  Search bakeries near you" />
+      <a class="login-link" href="login.html">Log in</a>
+    </header>
+    <main>
+      <section class="container section-heading">
+        <h1>Browse by category</h1>
+        <p>Whatever you're craving — pick a category to see what's nearby.</p>
+      </section>
+      <section
+        class="container category-experience"
+        aria-label="Bakery categories"
+      >
+        <div class="category-selector">
+          <button
+            class="category-card is-active"
+            type="button"
+            data-category="cakes"
+            aria-pressed="true"
+          >
+            <h2>Cakes</h2>
+            <p>Birthday cakes, custom orders, and slices by the piece.</p>
+            <span class="count">22 bakeries</span>
+          </button>
+          <button
+            class="category-card"
+            type="button"
+            data-category="pastries"
+            aria-pressed="false"
+          >
+            <h2>Pastries</h2>
+            <p>Croissants, danishes, and other flaky, buttery things.</p>
+            <span class="count">27 bakeries</span>
+          </button>
+          <button
+            class="category-card"
+            type="button"
+            data-category="donuts"
+            aria-pressed="false"
+          >
+            <h2>Donuts</h2>
+            <p>Glazed, filled, and everything in between.</p>
+            <span class="count">15 bakeries</span>
+          </button>
+          <button
+            class="category-card"
+            type="button"
+            data-category="cookies"
+            aria-pressed="false"
+          >
+            <h2>Cookies</h2>
+            <p>Classic chocolate chip to unusual flavors.</p>
+            <span class="count">31 bakeries</span>
+          </button>
+        </div>
+        <figure class="category-visual" aria-label="Selected bakery category">
+          <img
+            class="category-image is-visible"
+            data-category-image="cakes"
+            src="images/categories_cake.png"
+            alt="A decorated chocolate cake"
+          />
+          <img
+            class="category-image"
+            data-category-image="pastries"
+            src="images/categories_pastry.png"
+            alt="A selection of golden pastries"
+          />
+          <img
+            class="category-image"
+            data-category-image="donuts"
+            src="images/categories_donuts.png"
+            alt="Glazed donuts"
+          />
+          <img
+            class="category-image"
+            data-category-image="cookies"
+            src="images/categories_cookies.png"
+            alt="Chocolate chip cookies"
+          />
+        </figure>
+      </section>
+    </main>
+    <footer class="footer">
+      © <span data-year></span> Pinzom · Discover your next favorite bakery.
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Sign Up | Pinzom</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .auth-visual img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="container nav">
+      <a class="logo" href="index.html">pinzom<span>•</span></a>
+      <nav class="nav-links">
+        <a class="" href="index.html">Discover</a>
+        <a class="" href="how-it-works.html">How It Works</a>
+        <a class="" href="explore.html">Explore</a>
+        <a class="" href="categories.html">Categories</a>
+        <a class="" href="reviews.html">Reviews</a>
+      </nav>
+      <input class="search" placeholder="⌕  Search bakeries near you" />
+      <a class="login-link" href="login.html">Log in</a>
+    </header>
+    <main>
+      <section class="container auth">
+        <div>
+          <span class="eyebrow">📍 Bakeries near your campus</span>
+          <h1>Find your next favorite bakery.</h1>
+          <p>Sign up to create a new account.</p>
+          <form class="form">
+            <label>Full name</label
+            ><input placeholder="Full Name" required /><label
+              >Email address</label
+            ><input type="email" placeholder="you@campus.edu" required /><label
+              >Password</label
+            ><input
+              type="password"
+              placeholder="At least 8 characters"
+              minlength="8"
+              required
+            /><label
+              ><input type="checkbox" required style="width: auto" /> I agree to
+              Pinzom's Terms and Privacy Policy</label
+            ><button class="btn">Create free account</button>
+          </form>
+          <p>
+            Already have an account?
+            <a href="login.html" style="color: #d92d6c">Log in</a>
+          </p>
+        </div>
+        <div class="auth-visual">
+          <img src="images/signup.png" alt="Fresh bakery treats" />
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+      © <span data-year></span> Pinzom · Discover your next favorite bakery.
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>

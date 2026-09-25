@@ -1,27 +1,68 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Discover | Pinzom</title><link rel="stylesheet" href="style.css"></head>
-<body><header class="container nav">
-<a class="logo" href="index.html">pinzom<span>•</span></a>
-<nav class="nav-links">
-<a class="active" href="index.html">Discover</a>
-<a class="" href="how-it-works.html">How It Works</a>
-<a class="" href="explore.html">Explore</a>
-<a class="" href="categories.html">Categories</a>
-<a class="" href="reviews.html">Reviews</a>
-</nav>
-<input class="search" placeholder="⌕  Search bakeries near you">
-<a class="login-link" href="login.html">Log in</a>
-</header><main>
-<section class="container hero">
-<div>
-<span class="eyebrow">Craving something sweet?</span>
-<h1>Find bakeries<br>worth <em>crossing</em><br>town for.</h1>
-<p>A bakery discovery system, built for you and your cravings. See what people actually recommend nearby.</p>
-<div class="actions"><a class="btn" href="explore.html">Explore</a><a href="how-it-works.html">How it works →</a></div>
-</div>
-<div class="visual"><div class="cake"></div><div class="tag one">🏪 The Cocoa Room<br>⭐ 4.9 · 1.2 mi</div><div class="tag two">⭐ 3 friends recommend this</div></div>
-</section>
-<div class="chips container"><a class="chip" href="categories.html">🍰 Cakes</a><a class="chip" href="categories.html">🥐 Pastries</a><a class="chip" href="categories.html">🍩 Donuts</a><a class="chip" href="categories.html">🍪 Cookies</a></div>
-</main><footer class="footer">© <span data-year></span> Pinzom · Discover your next favorite bakery.</footer><script src="script.js"></script></body></html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Discover | Pinzom</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .visual .cake {
+        height: auto;
+        max-height: 82%;
+        object-fit: contain;
+        object-position: center;
+        background: transparent;
+        box-shadow: none;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="container nav">
+      <a class="logo" href="index.html">pinzom<span>•</span></a>
+      <nav class="nav-links">
+        <a class="active" href="index.html">Discover</a>
+        <a class="" href="how-it-works.html">How It Works</a>
+        <a class="" href="explore.html">Explore</a>
+        <a class="" href="categories.html">Categories</a>
+        <a class="" href="reviews.html">Reviews</a>
+      </nav>
+      <input class="search" placeholder="⌕  Search bakeries near you" />
+      <a class="login-link" href="login.html">Log in</a>
+    </header>
+    <main>
+      <section class="container hero">
+        <div>
+          <span class="eyebrow">Craving something sweet?</span>
+          <h1>Find bakeries<br />worth <em>crossing</em><br />town for.</h1>
+          <p>
+            A bakery discovery system, built for you and your cravings. See what
+            people actually recommend nearby.
+          </p>
+          <div class="actions">
+            <a class="btn" href="explore.html">Explore</a
+            ><a href="how-it-works.html">How it works →</a>
+          </div>
+        </div>
+        <div class="visual">
+          <img
+            class="cake"
+            src="images/hero_page cake_image.png"
+            alt="A beautifully decorated bakery cake"
+          />
+          <div class="tag one">🏪 The Cocoa Room<br />⭐ 4.9 · 1.2 mi</div>
+          <div class="tag two">⭐ 3 friends recommend this</div>
+        </div>
+      </section>
+      <div class="chips container">
+        <a class="chip" href="categories.html?category=cakes">🍰 Cakes</a
+        ><a class="chip" href="categories.html?category=pastries">🥐 Pastries</a
+        ><a class="chip" href="categories.html?category=donuts">🍩 Donuts</a
+        ><a class="chip" href="categories.html?category=cookies">🍪 Cookies</a>
+      </div>
+    </main>
+    <footer class="footer">
+      © <span data-year></span> Pinzom · Discover your next favorite bakery.
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>

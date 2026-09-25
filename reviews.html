@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reviews | Pinzom</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .reviews-page {
+        min-height: calc(100vh - 86px);
+        padding-bottom: 24px;
+      }
+      .reviews-content {
+        width: min(738px, 92%);
+        margin: 28px auto 0;
+      }
+      .reviews-heading {
+        margin: 0 0 20px;
+        text-align: left;
+      }
+      .reviews-heading h1 {
+        margin: 0 0 7px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 21px;
+        line-height: 1.2;
+      }
+      .reviews-heading p {
+        margin: 0;
+        color: #786b70;
+        font-size: 10px;
+      }
+      .review-form {
+        display: block;
+        overflow: hidden;
+        margin: 0 0 16px;
+        padding: 0;
+        border: 1px solid #eadde1;
+        border-radius: 10px;
+        background: #fff;
+        box-shadow: none;
+      }
+      .review-form input {
+        display: block;
+        width: 100%;
+        min-height: 33px;
+        padding: 0 13px;
+        border: 0;
+        border-bottom: 1px solid #eee2e5;
+        border-radius: 0;
+        outline: 0;
+        color: #291b20;
+        font: inherit;
+        font-size: 9px;
+      }
+      .review-form input:last-child {
+        border-bottom: 0;
+      }
+      .reviews-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .review-card {
+        min-height: 123px;
+        padding: 12px;
+        border-radius: 10px;
+        box-shadow: 0 8px 20px #d9b7c122;
+      }
+      .review-person {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 5px;
+      }
+      .review-avatar {
+        display: grid;
+        width: 20px;
+        height: 20px;
+        place-items: center;
+        flex: 0 0 20px;
+        border-radius: 50%;
+        background: #df2d70;
+        color: #fff;
+        font-size: 8px;
+      }
+      .review-person strong {
+        display: block;
+        font-size: 9px;
+        line-height: 1.2;
+      }
+      .review-person small {
+        display: block;
+        color: #786b70;
+        font-size: 7px;
+        line-height: 1.2;
+      }
+      .friend-badge {
+        margin-left: 3px;
+        padding: 2px 5px;
+        border-radius: 8px;
+        background: #df2d70;
+        color: #fff;
+        font-size: 6px;
+        font-weight: 700;
+      }
+      .review-card .rating {
+        margin-bottom: 4px;
+        color: #e7a91b;
+        font-size: 10px;
+        letter-spacing: 1px;
+      }
+      .review-card h3 {
+        margin: 0 0 3px;
+        color: #df2d70;
+        font-size: 9px;
+      }
+      .review-card p {
+        margin: 0;
+        color: #4d4246;
+        font-size: 8px;
+        line-height: 1.35;
+      }
+      .review-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 14px 0 16px;
+      }
+      .review-filter {
+        padding: 5px 12px;
+        border: 1px solid #eadde1;
+        border-radius: 14px;
+        background: #fff;
+        color: #291b20;
+        cursor: pointer;
+        font: inherit;
+        font-size: 8px;
+      }
+      .review-filter.selected {
+        border-color: #df2d70;
+        background: #df2d70;
+        color: #fff;
+      }
+      .review-photo-strip {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 7px;
+      }
+      .review-photo-strip img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 1.78;
+        object-fit: cover;
+        object-position: center;
+      }
+      @media (max-width: 700px) {
+        .reviews-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 480px) {
+        .reviews-content {
+          margin-top: 20px;
+        }
+        .reviews-grid,
+        .review-photo-strip {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="container nav">
+      <a class="logo" href="index.html">pinzom<span>•</span></a>
+      <nav class="nav-links">
+        <a href="index.html">Discover</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="explore.html">Explore</a>
+        <a href="categories.html">Categories</a>
+        <a class="active" href="reviews.html">Reviews</a>
+      </nav>
+      <input class="search" placeholder="⌕  Search bakeries near you" />
+      <a class="login-link" href="login.html">Log in</a>
+    </header>
+
+    <main class="reviews-page">
+      <section class="reviews-content">
+        <div class="reviews-heading">
+          <h1>Check Other Reviews</h1>
+          <p>
+            Get real reviews and recommendations from friends and fellow
+            foodies.
+          </p>
+        </div>
+
+        <form class="review-form">
+          <input
+            aria-label="Bakery being reviewed"
+            placeholder="Which bakery are you reviewing?"
+          />
+          <input
+            aria-label="Review details"
+            placeholder="What you thought — the good, the bad, and what to order."
+          />
+        </form>
+
+        <section class="reviews-grid" aria-label="Bakery reviews">
+          <article class="card review-card">
+            <div class="review-person">
+              <span class="review-avatar">M</span>
+              <div><strong>Meera P.</strong><small>2 days ago</small></div>
+            </div>
+            <div class="rating">☆☆☆☆☆</div>
+            <h3>Flour Power</h3>
+            <p>
+              “Perfect for finding late-night dessert spots near campus. Saved
+              me so much time.”
+            </p>
+          </article>
+          <article class="card review-card">
+            <div class="review-person">
+              <span class="review-avatar">A</span>
+              <div>
+                <strong
+                  >Arjun K. <span class="friend-badge">friend</span></strong
+                ><small>5 days ago</small>
+              </div>
+            </div>
+            <div class="rating">☆☆☆☆☆</div>
+            <h3>The Pink Oven</h3>
+            <p>
+              “I discovered my favorite paneer roll place through Pinzom. Now
+              it's part of my weekend routine.”
+            </p>
+          </article>
+          <article class="card review-card">
+            <div class="review-person">
+              <span class="review-avatar">S</span>
+              <div>
+                <strong
+                  >Simran D. <span class="friend-badge">friend</span></strong
+                ><small>1 week ago</small>
+              </div>
+            </div>
+            <div class="rating">☆☆☆☆☆</div>
+            <h3>Sundar's Patisserie</h3>
+            <p>
+              “The photos and reviews helped me avoid tourist traps and find
+              genuinely great bakeries.”
+            </p>
+          </article>
+          <article class="card review-card">
+            <div class="review-person">
+              <span class="review-avatar">K</span>
+              <div>
+                <strong
+                  >Karan V. <span class="friend-badge">friend</span></strong
+                ><small>2 weeks ago</small>
+              </div>
+            </div>
+            <div class="rating">☆☆☆☆☆</div>
+            <h3>Golden Crust Bar</h3>
+            <p>
+              “The cardamom buns are purely celestial. Best paired with their
+              drip filter coffee.”
+            </p>
+          </article>
+        </section>
+
+        <div class="review-filters" aria-label="Review filters">
+          <button
+            class="review-filter selected"
+            type="button"
+            data-filter="all"
+          >
+            All reviews
+          </button>
+          <button class="review-filter" type="button" data-filter="cakes">
+            Cakes
+          </button>
+          <button class="review-filter" type="button" data-filter="pastries">
+            Pastries
+          </button>
+          <button class="review-filter" type="button" data-filter="donuts">
+            Donuts
+          </button>
+          <button class="review-filter" type="button" data-filter="cookies">
+            Cookies
+          </button>
+          <button class="review-filter" type="button" data-filter="sourdough">
+            Sourdough
+          </button>
+        </div>
+
+        <div class="review-photo-strip" aria-label="Bakery photos">
+          <img
+            src="images/1 (2).png"
+            alt="People enjoying a bakery gathering"
+          />
+          <img src="images/2 (2).png" alt="Friends outside a bakery" />
+          <img
+            src="images/3 (2).png"
+            alt="People sharing food at a bakery table"
+          />
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      © <span data-year></span> Pinzom · Discover your next favorite bakery.
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>

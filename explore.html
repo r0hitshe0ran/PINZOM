@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Explore Bakeries | Pinzom</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .bakery-image {
+        overflow: hidden;
+        background: #fff;
+      }
+      .bakery-image img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="container nav">
+      <a class="logo" href="index.html">pinzom<span>•</span></a>
+      <nav class="nav-links">
+        <a class="" href="index.html">Discover</a>
+        <a class="" href="how-it-works.html">How It Works</a>
+        <a class="active" href="explore.html">Explore</a>
+        <a class="" href="categories.html">Categories</a>
+        <a class="" href="reviews.html">Reviews</a>
+      </nav>
+      <input class="search" placeholder="⌕  Search bakeries near you" />
+      <a class="login-link" href="login.html">Log in</a>
+    </header>
+    <main>
+      <section class="container section-heading">
+        <h1>Explore bakeries</h1>
+        <p>Find a bakery that matches your current craving.</p>
+      </section>
+      <section class="container explore-layout">
+        <aside class="filter-panel">
+          <h3>Search & Filter</h3>
+          <input id="searchBox" placeholder="Search bakery..." /><label
+            >Category</label
+          >
+          <div class="chips" style="justify-content: flex-start">
+            <button class="chip" data-filter="all">All</button
+            ><button class="chip" data-filter="cakes">Cakes</button
+            ><button class="chip" data-filter="pastries">Pastries</button
+            ><button class="chip" data-filter="donuts">Donuts</button
+            ><button class="chip" data-filter="cookies">Cookies</button>
+          </div>
+        </aside>
+        <div class="bakery-list">
+          <div class="card bakery" data-category="cakes">
+            <div class="bakery-image">
+              <img
+                src="images/1_Explorepage.png"
+                alt="Fresh cakes at Fifth Avenue Cafe and Bakery"
+              />
+            </div>
+            <h3>Fifth Avenue Cafe & Bakery</h3>
+            <div class="rating">★ 4.7 · 1.36 km away</div>
+            <p>Fresh cakes and desserts.</p>
+          </div>
+          <div class="card bakery" data-category="pastries">
+            <div class="bakery-image">
+              <img
+                src="images/2_Explorepage.png"
+                alt="Pastries at La Vie Douce"
+              />
+            </div>
+            <h3>La Vie Douce</h3>
+            <div class="rating">★ 4.6 · 0.38 km away</div>
+            <p>Buttery pastries and coffee.</p>
+          </div>
+          <div class="card bakery" data-category="donuts">
+            <div class="bakery-image">
+              <img
+                src="images/3_Explorepage.png"
+                alt="Glazed donuts at Krispy Kreme"
+              />
+            </div>
+            <h3>Krispy Kreme</h3>
+            <div class="rating">★ 4.8 · 0.24 km away</div>
+            <p>Glazed and filled donuts.</p>
+          </div>
+          <div class="card bakery" data-category="cookies">
+            <div class="bakery-image">
+              <img src="images/4 (2).png" alt="Cookies at Dwija Bake Studio" />
+            </div>
+            <h3>Dwija Bake Studio</h3>
+            <div class="rating">★ 4.8 · 0.23 km away</div>
+            <p>Cookies and baked treats.</p>
+          </div>
+          <div class="card bakery" data-category="cakes">
+            <div class="bakery-image">
+              <img
+                src="images/5_Explorepage.png"
+                alt="Specialty cakes at Sugar and Rye"
+              />
+            </div>
+            <h3>Sugar & Rye</h3>
+            <div class="rating">★ 4.8 · 0.52 km away</div>
+            <p>Celebration cakes and desserts.</p>
+          </div>
+          <div class="card bakery" data-category="pastries">
+            <div class="bakery-image">
+              <img
+                src="images/6_Explorepage.png"
+                alt="Fresh bakes at Campus Bakehouse"
+              />
+            </div>
+            <h3>Campus Bakehouse</h3>
+            <div class="rating">★ 4.7 · 0.71 km away</div>
+            <p>Fresh bakes and coffee.</p>
+          </div>
+        </div>
+      </section>
+      <script>
+        const searchBox = document.getElementById("searchBox");
+        searchBox.addEventListener("input", () => {
+          const q = searchBox.value.toLowerCase();
+          document
+            .querySelectorAll(".bakery")
+            .forEach(
+              (card) =>
+                (card.style.display = card.innerText.toLowerCase().includes(q)
+                  ? "block"
+                  : "none"),
+            );
+        });
+      </script>
+    </main>
+    <footer class="footer">
+      © <span data-year></span> Pinzom · Discover your next favorite bakery.
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -2,6 +2,7 @@ document
   .querySelectorAll("[data-year]")
   .forEach((el) => (el.textContent = new Date().getFullYear()));
 
+//EXPLORE PAGE FILTERING
 document.querySelectorAll("[data-filter]").forEach((button) => {
   button.addEventListener("click", () => {
     const value = button.dataset.filter.toLowerCase();
@@ -16,6 +17,7 @@ document.querySelectorAll("[data-filter]").forEach((button) => {
   });
 });
 
+//CATEGORY PAGE BUTTONS
 const categoryButtons = document.querySelectorAll(
   ".category-card[data-category]",
 );

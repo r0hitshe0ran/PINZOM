@@ -24,8 +24,20 @@
         <a class="" href="categories.html">Categories</a>
         <a class="" href="reviews.html">Reviews</a>
       </nav>
-      <input class="search" placeholder="⌕  Search bakeries near you" />
+      <input
+        class="search"
+        aria-label="Search bakeries"
+        placeholder="⌕  Search bakeries near you"
+      />
       <a class="login-link" href="login.html">Log in</a>
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
     </header>
     <main>
       <section class="container auth">
@@ -33,21 +45,49 @@
           <span class="eyebrow">📍 Bakeries near your campus</span>
           <h1>Find your next favorite bakery.</h1>
           <p>Sign up to create a new account.</p>
-          <form class="form">
-            <label>Full name</label
-            ><input placeholder="Full Name" required /><label
-              >Email address</label
-            ><input type="email" placeholder="you@campus.edu" required /><label
-              >Password</label
-            ><input
+          <form class="form" data-form="signup" novalidate>
+            <label for="fullName">Full name</label>
+            <input
+              id="fullName"
+              name="fullName"
+              placeholder="Full Name"
+              autocomplete="name"
+              maxlength="60"
+              data-rule="fullName"
+            />
+            <small class="field-error" data-error-for="fullName"></small>
+            <label for="email">Email address</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="you@campus.edu"
+              autocomplete="email"
+              data-rule="email"
+            />
+            <small class="field-error" data-error-for="email"></small>
+            <label for="password">Password</label>
+            <input
+              id="password"
+              name="password"
               type="password"
               placeholder="At least 8 characters"
-              minlength="8"
-              required
-            /><label
-              ><input type="checkbox" required style="width: auto" /> I agree to
-              Pinzom's Terms and Privacy Policy</label
-            ><button class="btn">Create free account</button>
+              autocomplete="new-password"
+              data-rule="newPassword"
+            />
+            <small class="field-error" data-error-for="password"></small>
+            <label
+              ><input
+                type="checkbox"
+                name="terms"
+                style="width: auto"
+                data-rule="terms"
+              />
+              I agree to Pinzom's Terms and Privacy Policy</label
+            >
+            <small class="field-error" data-error-for="terms"></small>
+            <button class="btn" type="submit">Create free account</button>
+            <div class="form-msg" role="status" aria-live="polite"></div>
           </form>
           <p>
             Already have an account?

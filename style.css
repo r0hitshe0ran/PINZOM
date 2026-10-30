@@ -1,1 +1,84 @@
 *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fff4f6;color:#291b20}a{text-decoration:none;color:inherit}.container{width:min(1120px,92%);margin:auto}.nav{display:flex;align-items:center;justify-content:space-between;padding:24px 0}.logo{font-family:Georgia,serif;font-size:28px;font-weight:700}.logo span{color:#df2d70}.nav-links{display:flex;gap:28px;font-size:14px}.nav-links a.active{border-bottom:2px solid #df2d70;padding-bottom:8px}.search{background:white;border:1px solid #eadde1;border-radius:25px;padding:12px 18px;color:#777}.login-link{font-weight:700;font-size:14px}.hero{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:40px;min-height:620px}.eyebrow{display:inline-block;color:#d92d6c;background:#ffe5ed;padding:8px 12px;border-radius:20px;font-size:12px;font-weight:700}.hero h1{font-family:Georgia,serif;font-size:58px;line-height:1.02;margin:22px 0}.hero h1 em{color:#d92d6c}.hero p{color:#786b70;line-height:1.7;max-width:480px}.btn{display:inline-block;background:#df2d70;color:white;padding:15px 25px;border-radius:25px;font-weight:700;border:0;cursor:pointer}.btn.secondary{background:white;color:#291b20;border:1px solid #eadde1}.actions{display:flex;gap:18px;align-items:center;margin-top:25px}.visual{min-height:430px;border-radius:30px;background:linear-gradient(145deg,#ffd9e5,#fff9f5);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}.cake{width:75%;height:230px;background:linear-gradient(#6c2b25,#3a1715);border-radius:45% 45% 18px 18px;position:relative;box-shadow:0 25px 0 #e4a09a}.cake:before{content:"";position:absolute;inset:-25px 20px auto;background:#40201c;height:75px;border-radius:50%;box-shadow:0 20px 0 #6b3029}.cake:after{content:"";position:absolute;right:12%;top:30px;width:18px;height:130px;background:#f5c4bd;border-radius:20px;transform:rotate(25deg)}.tag{position:absolute;background:white;padding:14px 18px;border-radius:14px;box-shadow:0 8px 25px #cdaab455;font-size:13px}.tag.one{top:65px;left:20px}.tag.two{bottom:55px;right:18px}.chips{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:20px 0 60px}.chip{background:white;border:1px solid #eadde1;padding:12px 20px;border-radius:24px;font-size:14px}.section-heading{text-align:center;margin:80px 0 35px}.section-heading h1{font-family:Georgia,serif;font-size:48px;margin:12px}.section-heading p{color:#786b70}.steps,.cards,.reviews-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.card{background:white;border:1px solid #f0e0e5;border-radius:20px;padding:26px;box-shadow:0 8px 24px #d9b7c122}.card .icon{font-size:28px;background:#ffe8ef;width:56px;height:56px;border-radius:18px;display:grid;place-items:center;margin-bottom:25px}.card h3{margin:0 0 12px}.card p{color:#786b70;line-height:1.6;font-size:14px}.category-card{min-height:230px;display:flex;flex-direction:column;justify-content:end;background:linear-gradient(145deg,#fff,#ffe0ea)}.category-card h2{font-family:Georgia,serif}.count{color:#d92d6c;font-weight:700}.explore-layout{display:grid;grid-template-columns:1fr 2fr;gap:28px}.filter-panel{background:white;border:1px solid #eadde1;border-radius:20px;padding:25px;height:max-content}.filter-panel label{display:block;margin:18px 0 8px;font-size:14px;font-weight:700}.filter-panel input,.form input{width:100%;padding:14px;border:1px solid #e5d8dd;border-radius:10px}.bakery-list{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.bakery-image{height:150px;border-radius:15px;background:linear-gradient(135deg,#e8b8a9,#7b423b);margin-bottom:16px}.rating{color:#e7a91b}.auth{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;min-height:650px}.form{background:white;border:1px solid #eadde1;border-radius:20px;padding:30px}.form label{display:block;font-size:13px;font-weight:700;margin:18px 0 8px}.form .btn{width:100%;margin-top:22px}.auth-visual{min-height:520px;border-radius:30px;background:linear-gradient(145deg,#ffd8e5,#fff);display:grid;place-items:center;padding:40px}.circle-image{width:330px;height:330px;border-radius:50%;background:linear-gradient(145deg,#c58a68,#6b392c);border:15px solid white;box-shadow:0 0 0 1px #eadde1}.review-form{background:white;border:1px solid #eadde1;border-radius:20px;padding:25px;margin-bottom:28px}.review-form input{width:100%;padding:18px;border:0;border-bottom:1px solid #eadde1;outline:none}.reviews-grid{grid-template-columns:repeat(4,1fr)}.review-card h4{color:#d92d6c}.review-card p{font-size:14px}.footer{text-align:center;padding:50px 0;color:#786b70;font-size:14px}@media(max-width:800px){.nav-links{display:none}.hero,.auth,.explore-layout{grid-template-columns:1fr}.hero h1{font-size:44px}.steps,.cards,.reviews-grid{grid-template-columns:1fr 1fr}.bakery-list{grid-template-columns:1fr}.visual{min-height:330px}.auth-visual{min-height:350px}.circle-image{width:230px;height:230px}}@media(max-width:480px){.steps,.cards,.reviews-grid{grid-template-columns:1fr}.hero h1{font-size:38px}.nav{gap:12px}.search{display:none}}
+
+/* ==========================================================
+   2nd evaluation additions (existing styles above are unchanged)
+   ========================================================== */
+[hidden]{display:none!important}
+.nav{position:relative}
+
+/* mobile menu button */
+.menu-toggle{display:none;background:white;border:1px solid #eadde1;border-radius:12px;padding:6px 12px;font-size:18px;line-height:1;color:#291b20;cursor:pointer}
+
+/* selected state for filter chips */
+.chip{font-family:inherit;color:inherit}
+button.chip{cursor:pointer}
+.chip.selected{background:#df2d70;border-color:#df2d70;color:#fff}
+
+/* form validation */
+.form input.invalid{border-color:#c62828}
+.field-error{display:block;margin-top:6px;color:#c62828;font-size:12px}
+.field-error:empty{display:none}
+.form-msg{display:none;margin-top:18px;padding:12px 14px;border-radius:10px;font-size:14px;line-height:1.5}
+.form-msg.show{display:block}
+.form-msg.success{background:#e8f5ee;color:#1f6b3f}
+.form-msg.error{background:#fdecec;color:#a61e1e}
+.form-msg.info{background:#ffe5ed;color:#a3234f}
+.form-msg a{font-weight:700;text-decoration:underline}
+.pw-wrap{position:relative}
+.pw-wrap input{padding-right:70px}
+.pw-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:none;color:#d92d6c;font:inherit;font-size:13px;font-weight:700;cursor:pointer;padding:8px}
+.auth-visual img{width:100%;height:100%;object-fit:contain;object-position:center}
+
+/* toast message */
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:#291b20;color:#fff;padding:12px 22px;border-radius:25px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:50;max-width:90%;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.toast a{color:#ffb3cb;font-weight:700;text-decoration:underline}
+
+/* explore cards: links, favorite heart, empty state */
+.bakery{position:relative}
+.bakery h3 a:hover{color:#d92d6c}
+.card-link{display:block}
+.bakery-image{overflow:hidden;background:#fff}
+.bakery-image img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.fav-btn{position:absolute;top:38px;right:38px;width:36px;height:36px;border:0;border-radius:50%;background:rgba(255,255,255,.92);color:#df2d70;font-size:19px;line-height:1;cursor:pointer;box-shadow:0 4px 12px #cdaab455;transition:transform .15s}
+.fav-btn:hover{transform:scale(1.1)}
+.empty-state{grid-column:1/-1;text-align:center;color:#786b70;padding:30px 0}
+
+/* bakery page */
+.bakery-hero{min-height:520px;margin-bottom:40px}
+.bakery-hero h1{font-size:44px}
+.bakery-hero .rating{font-size:18px}
+.visual .bakery-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.section-title{font-family:Georgia,serif;font-size:32px;margin:0 0 22px}
+.bakery-reviews{margin-bottom:70px}
+.bakery-reviews .cards{grid-template-columns:repeat(3,1fr)}
+.review-meta{color:#786b70;font-size:12px}
+
+/* profile page */
+.section-heading .actions{justify-content:center}
+.profile-section{margin-bottom:40px}
+.explore-layout>*{min-width:0}
+.account-list{margin:0}
+.account-list dt{margin-top:14px;color:#786b70;font-size:12px}
+.account-list dd{margin:4px 0 0;font-weight:700;font-size:14px;word-break:break-all}
+.filter-panel .btn{display:block;width:100%;margin-top:12px;text-align:center}
+.filter-panel p{color:#786b70;font-size:14px;line-height:1.6}
+.data-preview{margin:16px 0 0;padding:14px;max-height:240px;overflow:auto;border-radius:12px;background:#291b20;color:#ffe5ed;font-size:12px;line-height:1.5}
+
+/* categories page: link through to Explore */
+.category-visual{position:relative}
+.category-explore{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);white-space:nowrap}
+
+@media(max-width:800px){
+  .menu-toggle{display:block}
+  .nav{gap:12px}
+  .nav-links{display:none}
+  .nav-links.open{display:flex;flex-direction:column;gap:16px;position:absolute;top:100%;left:0;right:0;z-index:20;padding:20px 24px;background:white;border:1px solid #eadde1;border-radius:18px;box-shadow:0 12px 30px #cdaab455}
+  .nav-links.open a.active{align-self:flex-start}
+  .bakery-reviews .cards{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .bakery-reviews .cards{grid-template-columns:1fr}
+  .bakery-hero h1{font-size:34px}
+  .fav-btn{top:34px;right:34px}
+}

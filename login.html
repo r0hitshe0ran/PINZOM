@@ -24,26 +24,56 @@
         <a class="" href="categories.html">Categories</a>
         <a class="" href="reviews.html">Reviews</a>
       </nav>
-      <input class="search" placeholder="⌕  Search bakeries near you" />
+      <input
+        class="search"
+        aria-label="Search bakeries"
+        placeholder="⌕  Search bakeries near you"
+      />
       <a class="login-link" href="login.html">Log in</a>
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
     </header>
     <main>
       <section class="container auth">
         <div>
           <h1>Welcome back!</h1>
           <p>Nice to see you again!!</p>
-          <form class="form">
-            <label>Email or Username</label
-            ><input placeholder="yourname@college.edu" required /><label
-              >Password</label
-            ><input type="password" placeholder="••••••••••" required />
+          <form class="form" data-form="login" novalidate>
+            <label for="identifier">Email or Username</label>
+            <input
+              id="identifier"
+              name="identifier"
+              placeholder="yourname@college.edu"
+              autocomplete="username"
+              data-rule="required"
+            />
+            <small class="field-error" data-error-for="identifier"></small>
+            <label for="password">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="••••••••••"
+              autocomplete="current-password"
+              data-rule="required"
+            />
+            <small class="field-error" data-error-for="password"></small>
             <p style="text-align: right">
-              <a href="#" style="color: #d92d6c">Forgot password?</a>
+              <a href="forgot-password.html" style="color: #d92d6c"
+                >Forgot password?</a
+              >
             </p>
-            <button class="btn">Login to Pinzom</button
-            ><button class="btn secondary" type="button">
+            <button class="btn" type="submit">Login to Pinzom</button>
+            <button class="btn secondary" type="button" data-google>
               Continue with Google
             </button>
+            <div class="form-msg" role="status" aria-live="polite"></div>
           </form>
           <p>
             Don't have an account?

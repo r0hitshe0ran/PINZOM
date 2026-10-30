@@ -113,3 +113,32 @@ integration.
 ## Status
 
 🚧 Currently under development.
+
+## Phase 2 (2nd Evaluation) — What was added
+
+**1. Additional pages, linked together**
+
+- `bakery.html?id=...` — bakery profile page (opened from Explore cards, reviews and favorites)
+- `profile.html` — logged-in user's account, saved bakeries, reviews and saved JSON data
+- `forgot-password.html` — linked from the Log in page
+- Category page links to Explore (`explore.html?category=cakes`), header search opens `explore.html?q=...`
+
+**2. JavaScript interactions** (all in `script.js`)
+
+- Form validation with inline error messages (signup, login, forgot password, review)
+- Show / hide password button, star-rating input, toast messages
+- Explore: search box and category buttons now work together, with a "no results" message
+- Reviews: category filters work, new reviews appear instantly
+- Favorites (♡) on bakery cards, mobile menu button, header shows the logged-in user's name
+
+**3. Form submission**
+
+Each form is handled by one submit listener (`data-form="signup | login | forgot | review"`),
+which validates, saves, shows feedback and redirects. The old demo `alert()` was removed.
+
+**4. Saving form data as JSON**
+
+Submitted data is stored as JSON (`users.json`, `reviews.json` structure) in the browser's
+storage, and the Profile page has **Download users.json / reviews.json** buttons that
+export real `.json` files. Passwords are saved as a SHA-256 hash, not plain text.
+Writing these files on the server with Express/MongoDB is part of the 3rd evaluation.

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Bakery | Pinzom</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="container nav">
+      <a class="logo" href="index.html">pinzom<span>•</span></a>
+      <nav class="nav-links">
+        <a class="" href="index.html">Discover</a>
+        <a class="" href="how-it-works.html">How It Works</a>
+        <a class="active" href="explore.html">Explore</a>
+        <a class="" href="categories.html">Categories</a>
+        <a class="" href="reviews.html">Reviews</a>
+      </nav>
+      <input
+        class="search"
+        aria-label="Search bakeries"
+        placeholder="⌕  Search bakeries near you"
+      />
+      <a class="login-link" href="login.html">Log in</a>
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
+    </header>
+    <main>
+      <section class="container hero bakery-hero" id="bakeryContent" hidden>
+        <div>
+          <span class="eyebrow" id="bakeryCategory"></span>
+          <h1 id="bakeryName"></h1>
+          <div class="rating" id="bakeryRating"></div>
+          <p id="bakeryDescription"></p>
+          <div class="actions">
+            <button
+              class="btn"
+              id="favoriteButton"
+              type="button"
+              data-label
+              data-fav=""
+            >
+              ♡ Save to favorites
+            </button>
+            <a class="btn secondary" id="reviewLink" href="reviews.html"
+              >Write a review</a
+            >
+          </div>
+          <div class="actions">
+            <a
+              id="directionsLink"
+              href="https://www.google.com/maps"
+              target="_blank"
+              rel="noopener"
+              >Get directions →</a
+            >
+            <a href="explore.html">← Back to Explore</a>
+          </div>
+        </div>
+        <div class="visual">
+          <img class="bakery-photo" id="bakeryImage" src="" alt="" />
+        </div>
+      </section>
+
+      <section class="container bakery-reviews" id="bakeryReviewsSection">
+        <h2 class="section-title" id="bakeryReviewCount">Reviews</h2>
+        <div class="cards" id="bakeryReviews"></div>
+        <p class="empty-state" id="noBakeryReviews" hidden>
+          No reviews yet. <a href="reviews.html" style="color: #d92d6c">Be the first to write one →</a>
+        </p>
+      </section>
+
+      <section class="container section-heading" id="bakeryMissing" hidden>
+        <h1>Bakery not found</h1>
+        <p>We couldn't find that bakery. Pick one from the list instead.</p>
+        <div class="actions">
+          <a class="btn" href="explore.html">Back to Explore</a>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+      © <span data-year></span> Pinzom · Discover your next favorite bakery.
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>

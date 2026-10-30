@@ -141,6 +141,58 @@
         background: #df2d70;
         color: #fff;
       }
+      .review-form .field-error {
+        padding: 5px 13px 0;
+        font-size: 9px;
+      }
+      .review-form-bar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px 12px;
+        padding: 8px 13px;
+        border-top: 1px solid #eee2e5;
+      }
+      .review-form-bar .field-error {
+        order: 3;
+        width: 100%;
+        padding: 0;
+      }
+      .star-input {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+      }
+      .star-input span {
+        margin-right: 6px;
+        color: #786b70;
+        font-size: 9px;
+      }
+      .star {
+        padding: 0 1px;
+        border: 0;
+        background: none;
+        color: #e7a91b;
+        font-size: 16px;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .review-form .btn {
+        width: auto;
+        margin: 0;
+        padding: 7px 16px;
+        font-size: 9px;
+      }
+      .review-form .form-msg {
+        margin: 0;
+        padding: 8px 13px;
+        border-radius: 0;
+        font-size: 9px;
+      }
+      .review-card h3 a:hover {
+        text-decoration: underline;
+      }
       .review-photo-strip {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -179,8 +231,20 @@
         <a href="categories.html">Categories</a>
         <a class="active" href="reviews.html">Reviews</a>
       </nav>
-      <input class="search" placeholder="⌕  Search bakeries near you" />
+      <input
+        class="search"
+        aria-label="Search bakeries"
+        placeholder="⌕  Search bakeries near you"
+      />
       <a class="login-link" href="login.html">Log in</a>
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
     </header>
 
     <main class="reviews-page">
@@ -193,19 +257,49 @@
           </p>
         </div>
 
-        <form class="review-form">
+        <form class="review-form" data-form="review" novalidate>
           <input
+            name="bakery"
+            list="bakeryOptions"
+            autocomplete="off"
             aria-label="Bakery being reviewed"
             placeholder="Which bakery are you reviewing?"
+            data-rule="bakery"
           />
+          <datalist id="bakeryOptions"></datalist>
+          <small class="field-error" data-error-for="bakery"></small>
           <input
+            name="text"
+            maxlength="300"
             aria-label="Review details"
             placeholder="What you thought — the good, the bad, and what to order."
+            data-rule="reviewText"
           />
+          <small class="field-error" data-error-for="text"></small>
+          <div class="review-form-bar">
+            <div
+              class="star-input"
+              role="radiogroup"
+              aria-label="Your rating"
+              data-rule="rating"
+              data-field="rating"
+              data-value=""
+            >
+              <span>Your rating</span>
+              <button class="star" type="button" role="radio" aria-checked="false" aria-label="1 star" data-value="1">☆</button>
+              <button class="star" type="button" role="radio" aria-checked="false" aria-label="2 stars" data-value="2">☆</button>
+              <button class="star" type="button" role="radio" aria-checked="false" aria-label="3 stars" data-value="3">☆</button>
+              <button class="star" type="button" role="radio" aria-checked="false" aria-label="4 stars" data-value="4">☆</button>
+              <button class="star" type="button" role="radio" aria-checked="false" aria-label="5 stars" data-value="5">☆</button>
+            </div>
+            <button class="btn" type="submit">Post review</button>
+            <small class="field-error" data-error-for="rating"></small>
+          </div>
+          <div class="form-msg" role="status" aria-live="polite"></div>
         </form>
 
         <section class="reviews-grid" aria-label="Bakery reviews">
-          <article class="card review-card">
+          <article class="card review-card" data-category="cakes">
             <div class="review-person">
               <span class="review-avatar">M</span>
               <div><strong>Meera P.</strong><small>2 days ago</small></div>
@@ -217,7 +311,7 @@
               me so much time.”
             </p>
           </article>
-          <article class="card review-card">
+          <article class="card review-card" data-category="sourdough">
             <div class="review-person">
               <span class="review-avatar">A</span>
               <div>
@@ -233,7 +327,7 @@
               it's part of my weekend routine.”
             </p>
           </article>
-          <article class="card review-card">
+          <article class="card review-card" data-category="pastries">
             <div class="review-person">
               <span class="review-avatar">S</span>
               <div>
@@ -249,7 +343,7 @@
               genuinely great bakeries.”
             </p>
           </article>
-          <article class="card review-card">
+          <article class="card review-card" data-category="pastries">
             <div class="review-person">
               <span class="review-avatar">K</span>
               <div>
@@ -265,6 +359,9 @@
               drip filter coffee.”
             </p>
           </article>
+          <p class="empty-state" id="noResults" hidden>
+            No reviews in this category yet.
+          </p>
         </section>
 
         <div class="review-filters" aria-label="Review filters">

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Your Profile | Pinzom</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="container nav">
+      <a class="logo" href="index.html">pinzom<span>•</span></a>
+      <nav class="nav-links">
+        <a class="" href="index.html">Discover</a>
+        <a class="" href="how-it-works.html">How It Works</a>
+        <a class="" href="explore.html">Explore</a>
+        <a class="" href="categories.html">Categories</a>
+        <a class="" href="reviews.html">Reviews</a>
+      </nav>
+      <input
+        class="search"
+        aria-label="Search bakeries"
+        placeholder="⌕  Search bakeries near you"
+      />
+      <a class="login-link" href="login.html">Log in</a>
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
+    </header>
+    <main>
+      <section class="container section-heading" id="profileGuest" hidden>
+        <h1>You're not logged in</h1>
+        <p>Log in to see your saved bakeries and reviews.</p>
+        <div class="actions">
+          <a class="btn" href="login.html">Log in</a>
+          <a href="signup.html">Create an account →</a>
+        </div>
+      </section>
+
+      <div id="profileMain" hidden>
+        <section class="container section-heading">
+          <h1 id="profileTitle"></h1>
+          <p>Your saved bakeries, reviews and account details.</p>
+        </section>
+        <section class="container explore-layout">
+          <aside class="filter-panel">
+            <h3>Account</h3>
+            <dl class="account-list">
+              <dt>Name</dt>
+              <dd id="profileName"></dd>
+              <dt>Email</dt>
+              <dd id="profileEmail"></dd>
+              <dt>Member since</dt>
+              <dd id="profileSince"></dd>
+            </dl>
+            <button class="btn secondary" id="logoutButton" type="button">
+              Log out
+            </button>
+
+            <h3 style="margin-top: 32px">Saved data (JSON)</h3>
+            <p>
+              Your details and reviews are saved as JSON. Download them as
+              files, or preview your record below.
+            </p>
+            <button class="btn" id="downloadUsers" type="button">
+              Download users.json
+            </button>
+            <button class="btn secondary" id="downloadReviews" type="button">
+              Download reviews.json
+            </button>
+            <pre class="data-preview" id="dataPreview"></pre>
+          </aside>
+
+          <div>
+            <div class="profile-section">
+              <h2 class="section-title">Saved bakeries</h2>
+              <div class="bakery-list" id="favoriteList"></div>
+              <p class="empty-state" id="noFavorites" hidden>
+                Nothing saved yet. Tap the ♡ on a bakery in
+                <a href="explore.html" style="color: #d92d6c">Explore</a>.
+              </p>
+            </div>
+            <div class="profile-section">
+              <h2 class="section-title">Your reviews</h2>
+              <div class="bakery-list" id="myReviewList"></div>
+              <p class="empty-state" id="noMyReviews" hidden>
+                You haven't written a review yet.
+                <a href="reviews.html" style="color: #d92d6c">Write one →</a>
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer class="footer">
+      © <span data-year></span> Pinzom · Discover your next favorite bakery.
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>

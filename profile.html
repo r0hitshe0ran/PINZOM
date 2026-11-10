@@ -31,6 +31,7 @@
         ☰
       </button>
     </header>
+
     <main>
       <section class="container section-heading" id="profileGuest" hidden>
         <h1>You're not logged in</h1>
@@ -46,33 +47,24 @@
           <h1 id="profileTitle"></h1>
           <p>Your saved bakeries, reviews and account details.</p>
         </section>
+
         <section class="container explore-layout">
           <aside class="filter-panel">
             <h3>Account</h3>
             <dl class="account-list">
               <dt>Name</dt>
               <dd id="profileName"></dd>
+
               <dt>Email</dt>
               <dd id="profileEmail"></dd>
+
               <dt>Member since</dt>
               <dd id="profileSince"></dd>
             </dl>
+
             <button class="btn secondary" id="logoutButton" type="button">
               Log out
             </button>
-
-            <h3 style="margin-top: 32px">Saved data (JSON)</h3>
-            <p>
-              Your details and reviews are saved as JSON. Download them as
-              files, or preview your record below.
-            </p>
-            <button class="btn" id="downloadUsers" type="button">
-              Download users.json
-            </button>
-            <button class="btn secondary" id="downloadReviews" type="button">
-              Download reviews.json
-            </button>
-            <pre class="data-preview" id="dataPreview"></pre>
           </aside>
 
           <div>
@@ -84,6 +76,7 @@
                 <a href="explore.html" style="color: #d92d6c">Explore</a>.
               </p>
             </div>
+
             <div class="profile-section">
               <h2 class="section-title">Your reviews</h2>
               <div class="bakery-list" id="myReviewList"></div>
@@ -96,9 +89,11 @@
         </section>
       </div>
     </main>
+
     <footer class="footer">
       © <span data-year></span> Pinzom · Discover your next favorite bakery.
     </footer>
+
     <script src="script.js"></script>
   </body>
 </html>

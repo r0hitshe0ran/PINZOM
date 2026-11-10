@@ -1,80 +1,1267 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Discover | Pinzom</title>
-    <link rel="stylesheet" href="style.css" />
-    <style>
-      .visual .cake {
-        height: auto;
-        max-height: 82%;
-        object-fit: contain;
-        object-position: center;
-        background: transparent;
-        box-shadow: none;
-      }
-    </style>
-  </head>
-  <body>
-    <header class="container nav">
-      <a class="logo" href="index.html">pinzom<span>•</span></a>
-      <nav class="nav-links">
-        <a class="active" href="index.html">Discover</a>
-        <a class="" href="how-it-works.html">How It Works</a>
-        <a class="" href="explore.html">Explore</a>
-        <a class="" href="categories.html">Categories</a>
-        <a class="" href="reviews.html">Reviews</a>
-      </nav>
-      <input
-        class="search"
-        aria-label="Search bakeries"
-        placeholder="⌕  Search bakeries near you"
-      />
-      <a class="login-link" href="login.html">Log in</a>
-      <button
-        class="menu-toggle"
-        type="button"
-        aria-label="Open menu"
-        aria-expanded="false"
-      >
-        ☰
-      </button>
-    </header>
-    <main>
-      <section class="container hero">
-        <div>
-          <span class="eyebrow">Craving something sweet?</span>
-          <h1>Find bakeries<br />worth <em>crossing</em><br />town for.</h1>
-          <p>
-            A bakery discovery system, built for you and your cravings. See what
-            people actually recommend nearby.
-          </p>
-          <div class="actions">
-            <a class="btn" href="explore.html">Explore</a
-            ><a href="how-it-works.html">How it works →</a>
-          </div>
-        </div>
-        <div class="visual">
-          <img
-            class="cake"
-            src="images/hero_page cake_image.png"
-            alt="A beautifully decorated bakery cake"
-          />
-          <div class="tag one">🏪 The Cocoa Room<br />⭐ 4.9 · 1.2 mi</div>
-          <div class="tag two">⭐ 3 friends recommend this</div>
-        </div>
-      </section>
-      <div class="chips container">
-        <a class="chip" href="categories.html?category=cakes">🍰 Cakes</a
-        ><a class="chip" href="categories.html?category=pastries">🥐 Pastries</a
-        ><a class="chip" href="categories.html?category=donuts">🍩 Donuts</a
-        ><a class="chip" href="categories.html?category=cookies">🍪 Cookies</a>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Discover | Pinzom</title>
+
+<style>
+:root {
+  --pink: #d94682;
+  --brown: #5a2d42;
+  --text: #846f7e;
+  --page: #f8eef1;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--brown);
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; }
+.container { width: min(1200px, 92%); margin: auto; }
+
+/* NAVBAR */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  min-height: 88px;
+  padding: 0 max(4%, calc((100% - 1200px) / 2));
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 20px;
+  background: rgba(248,238,241,.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #ead9df;
+}
+
+.logo {
+  justify-self: start;
+  font: bold 36px Georgia, serif;
+  letter-spacing: -2px;
+  white-space: nowrap;
+  color: #281820;
+}
+
+.logo span { color: var(--pink); }
+
+.nav-links {
+  display: flex;
+  justify-self: center;
+  gap: 25px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.nav-links a { color: #281820; font-size: 15px; }
+
+.nav-links a:hover,
+.nav-links a.active { color: var(--pink); }
+
+.nav-links a.active {
+  padding: 9px 0;
+  border-bottom: 3px solid var(--pink);
+}
+
+.login-link {
+  justify-self: end;
+  font-size: 15px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.menu-toggle {
+  display: none;
+  cursor: pointer;
+  border: 0;
+  border-radius: 12px;
+  background: #ffe1eb;
+  padding: 9px 13px;
+}
+
+/* MAIN CONTENT */
+
+h1, h2 {
+  font-family: Georgia, serif;
+  color: #352029;
+  line-height: 1.03;
+  letter-spacing: -2px;
+}
+
+p {
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.pink-script {
+  color: var(--pink);
+  font-style: italic;
+}
+
+.eyebrow {
+  display: inline-block;
+  padding: 11px 17px;
+  border-radius: 30px;
+  background: #f8dce5;
+  color: var(--pink);
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 16px 24px;
+  background: var(--brown);
+  color: white;
+  border-radius: 32px;
+  font-weight: bold;
+}
+
+.btn:hover { filter: brightness(1.1); }
+
+.btn.secondary {
+  color: var(--brown);
+  background: #fffafb;
+  border: 1px solid #efdae3;
+}
+
+/* HERO */
+
+.hero {
+  min-height: calc(100vh - 88px);
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  gap: 45px;
+  align-items: center;
+  padding: 40px 0 65px;
+}
+
+.hero > div { min-width: 0; }
+
+.hero h1 {
+  font-size: clamp(49px,5.3vw,80px);
+  margin: 25px 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+  margin-top: 28px;
+}
+
+/* ORIGINAL CHOCOLATE CAKE ANIMATION */
+
+.hero-scene {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1448 / 1086;
+  overflow: hidden;
+  border-radius: 35px;
+  background: linear-gradient(155deg,#ffdae6,#fff3f7);
+  cursor: pointer;
+}
+
+.hero-scene::before {
+  content: "";
+  position: absolute;
+  inset: 17% 12%;
+  border-radius: 50%;
+  background: #ffffff60;
+}
+
+.hero-scene img {
+  position: absolute;
+  display: block;
+  max-width: none;
+  max-height: none;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+.hero-scene .piece,
+.hero-scene .extra {
+  visibility: hidden;
+}
+
+.hero-scene.ready .piece,
+.hero-scene.ready .extra {
+  visibility: visible;
+}
+
+/* EXACT ORIGINAL IMAGE POSITIONS */
+
+.hero-base {
+  left: 31.0083%;
+  top: 72.5599%;
+  width: 36.2569%;
+}
+
+.hero-third {
+  left: 28.453%;
+  top: 55.9853%;
+  width: 43.3702%;
+}
+
+.hero-middle {
+  left: 29.3508%;
+  top: 40.9761%;
+  width: 41.7818%;
+}
+
+.hero-top {
+  left: 26.7265%;
+  top: 13.8122%;
+  width: 48.4116%;
+}
+
+.hero-crumbs {
+  left: 24.0331%;
+  top: 18.7845%;
+  width: 52.5552%;
+}
+
+.hero-curl {
+  left: 32.46%;
+  top: 83.33%;
+  width: 12.43%;
+}
+
+.card-cocoa {
+  left: 6.9751%;
+  top: 18.3241%;
+  width: 23.0663%;
+}
+
+.card-note {
+  left: 69.8204%;
+  top: 15.2855%;
+  width: 22.0994%;
+}
+
+.card-sugar {
+  left: 7.942%;
+  top: 67.4033%;
+  width: 23.5497%;
+}
+
+.card-saanvi {
+  left: 68.0249%;
+  top: 64.0884%;
+  width: 23.7569%;
+}
+
+.card-badge {
+  left: 56.2845%;
+  top: 81.768%;
+  width: 36.8785%;
+}
+
+/* CAKE LAYERS JOIN TOGETHER */
+
+.piece {
+  transform: translateY(0);
+  transition: transform 3s cubic-bezier(.25,.75,.2,1);
+}
+
+.hero-scene.joined .piece {
+  transform: translateY(var(--move,0px));
+}
+
+/* REVIEW CARDS APPEAR */
+
+.extra {
+  opacity: 0;
+  transform: scale(.82);
+  transition: opacity .65s ease, transform .65s ease;
+}
+
+.hero-scene.joined .extra {
+  opacity: 1;
+  transform: scale(1);
+  transition-delay: 2.5s;
+}
+
+.hero-scene.joined .hero-crumbs {
+  transition-delay: 1.7s;
+}
+
+.hero-scene.joined .hero-curl {
+  transition-delay: 1.8s;
+}
+
+.hero-scene.joined .card-cocoa {
+  transition-delay: 2.1s;
+}
+
+.hero-scene.joined .card-note {
+  transition-delay: 2.2s;
+}
+
+.hero-scene.joined .card-sugar {
+  transition-delay: 2.3s;
+}
+
+.hero-scene.joined .card-saanvi {
+  transition-delay: 2.4s;
+}
+
+.hero-scene.joined .card-badge {
+  transition-delay: 2.5s;
+}
+
+/* ONLY SHOW THIS IF PNGs REALLY ARE MISSING */
+
+.hero-status {
+  position: absolute;
+  z-index: 12;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 14px;
+  padding: 35px;
+  background: #ffe3ed;
+  text-align: center;
+}
+
+.hero-status[hidden] { display: none; }
+
+.hero-status strong { font-size: 21px; }
+
+.hero-status span {
+  font-size: 14px;
+  line-height: 1.65;
+  max-width: 360px;
+}
+
+/* OTHER DESSERT SECTIONS */
+
+.dessert-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 75px 0;
+}
+
+.section-wrap {
+  width: min(1200px,92%);
+  margin: auto;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  gap: 60px;
+  align-items: center;
+}
+
+.section-text,
+.section-visual { min-width: 0; }
+
+.small-top {
+  color: var(--pink);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.section-text h2 {
+  font-size: clamp(49px,5.7vw,83px);
+  margin: 23px 0;
+}
+
+.section-text p { max-width: 520px; }
+
+.tags {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 24px 0 30px;
+}
+
+.tags span {
+  padding: 12px 19px;
+  background: #fffafbc7;
+  border-radius: 30px;
+  font-size: 14px;
+}
+
+.section-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cakes-section { background: #f6d6df; }
+.pastry-section { background: #f6e1dc; }
+.cookies-section { background: #f5dce5; }
+.donuts-section { background: #f6e6df; }
+
+/* SCROLL ANIMATIONS */
+
+.split-stage {
+  position: relative;
+  width: min(100%,430px);
+  aspect-ratio: var(--ratio);
+  flex-shrink: 0;
+}
+
+.split-stage .layer {
+  position: absolute;
+  display: block;
+  height: auto;
+  max-width: none;
+  max-height: none;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform;
+}
+
+/* CAKES */
+
+.cake-stage { --ratio: 1122 / 1573; }
+
+.cake-stage .base {
+  left: 0%;
+  top: 40.2416%;
+  width: 100%;
+  --shift: 90;
+}
+
+.cake-stage .tier3 {
+  left: 7.6649%;
+  top: 34.2657%;
+  width: 86.0963%;
+  --shift: 45;
+}
+
+.cake-stage .tier2 {
+  left: 6.9519%;
+  top: 27.3999%;
+  width: 83.1551%;
+  --shift: 0;
+}
+
+.cake-stage .tier1 {
+  left: 6.8627%;
+  top: 22.9498%;
+  width: 83.1551%;
+  --shift: -45;
+}
+
+.cake-stage .lid {
+  left: 6.5062%;
+  top: 6.993%;
+  width: 92.7807%;
+  --shift: -90;
+}
+
+/* PASTRIES */
+
+.pastry-stage {
+  --ratio: 941 / 1952;
+  width: min(100%,340px);
+}
+
+.pastry-stage .crumbs {
+  left: 7.4389%;
+  top: 79.3033%;
+  width: 89.373%;
+  --shift: 130;
+}
+
+.pastry-stage .bottom {
+  left: 5.9511%;
+  top: 56.0451%;
+  width: 91.4984%;
+  --shift: 120;
+}
+
+.pastry-stage .middle {
+  left: 3.2944%;
+  top: 39.3443%;
+  width: 90.8608%;
+  --shift: 0;
+}
+
+.pastry-stage .top {
+  left: 0%;
+  top: 8.043%;
+  width: 97.237%;
+  --shift: -120;
+}
+
+/* COOKIES */
+
+.cookie-stage { --ratio: 1122 / 1533; }
+
+.cookie-stage .bottom {
+  left: 0%;
+  top: 64.0574%;
+  width: 97.3262%;
+  --shift: 105;
+}
+
+.cookie-stage .third {
+  left: 0%;
+  top: 47.032%;
+  width: 97.3262%;
+  --shift: 35;
+}
+
+.cookie-stage .second {
+  left: 4.0998%;
+  top: 26.8102%;
+  width: 93.1373%;
+  --shift: -35;
+}
+
+.cookie-stage .top {
+  left: 2.5847%;
+  top: 7.8278%;
+  width: 91.533%;
+  --shift: -105;
+}
+
+/* DONUTS */
+
+.donut-stage { --ratio: 1122 / 1611; }
+
+.donut-stage .bottom {
+  left: 0%;
+  top: 50.838%;
+  width: 89.8396%;
+  --shift: 110;
+}
+
+.donut-stage .middle {
+  left: 2.4064%;
+  top: 26.4432%;
+  width: 97.0588%;
+  --shift: 0;
+}
+
+.donut-stage .top {
+  left: 13.1016%;
+  top: 7.4488%;
+  width: 73.7077%;
+  --shift: -110;
+}
+
+/* HOW IT WORKS */
+
+#how-it-works { padding: 80px 0 60px; }
+
+#how-it-works h2 {
+  font-size: 43px;
+  margin: 0 0 30px;
+}
+
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 20px;
+}
+
+.how-card {
+  background: #fff;
+  padding: 29px;
+  border: 1px solid #f0dce3;
+  border-radius: 28px;
+}
+
+.how-icon {
+  display: grid;
+  place-items: center;
+  width: 70px;
+  height: 70px;
+  border-radius: 20px;
+  background: #ffe5ed;
+  font-size: 31px;
+}
+
+.how-card h3 {
+  font-size: 21px;
+  margin: 26px 0 15px;
+}
+
+.how-card p { font-size: 15px; }
+
+footer {
+  text-align: center;
+  padding: 35px 15px;
+  color: var(--text);
+}
+
+/* MOBILE */
+
+@media(max-width:1050px) {
+  .nav { grid-template-columns: 1fr auto auto; }
+
+  .menu-toggle { display: block; }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 4%;
+    right: 4%;
+    padding: 22px;
+    background: #fff8fa;
+    box-shadow: 0 12px 30px #5a2d4220;
+    border-radius: 0 0 18px 18px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .nav-links.open { display: flex; }
+
+  .hero, .section-wrap {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .hero { min-height: auto; }
+
+  .section-text { text-align: center; }
+
+  .section-text p { margin-inline: auto; }
+
+  .tags { justify-content: center; }
+
+  .split-stage { width: min(70vw,410px); }
+
+  .pastry-stage { width: min(63vw,340px); }
+
+  .how-grid {
+    grid-template-columns: repeat(2,1fr);
+  }
+}
+
+@media(max-width:680px) {
+  .nav { min-height: 75px; }
+  .logo { font-size: 30px; }
+  .hero { padding-top: 25px; }
+  .hero h1 { font-size: clamp(44px,12vw,64px); }
+  .dessert-section { min-height: auto; padding: 70px 0; }
+  .section-text h2 { font-size: clamp(45px,11vw,67px); }
+  .how-grid { grid-template-columns: 1fr; }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  html { scroll-behavior: auto; }
+
+  .piece, .extra {
+    transition-duration: .01ms !important;
+    transition-delay: 0ms !important;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<header class="nav">
+
+  <a class="logo" href="index.html">
+    pinzom<span>•</span>
+  </a>
+
+  <nav class="nav-links" id="navLinks">
+    <a class="active" href="index.html">Discover</a>
+    <a href="how-it-works.html">How It Works</a>
+    <a href="explore.html">Explore</a>
+    <a href="categories.html">Categories</a>
+    <a href="reviews.html">Reviews</a>
+  </nav>
+
+  <a class="login-link" href="login.html">Log in</a>
+
+  <button
+    class="menu-toggle"
+    id="menuButton"
+    type="button"
+    aria-label="Toggle menu"
+    aria-expanded="false">
+    ☰
+  </button>
+
+</header>
+
+<main>
+
+<!-- HERO -->
+
+<section class="container hero" id="home">
+
+  <div>
+    <span class="eyebrow">
+      YOUR NEXT SWEET DISCOVERY
+    </span>
+
+    <h1>
+      Life is<br>
+      <span class="pink-script">sweeter</span><br>
+      with Pinzom.
+    </h1>
+
+    <p>
+      From dreamy cakes to cookies, pastries and donuts —
+      explore treats worth craving, sharing and celebrating.
+    </p>
+
+    <div class="actions">
+      <a class="btn" href="#cakes">
+        Explore Treats ↓
+      </a>
+
+      <a class="btn secondary" href="how-it-works.html">
+        How It Works ↗
+      </a>
+    </div>
+  </div>
+
+  <!-- YOUR ORIGINAL CAKE IMAGES -->
+
+  <div
+    class="hero-scene"
+    id="heroScene"
+    role="img"
+    aria-label="Chocolate cake layers joining with bakery reviews"
+    title="Click to replay cake animation">
+
+    <img
+      class="piece hero-base"
+      data-shift="0"
+      data-file="09_cake_bottom_base_layer.png"
+      alt="">
+
+    <img
+      class="piece hero-third"
+      data-shift="72"
+      data-file="08_cake_third_dark_layer.png"
+      alt="">
+
+    <img
+      class="piece hero-middle"
+      data-shift="167"
+      data-file="07_cake_middle_mousse_layer.png"
+      alt="">
+
+    <img
+      class="piece hero-top"
+      data-shift="282"
+      data-file="06_cake_top_layer.png"
+      alt="">
+
+    <img
+      class="extra hero-crumbs"
+      data-file="11_floating_crumbs_particles.png"
+      alt="">
+
+    <img
+      class="extra hero-curl"
+      data-file="10_bottom_chocolate_curl.png"
+      alt="">
+
+    <img
+      class="extra card-cocoa"
+      data-file="01_cocoa_room_card.png"
+      alt="">
+
+    <img
+      class="extra card-note"
+      data-file="02_top_recommend_note.png"
+      alt="">
+
+    <img
+      class="extra card-sugar"
+      data-file="03_sugar_rye_review.png"
+      alt="">
+
+    <img
+      class="extra card-saanvi"
+      data-file="04_saanvi_review.png"
+      alt="">
+
+    <img
+      class="extra card-badge"
+      data-file="05_bottom_recommend_badge.png"
+      alt="">
+
+    <div class="hero-status" id="heroStatus" hidden>
+      <strong>Images couldn't load</strong>
+      <span>
+        Check that the
+        <b>images/hero_page cake_item</b>
+        folder is inside
+        <b>PINZOM-main/images/</b>.
+      </span>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- CAKES -->
+
+<section class="dessert-section cakes-section" id="cakes">
+  <div class="section-wrap">
+
+    <div class="section-text">
+      <div class="small-top">CAKES</div>
+
+      <h2>
+        Layers of<br>
+        <span class="pink-script">love.</span>
+      </h2>
+
+      <p>
+        Rich chocolate, soft sponge and little celebrations
+        in every slice. Some moments deserve extra cake.
+      </p>
+
+      <div class="tags">
+        <span>Chocolate Bliss</span>
+        <span>Celebration Cakes</span>
       </div>
-    </main>
-    <footer class="footer">
-      © <span data-year></span> Pinzom · Discover your next favorite bakery.
-    </footer>
-    <script src="script.js"></script>
-  </body>
+
+      <a class="btn" href="explore.html?category=cakes">
+        Explore Cakes →
+      </a>
+    </div>
+
+    <div class="section-visual">
+      <div class="split-stage cake-stage">
+        <img class="layer base" src="images/cake/base.png" alt="">
+        <img class="layer tier3" src="images/cake/tier3.png" alt="">
+        <img class="layer tier2" src="images/cake/tier2.png" alt="">
+        <img class="layer tier1" src="images/cake/tier1.png" alt="">
+        <img class="layer lid" src="images/cake/lid.png" alt="">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PASTRIES -->
+
+<section class="dessert-section pastry-section" id="pastries">
+  <div class="section-wrap">
+
+    <div class="section-text">
+      <div class="small-top">PASTRIES</div>
+
+      <h2>
+        Little bites.<br>
+        <span class="pink-script">Big joy.</span>
+      </h2>
+
+      <p>
+        Soft layers, dreamy cream and fresh berries —
+        the kind of treat you want to photograph before you taste.
+      </p>
+
+      <div class="tags">
+        <span>Fresh Pastries</span>
+        <span>Berry Goodness</span>
+      </div>
+
+      <a class="btn" href="explore.html?category=pastries">
+        Explore Pastries →
+      </a>
+    </div>
+
+    <div class="section-visual">
+      <div class="split-stage pastry-stage">
+        <img class="layer crumbs" src="images/pastry/crumbs.png" alt="">
+        <img class="layer bottom" src="images/pastry/bottom.png" alt="">
+        <img class="layer middle" src="images/pastry/middle.png" alt="">
+        <img class="layer top" src="images/pastry/top.png" alt="">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- COOKIES -->
+
+<section class="dessert-section cookies-section" id="cookies">
+  <div class="section-wrap">
+
+    <div class="section-text">
+      <div class="small-top">COOKIES</div>
+
+      <h2>
+        Crumbs of<br>
+        <span class="pink-script">joy.</span>
+      </h2>
+
+      <p>
+        Beautifully chunky cookies with an extra drizzle
+        of chocolate and pink sweetness. One is never enough.
+      </p>
+
+      <div class="tags">
+        <span>Chocolate Drizzle</span>
+        <span>Freshly Baked</span>
+      </div>
+
+      <a class="btn" href="explore.html?category=cookies">
+        Explore Cookies →
+      </a>
+    </div>
+
+    <div class="section-visual">
+      <div class="split-stage cookie-stage">
+        <img class="layer bottom" src="images/cookies/bottom.png" alt="">
+        <img class="layer third" src="images/cookies/third.png" alt="">
+        <img class="layer second" src="images/cookies/second.png" alt="">
+        <img class="layer top" src="images/cookies/top.png" alt="">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DONUTS -->
+
+<section class="dessert-section donuts-section" id="donuts">
+  <div class="section-wrap">
+
+    <div class="section-text">
+      <div class="small-top">DONUTS</div>
+
+      <h2>
+        Round little<br>
+        <span class="pink-script">happiness.</span>
+      </h2>
+
+      <p>
+        Golden, fluffy donuts coated in glossy chocolate
+        and colourful sprinkles. A tiny celebration in every bite.
+      </p>
+
+      <div class="tags">
+        <span>Chocolate Glaze</span>
+        <span>Sprinkles</span>
+      </div>
+
+      <a class="btn" href="explore.html?category=donuts">
+        Explore Donuts →
+      </a>
+    </div>
+
+    <div class="section-visual">
+      <div class="split-stage donut-stage">
+        <img class="layer bottom" src="images/donuts/bottom.png" alt="">
+        <img class="layer middle" src="images/donuts/middle.png" alt="">
+        <img class="layer top" src="images/donuts/top.png" alt="">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+
+<section class="container" id="how-it-works">
+
+  <h2>How It Works</h2>
+
+  <div class="how-grid">
+
+    <div class="how-card">
+      <div class="how-icon">⌕</div>
+      <h3>Search or Browse</h3>
+      <p>
+        Locate hidden artisan bakeries within walking
+        distance of your campus, hostel, or new apartment.
+      </p>
+    </div>
+
+    <div class="how-card">
+      <div class="how-icon">♧</div>
+      <h3>Filter by Craving</h3>
+      <p>
+        Zero in on fresh sourdough breads, flaky croissants,
+        stuffed cookies, or custom birthday cakes.
+      </p>
+    </div>
+
+    <div class="how-card">
+      <div class="how-icon">☆</div>
+      <h3>Friend &amp; Local Reviews</h3>
+      <p>
+        Read honest notes and ratings from fellow
+        students and locals you actually trust.
+      </p>
+    </div>
+
+    <div class="how-card">
+      <div class="how-icon">⊕</div>
+      <h3>Get Direct Directions</h3>
+      <p>
+        One tap launches Google Maps directly
+        to the bakery door.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  © 2026 Pinzom · Discover your next favorite bakery.
+</footer>
+
+<script>
+
+/* MOBILE NAVBAR */
+
+const menu = document.getElementById("menuButton");
+const navLinks = document.getElementById("navLinks");
+
+menu.onclick = () => {
+  const open = navLinks.classList.toggle("open");
+  menu.setAttribute("aria-expanded", String(open));
+};
+
+/* HERO CAKE ANIMATION */
+
+const scene = document.getElementById("heroScene");
+const pieces = [...scene.querySelectorAll(".piece")];
+const heroImages = [...scene.querySelectorAll("[data-file]")];
+const heroStatus = document.getElementById("heroStatus");
+
+/*
+  This first folder is the one shown
+  in your VS Code screenshot.
+
+  %20 means a space in the folder name.
+*/
+
+const imageFolders = [
+  "images/hero_page%20cake_item/",
+  "./hero_page%20cake_item/",
+  "./",
+  "../hero_page%20cake_item/",
+  "../images/hero_page%20cake_item/"
+];
+
+/* TEST WHETHER AN IMAGE CAN LOAD */
+
+function testImage(path) {
+  return new Promise(resolve => {
+
+    const img = new Image();
+
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+
+    img.src = path;
+  });
+}
+
+/* CALCULATE CAKE MOVEMENT */
+
+function positionHero() {
+
+  pieces.forEach(img => {
+
+    const distance =
+      Number(img.dataset.shift) *
+      scene.clientWidth / 1448;
+
+    img.style.setProperty(
+      "--move",
+      distance + "px"
+    );
+
+  });
+}
+
+/* FIND ACTUAL FILES AND START ANIMATION */
+
+async function startCake() {
+
+  for (const folder of imageFolders) {
+
+    const test =
+      folder + "06_cake_top_layer.png";
+
+    if (!await testImage(test)) {
+      continue;
+    }
+
+    const paths = heroImages.map(
+      img => folder + img.dataset.file
+    );
+
+    const results = await Promise.all(
+      paths.map(testImage)
+    );
+
+    // First four are the cake layers.
+    if (!results.slice(0, 4).every(Boolean)) {
+      continue;
+    }
+
+    heroImages.forEach((img, i) => {
+
+      if (results[i]) {
+        img.src = paths[i];
+      } else {
+        img.style.display = "none";
+      }
+
+    });
+
+    positionHero();
+
+    scene.classList.add("ready");
+
+    heroStatus.hidden = true;
+
+    // Cake starts separated, then joins.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+
+        setTimeout(() => {
+          scene.classList.add("joined");
+        }, 420);
+
+      });
+    });
+
+    return;
+  }
+
+  console.error(
+    "Missing images inside images/hero_page cake_item/"
+  );
+
+  heroStatus.hidden = false;
+}
+
+/* REPLAY ANIMATION ON CLICK */
+
+scene.addEventListener("click", () => {
+
+  if (!scene.classList.contains("ready")) {
+    return;
+  }
+
+  scene.classList.remove("joined");
+
+  void scene.offsetWidth;
+
+  setTimeout(() => {
+    scene.classList.add("joined");
+  }, 350);
+
+});
+
+startCake();
+
+/* DESSERT SCROLL ANIMATIONS */
+
+const stages = [
+  ...document.querySelectorAll(".split-stage")
+];
+
+let ticking = false;
+
+function animateDesserts() {
+
+  ticking = false;
+
+  stages.forEach(stage => {
+
+    const rect = stage.getBoundingClientRect();
+
+    const start = innerHeight * .94;
+    const end = innerHeight * .24;
+
+    let progress = Math.max(
+      0,
+      Math.min(1, (start - rect.top) / (start - end))
+    );
+
+    progress = progress * progress *
+      (3 - 2 * progress);
+
+    const originalWidth =
+      stage.classList.contains("pastry-stage")
+        ? 941 : 1122;
+
+    stage.querySelectorAll(".layer").forEach(img => {
+
+      const distance = parseFloat(
+        getComputedStyle(img).getPropertyValue("--shift")
+      ) || 0;
+
+      const y =
+        (1 - progress) *
+        distance *
+        2.4 *
+        stage.clientWidth /
+        originalWidth;
+
+      img.style.transform =
+        `translate3d(0, ${y}px, 0)`;
+
+    });
+  });
+}
+
+function scheduleDesserts() {
+
+  if (ticking) return;
+
+  ticking = true;
+  requestAnimationFrame(animateDesserts);
+}
+
+window.addEventListener(
+  "scroll",
+  scheduleDesserts,
+  { passive: true }
+);
+
+window.addEventListener("resize", () => {
+  positionHero();
+  scheduleDesserts();
+});
+
+window.addEventListener("load", scheduleDesserts);
+
+scheduleDesserts();
+
+</script>
+</body>
 </html>

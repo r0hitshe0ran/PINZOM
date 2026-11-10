@@ -1,411 +1,692 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Reviews | Pinzom</title>
-    <link rel="stylesheet" href="style.css" />
-    <style>
-      .reviews-page {
-        min-height: calc(100vh - 86px);
-        padding-bottom: 24px;
-      }
-      .reviews-content {
-        width: min(738px, 92%);
-        margin: 28px auto 0;
-      }
-      .reviews-heading {
-        margin: 0 0 20px;
-        text-align: left;
-      }
-      .reviews-heading h1 {
-        margin: 0 0 7px;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 21px;
-        line-height: 1.2;
-      }
-      .reviews-heading p {
-        margin: 0;
-        color: #786b70;
-        font-size: 10px;
-      }
-      .review-form {
-        display: block;
-        overflow: hidden;
-        margin: 0 0 16px;
-        padding: 0;
-        border: 1px solid #eadde1;
-        border-radius: 10px;
-        background: #fff;
-        box-shadow: none;
-      }
-      .review-form input {
-        display: block;
-        width: 100%;
-        min-height: 33px;
-        padding: 0 13px;
-        border: 0;
-        border-bottom: 1px solid #eee2e5;
-        border-radius: 0;
-        outline: 0;
-        color: #291b20;
-        font: inherit;
-        font-size: 9px;
-      }
-      .review-form input:last-child {
-        border-bottom: 0;
-      }
-      .reviews-grid {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 10px;
-      }
-      .review-card {
-        min-height: 123px;
-        padding: 12px;
-        border-radius: 10px;
-        box-shadow: 0 8px 20px #d9b7c122;
-      }
-      .review-person {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        margin-bottom: 5px;
-      }
-      .review-avatar {
-        display: grid;
-        width: 20px;
-        height: 20px;
-        place-items: center;
-        flex: 0 0 20px;
-        border-radius: 50%;
-        background: #df2d70;
-        color: #fff;
-        font-size: 8px;
-      }
-      .review-person strong {
-        display: block;
-        font-size: 9px;
-        line-height: 1.2;
-      }
-      .review-person small {
-        display: block;
-        color: #786b70;
-        font-size: 7px;
-        line-height: 1.2;
-      }
-      .friend-badge {
-        margin-left: 3px;
-        padding: 2px 5px;
-        border-radius: 8px;
-        background: #df2d70;
-        color: #fff;
-        font-size: 6px;
-        font-weight: 700;
-      }
-      .review-card .rating {
-        margin-bottom: 4px;
-        color: #e7a91b;
-        font-size: 10px;
-        letter-spacing: 1px;
-      }
-      .review-card h3 {
-        margin: 0 0 3px;
-        color: #df2d70;
-        font-size: 9px;
-      }
-      .review-card p {
-        margin: 0;
-        color: #4d4246;
-        font-size: 8px;
-        line-height: 1.35;
-      }
-      .review-filters {
-        display: flex;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reviews | Pinzom</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --background: #fff8f3;
+      --pink: #e83e70;
+      --pink-light: #fce5ee;
+      --text: #1f1f1f;
+      --muted: #6b6b6b;
+      --border: #e8e0db;
+      --star: #ffa500;
+      --shadow: 0 4px 10px rgb(40 25 15 / 7%);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--background);
+      font-family: "Poppins", sans-serif;
+      font-size: 15px;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button,
+    a,
+    select {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    :focus-visible {
+      outline: 3px solid #a5224a;
+      outline-offset: 4px;
+    }
+
+    .site-header {
+      min-height: 82px;
+      border-bottom: 1px solid #eee5df;
+    }
+
+    .header-inner {
+      width: min(1246px, calc(100% - 48px));
+      min-height: 82px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .logo {
+      margin-right: auto;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -1.4px;
+    }
+
+    .logo span {
+      color: var(--pink);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 38px;
+      white-space: nowrap;
+    }
+
+    .nav a {
+      position: relative;
+      padding: 29px 0;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .nav a[aria-current="page"] {
+      font-weight: 600;
+    }
+
+    .nav a[aria-current="page"]::after {
+      position: absolute;
+      right: 0;
+      bottom: 15px;
+      left: 0;
+      height: 2px;
+      background: var(--pink);
+      content: "";
+    }
+
+    .search {
+      width: 280px;
+      height: 44px;
+      margin-left: 36px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 16px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: white;
+      box-shadow: var(--shadow);
+    }
+
+    .search svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      color: var(--muted);
+    }
+
+    .search input {
+      width: 100%;
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      outline: none;
+      background: transparent;
+      font-size: 12px;
+    }
+
+    .login {
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 48px));
+      margin: 56px auto 28px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 36px;
+      line-height: 1.4;
+      letter-spacing: -0.8px;
+    }
+
+    .intro {
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .review-form {
+      padding: 16px 22px 0;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: white;
+      box-shadow: var(--shadow);
+    }
+
+    .field {
+      width: 100%;
+      display: block;
+      padding: 12px;
+      border: 1px solid #dedede;
+      border-radius: 8px;
+      color: var(--text);
+      background: white;
+    }
+
+    select.field {
+      height: 44px;
+      margin-bottom: 12px;
+    }
+
+    textarea.field {
+      min-height: 54px;
+      resize: vertical;
+    }
+
+    textarea::placeholder {
+      color: var(--text);
+      opacity: 1;
+    }
+
+    .form-bottom {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      gap: 42px;
+    }
+
+    .rating-label {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .rating {
+      display: flex;
+      gap: 8px;
+    }
+
+    .rating button {
+      padding: 0;
+      border: 0;
+      color: var(--star);
+      background: transparent;
+      font-size: 34px;
+      line-height: 1;
+    }
+
+    .post-button {
+      margin-left: auto;
+      padding: 12px 28px;
+      border: 0;
+      border-radius: 28px;
+      color: white;
+      background: var(--pink);
+      font-weight: 600;
+    }
+
+    .login-notice {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 56px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: var(--pink);
+      background: var(--pink-light);
+      font-weight: 600;
+    }
+
+    .login-notice a {
+      text-decoration: underline;
+    }
+
+    .filters {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin: 32px 0;
+    }
+
+    .filter {
+      min-width: 120px;
+      padding: 8px 20px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      color: var(--text);
+      background: white;
+      font-weight: 500;
+    }
+
+    .filter.active {
+      border-color: var(--pink);
+      color: white;
+      background: var(--pink);
+    }
+
+    .reviews {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 34px;
+    }
+
+    .review-card {
+      min-height: 220px;
+      padding: 18px 22px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: white;
+      box-shadow: var(--shadow);
+    }
+
+    .reviewer {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      flex-shrink: 0;
+      place-items: center;
+      border-radius: 50%;
+      color: white;
+      background: var(--pink);
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .reviewer-name {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .review-date {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .friend {
+      align-self: flex-start;
+      margin-left: auto;
+      padding: 3px 15px;
+      border-radius: 14px;
+      color: white;
+      background: var(--pink);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .stars {
+      color: var(--star);
+      font-size: 27px;
+      line-height: 1.25;
+      letter-spacing: 1px;
+    }
+
+    .bakery-name {
+      margin: 5px 0 6px;
+      color: var(--pink);
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .review-card blockquote {
+      margin: 0;
+      color: #333;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .community-photos {
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+      margin-top: 70px;
+    }
+
+    .community-photos img {
+      width: 380px;
+      height: 240px;
+      max-width: 100%;
+      display: block;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 1150px) {
+      .header-inner {
         flex-wrap: wrap;
-        gap: 6px;
-        margin: 14px 0 16px;
-      }
-      .review-filter {
-        padding: 5px 12px;
-        border: 1px solid #eadde1;
-        border-radius: 14px;
-        background: #fff;
-        color: #291b20;
-        cursor: pointer;
-        font: inherit;
-        font-size: 8px;
-      }
-      .review-filter.selected {
-        border-color: #df2d70;
-        background: #df2d70;
-        color: #fff;
-      }
-      .review-form .field-error {
-        padding: 5px 13px 0;
-        font-size: 9px;
-      }
-      .review-form-bar {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
         justify-content: space-between;
-        gap: 6px 12px;
-        padding: 8px 13px;
-        border-top: 1px solid #eee2e5;
+        padding: 14px 0;
       }
-      .review-form-bar .field-error {
+
+      .logo {
+        margin-right: 0;
+      }
+
+      .nav {
         order: 3;
         width: 100%;
-        padding: 0;
+        justify-content: center;
       }
-      .star-input {
-        display: flex;
+
+      .nav a {
+        padding: 12px 0;
+      }
+
+      .nav a[aria-current="page"]::after {
+        bottom: 2px;
+      }
+
+      .search {
+        margin-left: auto;
+      }
+
+      .reviews {
+        gap: 20px;
+      }
+
+      .filters {
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      main {
+        margin-top: 32px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .intro {
+        font-size: 14px;
+      }
+
+      .nav {
+        justify-content: flex-start;
+        gap: 24px;
+        overflow-x: auto;
+      }
+
+      .nav a {
+        font-size: 14px;
+      }
+
+      .search {
+        width: min(240px, 45%);
+      }
+
+      .reviews {
+        grid-template-columns: 1fr;
+      }
+
+      .review-card {
+        min-height: auto;
+      }
+
+      .form-bottom {
+        flex-wrap: wrap;
+        gap: 16px;
+        padding: 16px 0;
+      }
+
+      .post-button {
+        margin-left: 0;
+      }
+
+      .login-notice {
+        flex-wrap: wrap;
+        gap: 12px;
+        font-size: 13px;
+      }
+
+      .filters {
+        justify-content: flex-start;
+      }
+
+      .filter {
+        min-width: 0;
+      }
+
+      .community-photos {
+        flex-direction: column;
         align-items: center;
-        gap: 2px;
+        gap: 24px;
+        margin-top: 40px;
       }
-      .star-input span {
-        margin-right: 6px;
-        color: #786b70;
-        font-size: 9px;
+    }
+
+    @media (max-width: 440px) {
+      .header-inner,
+      main {
+        width: calc(100% - 32px);
       }
-      .star {
-        padding: 0 1px;
-        border: 0;
-        background: none;
-        color: #e7a91b;
-        font-size: 16px;
-        line-height: 1;
-        cursor: pointer;
-      }
-      .review-form .btn {
-        width: auto;
-        margin: 0;
-        padding: 7px 16px;
-        font-size: 9px;
-      }
-      .review-form .form-msg {
-        margin: 0;
-        padding: 8px 13px;
-        border-radius: 0;
-        font-size: 9px;
-      }
-      .review-card h3 a:hover {
-        text-decoration: underline;
-      }
-      .review-photo-strip {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 7px;
-      }
-      .review-photo-strip img {
-        display: block;
+
+      .search {
+        order: 4;
         width: 100%;
-        aspect-ratio: 1.78;
-        object-fit: cover;
-        object-position: center;
       }
-      @media (max-width: 700px) {
-        .reviews-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
+
+      .review-form {
+        padding-right: 14px;
+        padding-left: 14px;
       }
-      @media (max-width: 480px) {
-        .reviews-content {
-          margin-top: 20px;
-        }
-        .reviews-grid,
-        .review-photo-strip {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <header class="container nav">
-      <a class="logo" href="index.html">pinzom<span>•</span></a>
-      <nav class="nav-links">
-        <a href="index.html">Discover</a>
-        <a href="how-it-works.html">How It Works</a>
-        <a href="explore.html">Explore</a>
-        <a href="categories.html">Categories</a>
-        <a class="active" href="reviews.html">Reviews</a>
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="/" aria-label="Pinzom home">
+        pinzom<span>.</span>
+      </a>
+
+      <nav class="nav" aria-label="Main navigation">
+        <a href="/discover">Discover</a>
+        <a href="/how-it-works">How It Works</a>
+        <a href="/explore">Explore</a>
+        <a href="/categories">Categories</a>
+        <a href="/reviews" aria-current="page">Reviews</a>
       </nav>
-      <input
-        class="search"
-        aria-label="Search bakeries"
-        placeholder="⌕  Search bakeries near you"
-      />
-      <a class="login-link" href="login.html">Log in</a>
-      <button
-        class="menu-toggle"
-        type="button"
-        aria-label="Open menu"
-        aria-expanded="false"
-      >
-        ☰
+
+      <form class="search" action="/search" role="search">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          aria-hidden="true"
+        >
+          <circle cx="10.5" cy="10.5" r="6.5" />
+          <path d="m16 16 4.5 4.5" />
+        </svg>
+        <label class="sr-only" for="search">Search bakeries</label>
+        <input
+          id="search"
+          type="search"
+          name="q"
+          placeholder="Search bakeries near you"
+        />
+      </form>
+
+      <a class="login" href="/login">Log in</a>
+    </div>
+  </header>
+
+  <main>
+    <h1>Check Other Reviews</h1>
+    <p class="intro">
+      Get real reviews and recommendations from friends and fellow foodies.
+    </p>
+
+    <form class="review-form" action="/login">
+      <label class="sr-only" for="bakery">Bakery</label>
+      <select class="field" id="bakery" name="bakery">
+        <option value="">Which bakery are you reviewing?</option>
+        <option>Flour Power</option>
+        <option>The Pink Oven</option>
+        <option>Sundar’s Patisserie</option>
+      </select>
+
+      <label class="sr-only" for="review">Your review</label>
+      <textarea
+        class="field"
+        id="review"
+        name="review"
+        placeholder="What you thought — the good, the bad, and what to order?"
+      ></textarea>
+
+      <div class="form-bottom">
+        <span class="rating-label" id="rating-label">Your rating</span>
+
+        <div class="rating" role="group" aria-labelledby="rating-label">
+          <button type="button" aria-label="1 star" aria-pressed="false">☆</button>
+          <button type="button" aria-label="2 stars" aria-pressed="false">☆</button>
+          <button type="button" aria-label="3 stars" aria-pressed="false">☆</button>
+          <button type="button" aria-label="4 stars" aria-pressed="false">☆</button>
+          <button type="button" aria-label="5 stars" aria-pressed="false">☆</button>
+        </div>
+
+        <input type="hidden" name="rating" id="rating-value" value="0" />
+        <button class="post-button" type="submit">Post review</button>
+      </div>
+
+      <div class="login-notice">
+        <span>Log in to post your own review.</span>
+        <a href="/login">Log In</a>
+      </div>
+    </form>
+
+    <nav class="filters" aria-label="Review categories">
+      <button class="filter active" type="button" aria-pressed="true">
+        All reviews
       </button>
-    </header>
+      <button class="filter" type="button" aria-pressed="false">Cakes</button>
+      <button class="filter" type="button" aria-pressed="false">Pastries</button>
+      <button class="filter" type="button" aria-pressed="false">Donuts</button>
+      <button class="filter" type="button" aria-pressed="false">Cookies</button>
+      <button class="filter" type="button" aria-pressed="false">Sourdough</button>
+    </nav>
 
-    <main class="reviews-page">
-      <section class="reviews-content">
-        <div class="reviews-heading">
-          <h1>Check Other Reviews</h1>
-          <p>
-            Get real reviews and recommendations from friends and fellow
-            foodies.
-          </p>
-        </div>
-
-        <form class="review-form" data-form="review" novalidate>
-          <input
-            name="bakery"
-            list="bakeryOptions"
-            autocomplete="off"
-            aria-label="Bakery being reviewed"
-            placeholder="Which bakery are you reviewing?"
-            data-rule="bakery"
-          />
-          <datalist id="bakeryOptions"></datalist>
-          <small class="field-error" data-error-for="bakery"></small>
-          <input
-            name="text"
-            maxlength="300"
-            aria-label="Review details"
-            placeholder="What you thought — the good, the bad, and what to order."
-            data-rule="reviewText"
-          />
-          <small class="field-error" data-error-for="text"></small>
-          <div class="review-form-bar">
-            <div
-              class="star-input"
-              role="radiogroup"
-              aria-label="Your rating"
-              data-rule="rating"
-              data-field="rating"
-              data-value=""
-            >
-              <span>Your rating</span>
-              <button class="star" type="button" role="radio" aria-checked="false" aria-label="1 star" data-value="1">☆</button>
-              <button class="star" type="button" role="radio" aria-checked="false" aria-label="2 stars" data-value="2">☆</button>
-              <button class="star" type="button" role="radio" aria-checked="false" aria-label="3 stars" data-value="3">☆</button>
-              <button class="star" type="button" role="radio" aria-checked="false" aria-label="4 stars" data-value="4">☆</button>
-              <button class="star" type="button" role="radio" aria-checked="false" aria-label="5 stars" data-value="5">☆</button>
-            </div>
-            <button class="btn" type="submit">Post review</button>
-            <small class="field-error" data-error-for="rating"></small>
+    <section class="reviews" aria-label="Community reviews">
+      <article class="review-card">
+        <header class="reviewer">
+          <span class="avatar" aria-hidden="true">M</span>
+          <div>
+            <h2 class="reviewer-name">Meera P.</h2>
+            <p class="review-date">2 days ago</p>
           </div>
-          <div class="form-msg" role="status" aria-live="polite"></div>
-        </form>
+        </header>
+        <div class="stars" aria-label="4 out of 5 stars">☆☆☆☆</div>
+        <h3 class="bakery-name">Flour Power</h3>
+        <blockquote>
+          “Perfect for finding late-night dessert spots near campus.
+          Saved me so much time.”
+        </blockquote>
+      </article>
 
-        <section class="reviews-grid" aria-label="Bakery reviews">
-          <article class="card review-card" data-category="cakes">
-            <div class="review-person">
-              <span class="review-avatar">M</span>
-              <div><strong>Meera P.</strong><small>2 days ago</small></div>
-            </div>
-            <div class="rating">☆☆☆☆☆</div>
-            <h3>Flour Power</h3>
-            <p>
-              “Perfect for finding late-night dessert spots near campus. Saved
-              me so much time.”
-            </p>
-          </article>
-          <article class="card review-card" data-category="sourdough">
-            <div class="review-person">
-              <span class="review-avatar">A</span>
-              <div>
-                <strong
-                  >Arjun K. <span class="friend-badge">friend</span></strong
-                ><small>5 days ago</small>
-              </div>
-            </div>
-            <div class="rating">☆☆☆☆☆</div>
-            <h3>The Pink Oven</h3>
-            <p>
-              “I discovered my favorite paneer roll place through Pinzom. Now
-              it's part of my weekend routine.”
-            </p>
-          </article>
-          <article class="card review-card" data-category="pastries">
-            <div class="review-person">
-              <span class="review-avatar">S</span>
-              <div>
-                <strong
-                  >Simran D. <span class="friend-badge">friend</span></strong
-                ><small>1 week ago</small>
-              </div>
-            </div>
-            <div class="rating">☆☆☆☆☆</div>
-            <h3>Sundar's Patisserie</h3>
-            <p>
-              “The photos and reviews helped me avoid tourist traps and find
-              genuinely great bakeries.”
-            </p>
-          </article>
-          <article class="card review-card" data-category="pastries">
-            <div class="review-person">
-              <span class="review-avatar">K</span>
-              <div>
-                <strong
-                  >Karan V. <span class="friend-badge">friend</span></strong
-                ><small>2 weeks ago</small>
-              </div>
-            </div>
-            <div class="rating">☆☆☆☆☆</div>
-            <h3>Golden Crust Bar</h3>
-            <p>
-              “The cardamom buns are purely celestial. Best paired with their
-              drip filter coffee.”
-            </p>
-          </article>
-          <p class="empty-state" id="noResults" hidden>
-            No reviews in this category yet.
-          </p>
-        </section>
+      <article class="review-card">
+        <header class="reviewer">
+          <span class="avatar" aria-hidden="true">A</span>
+          <div>
+            <h2 class="reviewer-name">Arjun K.</h2>
+            <p class="review-date">5 days ago</p>
+          </div>
+          <span class="friend">Friend</span>
+        </header>
+        <div class="stars" aria-label="4 out of 5 stars">☆☆☆☆</div>
+        <h3 class="bakery-name">The Pink Oven</h3>
+        <blockquote>
+          “I discovered my favorite paneer roll place through Pinzom.
+          Now it’s part of my weekend routine.”
+        </blockquote>
+      </article>
 
-        <div class="review-filters" aria-label="Review filters">
-          <button
-            class="review-filter selected"
-            type="button"
-            data-filter="all"
-          >
-            All reviews
-          </button>
-          <button class="review-filter" type="button" data-filter="cakes">
-            Cakes
-          </button>
-          <button class="review-filter" type="button" data-filter="pastries">
-            Pastries
-          </button>
-          <button class="review-filter" type="button" data-filter="donuts">
-            Donuts
-          </button>
-          <button class="review-filter" type="button" data-filter="cookies">
-            Cookies
-          </button>
-          <button class="review-filter" type="button" data-filter="sourdough">
-            Sourdough
-          </button>
-        </div>
+      <article class="review-card">
+        <header class="reviewer">
+          <span class="avatar" aria-hidden="true">S</span>
+          <div>
+            <h2 class="reviewer-name">Simran D.</h2>
+            <p class="review-date">1 week ago</p>
+          </div>
+          <span class="friend">Friend</span>
+        </header>
+        <div class="stars" aria-label="4 out of 5 stars">☆☆☆☆</div>
+        <h3 class="bakery-name">Sundar’s Patisserie</h3>
+        <blockquote>
+          “The photos and reviews helped me avoid tourist traps
+          and find genuinely great bakeries.”
+        </blockquote>
+      </article>
+    </section>
 
-        <div class="review-photo-strip" aria-label="Bakery photos">
-          <img
-            src="images/1 (2).png"
-            alt="People enjoying a bakery gathering"
-          />
-          <img src="images/2 (2).png" alt="Friends outside a bakery" />
-          <img
-            src="images/3 (2).png"
-            alt="People sharing food at a bakery table"
-          />
-        </div>
-      </section>
-    </main>
+    <section class="community-photos" aria-label="Our foodie community">
+      <img
+        src="images/foodies.png"
+        alt="Friends sharing a meal around a table"
+        width="380"
+        height="240"
+      />
+      <img
+        src="images/community.png"
+        alt="Community members posing together outside a bakery"
+        width="380"
+        height="240"
+      />
+    </section>
+  </main>
 
-    <footer class="footer">
-      © <span data-year></span> Pinzom · Discover your next favorite bakery.
-    </footer>
-    <script src="script.js"></script>
-  </body>
+  <script>
+    // Local rating selection only; submission requires your application.
+    const ratingButtons = document.querySelectorAll(".rating button");
+    const ratingValue = document.getElementById("rating-value");
+
+    ratingButtons.forEach((button, index) => {
+      button.addEventListener("click", () => {
+        ratingValue.value = index + 1;
+
+        ratingButtons.forEach((star, starIndex) => {
+          star.textContent = starIndex <= index ? "★" : "☆";
+          star.setAttribute("aria-pressed", String(starIndex === index));
+        });
+      });
+    });
+
+    // Category filtering is intentionally left for your review data.
+  </script>
+</body>
 </html>

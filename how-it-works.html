@@ -1,80 +1,435 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>How It Works | Pinzom</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <header class="container nav">
-      <a class="logo" href="index.html">pinzom<span>•</span></a>
-      <nav class="nav-links">
-        <a class="" href="index.html">Discover</a>
-        <a class="active" href="how-it-works.html">How It Works</a>
-        <a class="" href="explore.html">Explore</a>
-        <a class="" href="categories.html">Categories</a>
-        <a class="" href="reviews.html">Reviews</a>
-      </nav>
-      <input
-        class="search"
-        aria-label="Search bakeries"
-        placeholder="⌕  Search bakeries near you"
-      />
-      <a class="login-link" href="login.html">Log in</a>
-      <button
-        class="menu-toggle"
-        type="button"
-        aria-label="Open menu"
-        aria-expanded="false"
-      >
-        ☰
-      </button>
-    </header>
-    <main>
-      <section class="container section-heading">
-        <span class="eyebrow">✦ DISCOVERY MADE SIMPLE</span>
-        <h1>How Pinzom <em>Works</em></h1>
-        <p>
-          No more wandering blindly through an unfamiliar town. Discover,
-          filter, and walk right up to the best ovens near you.
-        </p>
-      </section>
-      <section class="container steps">
-        <div class="card">
-          <div class="icon">⌕</div>
-          <h3>Search or Browse</h3>
-          <p>
-            Locate hidden artisan bakeries within walking distance of your
-            campus, hostel, or new apartment.
-          </p>
-        </div>
-        <div class="card">
-          <div class="icon">♧</div>
-          <h3>Filter by Craving</h3>
-          <p>
-            Zero in on fresh sourdough breads, flaky croissants, stuffed
-            cookies, or custom birthday cakes.
-          </p>
-        </div>
-        <div class="card">
-          <div class="icon">☆</div>
-          <h3>Friend & Local Reviews</h3>
-          <p>
-            Read honest notes and ratings from fellow students and locals you
-            actually trust.
-          </p>
-        </div>
-        <div class="card">
-          <div class="icon">⌖</div>
-          <h3>Get Direct Directions</h3>
-          <p>One tap launches Google Maps directly to the bakery door.</p>
-        </div>
-      </section>
-    </main>
-    <footer class="footer">
-      © <span data-year></span> Pinzom · Discover your next favorite bakery.
-    </footer>
-    <script src="script.js"></script>
-  </body>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>How It Works | Pinzom</title>
+
+<style>
+/* PINZOM THEME */
+
+:root {
+  --pink: #d94682;
+  --brown: #5a2d42;
+  --text: #846f7e;
+  --background: #f8eef1;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--brown);
+  font-family: Arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.container {
+  width: min(1200px, 92%);
+  margin: auto;
+}
+
+/* STICKY NAVBAR */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(248, 238, 241, 0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #ead9df;
+}
+
+.site-header .nav {
+  min-height: 88px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo {
+  justify-self: start;
+  font: bold 36px Georgia, serif;
+  color: #281820;
+  letter-spacing: -2px;
+  white-space: nowrap;
+}
+
+.logo span {
+  color: var(--pink);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  gap: 25px;
+  white-space: nowrap;
+}
+
+.nav-links a {
+  font-size: 15px;
+  color: #281820;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--pink);
+}
+
+.nav-links a.active {
+  border-bottom: 3px solid var(--pink);
+  padding: 9px 0;
+}
+
+.login-link {
+  justify-self: end;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.menu-toggle {
+  display: none;
+  border: none;
+  background: #ffe1eb;
+  padding: 10px 13px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+/* CENTERED PAGE HEADING */
+
+.section-heading {
+  text-align: center;
+  padding: 65px 0 45px;
+}
+
+.eyebrow {
+  display: inline-block;
+  padding: 11px 17px;
+  border-radius: 30px;
+  background: #f8dce5;
+  color: var(--pink);
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+}
+
+.section-heading h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(42px, 5vw, 68px);
+  color: #352029;
+  line-height: 1.15;
+  letter-spacing: -2px;
+  margin: 22px 0 16px;
+}
+
+.section-heading h1 em {
+  color: var(--pink);
+}
+
+.section-heading p {
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.75;
+  max-width: 750px;
+  margin: auto;
+}
+
+/* HOW IT WORKS CARDS */
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  padding-bottom: 80px;
+}
+
+.card {
+  background: white;
+  border: 1px solid #f0dce3;
+  border-radius: 28px;
+  padding: 29px;
+  min-height: 300px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 30px #5a2d4215;
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 70px;
+  height: 70px;
+  background: #ffe5ed;
+  border-radius: 20px;
+  color: var(--pink);
+  font-size: 32px;
+}
+
+.card h3 {
+  font-size: 21px;
+  color: #352029;
+  margin: 26px 0 15px;
+}
+
+.card p {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.75;
+  margin: 0;
+}
+
+/* FOOTER */
+
+.footer {
+  padding: 35px 15px;
+  text-align: center;
+  color: var(--text);
+  font-size: 15px;
+}
+
+/* TABLET */
+
+@media (max-width: 1050px) {
+
+  .site-header .nav {
+    grid-template-columns: 1fr auto auto;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 4%;
+    right: 4%;
+    padding: 22px;
+    background: #fff8fa;
+    border-radius: 0 0 18px 18px;
+    box-shadow: 0 12px 30px #5a2d4220;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 680px) {
+
+  .logo {
+    font-size: 30px;
+  }
+
+  .section-heading {
+    padding: 45px 0 35px;
+  }
+
+  .section-heading p {
+    font-size: 15px;
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+    padding-bottom: 45px;
+  }
+
+  .card {
+    min-height: auto;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<header class="site-header">
+
+  <div class="container nav">
+
+    <a class="logo" href="index.html">
+      pinzom<span>•</span>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+
+      <a href="index.html">
+        Discover
+      </a>
+
+      <a
+        class="active"
+        href="how-it-works.html"
+        aria-current="page">
+        How It Works
+      </a>
+
+      <a href="explore.html">
+        Explore
+      </a>
+
+      <a href="categories.html">
+        Categories
+      </a>
+
+      <a href="reviews.html">
+        Reviews
+      </a>
+
+    </nav>
+
+    <a class="login-link" href="login.html">
+      Log in
+    </a>
+
+    <button
+      class="menu-toggle"
+      id="menuButton"
+      type="button"
+      aria-label="Toggle menu"
+      aria-expanded="false">
+      ☰
+    </button>
+
+  </div>
+</header>
+
+<!-- PAGE CONTENT -->
+
+<main>
+
+  <section class="container section-heading">
+
+    <span class="eyebrow">
+      ✦ DISCOVERY MADE SIMPLE
+    </span>
+
+    <h1>
+      How Pinzom <em>Works</em>
+    </h1>
+
+    <p>
+      No more wandering blindly through an unfamiliar town.
+      Discover, filter, and walk right up to the best ovens near you.
+    </p>
+
+  </section>
+
+  <!-- FOUR ORIGINAL STEPS -->
+
+  <section class="container steps">
+
+    <div class="card">
+
+      <div class="icon">⌕</div>
+
+      <h3>Search or Browse</h3>
+
+      <p>
+        Locate hidden artisan bakeries within walking
+        distance of your campus, hostel, or new apartment.
+      </p>
+
+    </div>
+
+    <div class="card">
+
+      <div class="icon">♧</div>
+
+      <h3>Filter by Craving</h3>
+
+      <p>
+        Zero in on fresh sourdough breads,
+        flaky croissants, stuffed cookies,
+        or custom birthday cakes.
+      </p>
+
+    </div>
+
+    <div class="card">
+
+      <div class="icon">☆</div>
+
+      <h3>Friend &amp; Local Reviews</h3>
+
+      <p>
+        Read honest notes and ratings
+        from fellow students and locals
+        you actually trust.
+      </p>
+
+    </div>
+
+    <div class="card">
+
+      <div class="icon">⌖</div>
+
+      <h3>Get Direct Directions</h3>
+
+      <p>
+        One tap launches Google Maps
+        directly to the bakery door.
+      </p>
+
+    </div>
+
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+  © 2026 Pinzom · Discover your next favorite bakery.
+</footer>
+
+<!-- MOBILE NAVIGATION -->
+
+<script>
+
+const menuButton = document.getElementById("menuButton");
+const navLinks = document.getElementById("navLinks");
+
+menuButton.addEventListener("click", () => {
+
+  const open = navLinks.classList.toggle("open");
+
+  menuButton.setAttribute("aria-expanded", String(open));
+
+  menuButton.textContent = open ? "✕" : "☰";
+
+});
+
+</script>
+
+</body>
 </html>

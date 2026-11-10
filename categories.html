@@ -1,197 +1,676 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Categories | Pinzom</title>
-    <link rel="stylesheet" href="style.css" />
-    <style>
-      .category-experience {
-        display: grid;
-        grid-template-columns: minmax(280px, 390px) 1fr;
-        gap: 40px;
-        align-items: stretch;
-        margin-bottom: 70px;
-      }
-      .category-selector {
-        display: grid;
-        gap: 14px;
-      }
-      .category-experience .category-card {
-        width: 100%;
-        text-align: left;
-        border: 2px solid transparent;
-        cursor: pointer;
-        padding: 24px;
-        border-radius: 20px;
-        transition:
-          border-color 0.2s ease,
-          transform 0.2s ease;
-      }
-      .category-experience .category-card:hover,
-      .category-experience .category-card.is-active {
-        border-color: #df2d70;
-        transform: translateY(-2px);
-      }
-      .category-experience .category-card:not(.is-active) {
-        background: white;
-      }
-      .category-experience .category-card h2 {
-        margin: 0 0 10px;
-      }
-      .category-experience .category-card p {
-        margin: 0 0 18px;
-      }
-      .category-visual {
-        margin: 0;
-        min-height: 560px;
-        border-radius: 30px;
-        background: linear-gradient(145deg, #ffd9e5, #fff9f5);
-        display: grid;
-        place-items: center;
-        overflow: hidden;
-      }
-      .category-image {
-        display: none;
-        width: 88%;
-        height: auto;
-        max-height: 430px;
-        object-fit: contain;
-        object-position: center;
-        opacity: 0;
-        transform: scale(0.98);
-        transition:
-          opacity 0.2s ease,
-          transform 0.2s ease;
-      }
-      .category-image.is-visible {
-        display: block;
-        opacity: 1;
-        transform: scale(1);
-      }
-      @media (max-width: 800px) {
-        .category-experience {
-          grid-template-columns: 1fr;
-        }
-        .category-visual {
-          min-height: 330px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <header class="container nav">
-      <a class="logo" href="index.html">pinzom<span>•</span></a>
-      <nav class="nav-links">
-        <a class="" href="index.html">Discover</a>
-        <a class="" href="how-it-works.html">How It Works</a>
-        <a class="" href="explore.html">Explore</a>
-        <a class="active" href="categories.html">Categories</a>
-        <a class="" href="reviews.html">Reviews</a>
-      </nav>
-      <input
-        class="search"
-        aria-label="Search bakeries"
-        placeholder="⌕  Search bakeries near you"
-      />
-      <a class="login-link" href="login.html">Log in</a>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Categories | Pinzom</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+/* 1. PAGE COLORS */
+
+:root {
+  --pink: #d94682;
+  --brown: #5a2d42;
+  --light: #fff4f6;
+  --text: #846f7e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--light);
+  color: var(--brown);
+  font-family: Arial, sans-serif;
+}
+
+.category-page {
+  padding-bottom: 55px;
+}
+
+/* 2. STICKY NAVBAR */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255, 244, 246, 0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #f0dfe5;
+}
+
+.site-header .nav {
+  position: relative;
+  width: min(1200px, 92%);
+  min-height: 88px;
+  margin: auto;
+  padding: 12px 0;
+
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 20px;
+}
+
+.site-header .logo {
+  justify-self: start;
+  font: bold 36px Georgia, serif;
+  color: #281820;
+  letter-spacing: -2px;
+  text-decoration: none;
+}
+
+.site-header .logo span {
+  color: var(--pink);
+}
+
+.site-header .nav-links {
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  gap: 25px;
+  white-space: nowrap;
+}
+
+.site-header .nav-links a {
+  color: #281820;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.site-header .nav-links a:hover,
+.site-header .nav-links a.active {
+  color: var(--pink);
+}
+
+.site-header .nav-links a.active {
+  border-bottom: 3px solid var(--pink);
+  padding: 9px 0;
+}
+
+.site-header .login-link {
+  justify-self: end;
+  font-size: 15px;
+  font-weight: bold;
+  white-space: nowrap;
+  text-decoration: none;
+  color: var(--brown);
+}
+
+.site-header .menu-toggle {
+  display: none;
+  border: none;
+  background: #ffe5ed;
+  border-radius: 10px;
+  padding: 10px 13px;
+  cursor: pointer;
+}
+
+/* 3. CENTERED PAGE HEADING */
+
+.category-page .section-heading {
+  width: min(1200px, 92%);
+  margin: auto;
+  padding: 65px 0 45px;
+  text-align: center;
+}
+
+.category-page .section-heading h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(42px, 5vw, 68px);
+  color: #352029;
+  letter-spacing: -2px;
+  line-height: 1.15;
+  margin: 0 0 16px;
+}
+
+.category-page .section-heading p {
+  font-size: 17px;
+  color: var(--text);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* 4. CATEGORY PAGE LAYOUT */
+
+.category-experience {
+  display: grid;
+  grid-template-columns: 42% minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+  margin-bottom: 45px;
+}
+
+/* Cards appear ONE BELOW ANOTHER */
+
+.category-selector {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+/* 5. CATEGORY CARDS */
+
+.category-experience .category-card {
+  width: 100%;
+  min-height: 140px;
+  padding: 23px 28px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  text-align: left;
+  cursor: pointer;
+
+  background: #fff;
+  color: #352029;
+
+  border: 1px solid #f0dce3;
+  border-radius: 22px;
+
+  transition:
+    background .3s ease,
+    border-color .3s ease,
+    transform .3s ease;
+}
+
+.category-experience .category-card:hover {
+  transform: translateX(4px);
+  border-color: var(--pink);
+}
+
+.category-experience .category-card.is-active {
+  background: #ffe5ee;
+  border: 2px solid var(--pink);
+}
+
+/* Category name */
+
+.category-experience .category-card h2 {
+  font-family: Georgia, serif;
+  font-size: 29px;
+  color: #352029;
+  margin: 0 0 8px;
+  line-height: 1.2;
+}
+
+/* Category descriptions */
+
+.category-experience .category-card p {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.55;
+  margin: 0 0 12px;
+}
+
+/* Bakery count */
+
+.category-experience .count {
+  display: inline-block;
+  background: #fff0f5;
+  color: #d92c70;
+  padding: 8px 13px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+/* 6. SINGLE CLEAN IMAGE BACKGROUND */
+
+.category-visual {
+  position: sticky;
+  top: 110px;
+
+  margin: 0;
+  padding: 35px;
+
+  height: 605px;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  background: #fce3eb;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+/* No extra circle or second background */
+
+.category-visual::before,
+.category-visual::after {
+  display: none;
+}
+
+/* Image container */
+
+.category-image-holder {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Category images */
+
+.category-image {
+  grid-area: 1 / 1;
+  display: block;
+
+  width: 100%;
+  max-width: 550px;
+  max-height: 440px;
+  object-fit: contain;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(15px) scale(.95);
+
+  filter: drop-shadow(0 18px 18px #64324920);
+
+  transition:
+    opacity .35s ease,
+    transform .45s ease,
+    visibility .35s ease;
+}
+
+/* Selected image */
+
+.category-image.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+/* 7. EXPLORE BUTTON */
+
+.category-visual .category-explore {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 18px;
+  min-width: 220px;
+  padding: 17px 30px;
+
+  background: var(--brown);
+  color: white;
+
+  border: none;
+  border-radius: 40px;
+
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+
+  transition:
+    background .3s,
+    transform .3s;
+}
+
+.category-visual .category-explore:hover {
+  background: var(--pink);
+  transform: translateY(-3px);
+}
+
+/* 8. FOOTER */
+
+.footer {
+  text-align: center;
+  padding: 30px 15px;
+  color: var(--text);
+}
+
+/* 9. TABLET AND MOBILE */
+
+@media (max-width: 1050px) {
+
+  .site-header .nav {
+    grid-template-columns: 1fr auto auto;
+  }
+
+  .site-header .menu-toggle {
+    display: block;
+  }
+
+  .site-header .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+
+    padding: 20px;
+    background: #fff8fa;
+    border-radius: 0 0 18px 18px;
+    box-shadow: 0 12px 25px #5a2d4220;
+
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .site-header .nav-links.open {
+    display: flex;
+  }
+
+  .category-experience {
+    grid-template-columns: 1fr;
+  }
+
+  .category-visual {
+    position: relative;
+    top: auto;
+    height: 480px;
+  }
+
+  .category-image {
+    max-height: 340px;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .category-page .section-heading {
+    padding: 40px 0 30px;
+  }
+
+  .category-page .section-heading h1 {
+    font-size: 42px;
+  }
+
+  .category-page .section-heading p {
+    font-size: 15px;
+  }
+
+  .category-experience .category-card {
+    min-height: auto;
+    padding: 22px;
+  }
+
+  .category-experience .category-card h2 {
+    font-size: 26px;
+  }
+
+  .category-visual {
+    height: 390px;
+    padding: 20px;
+  }
+
+  .category-image {
+    max-height: 270px;
+  }
+
+  .category-visual .category-explore {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .category-card,
+  .category-image,
+  .category-explore {
+    transition: none !important;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<header class="site-header">
+  <div class="container nav">
+
+    <a class="logo" href="index.html">
+      pinzom<span>•</span>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Discover</a>
+      <a href="how-it-works.html">How It Works</a>
+      <a href="explore.html">Explore</a>
+      <a class="active" href="categories.html">Categories</a>
+      <a href="reviews.html">Reviews</a>
+    </nav>
+
+    <a class="login-link" href="login.html">
+      Log in
+    </a>
+
+    <button
+      class="menu-toggle"
+      id="menuButton"
+      type="button"
+      aria-label="Toggle menu"
+      aria-expanded="false">
+      ☰
+    </button>
+
+  </div>
+</header>
+
+<main class="category-page">
+
+  <!-- CENTERED HEADING -->
+
+  <section class="container section-heading">
+
+    <h1>Browse by category</h1>
+
+    <p>
+      Whatever you're craving — pick a category to see what's nearby.
+    </p>
+
+  </section>
+
+  <!-- CATEGORY CARDS AND IMAGE -->
+
+  <section class="container category-experience"
+    aria-label="Bakery categories">
+
+    <!-- CARDS ON THE LEFT -->
+
+    <div class="category-selector">
+
+      <!-- CAKES -->
+
       <button
-        class="menu-toggle"
+        class="category-card is-active"
         type="button"
-        aria-label="Open menu"
-        aria-expanded="false"
-      >
-        ☰
+        data-category="cakes"
+        aria-pressed="true">
+
+        <h2>Cakes</h2>
+
+        <p>
+          Birthday cakes, custom orders, and slices by the piece.
+        </p>
+
+        <span class="count">22 bakeries</span>
       </button>
-    </header>
-    <main>
-      <section class="container section-heading">
-        <h1>Browse by category</h1>
-        <p>Whatever you're craving — pick a category to see what's nearby.</p>
-      </section>
-      <section
-        class="container category-experience"
-        aria-label="Bakery categories"
-      >
-        <div class="category-selector">
-          <button
-            class="category-card is-active"
-            type="button"
-            data-category="cakes"
-            aria-pressed="true"
-          >
-            <h2>Cakes</h2>
-            <p>Birthday cakes, custom orders, and slices by the piece.</p>
-            <span class="count">22 bakeries</span>
-          </button>
-          <button
-            class="category-card"
-            type="button"
-            data-category="pastries"
-            aria-pressed="false"
-          >
-            <h2>Pastries</h2>
-            <p>Croissants, danishes, and other flaky, buttery things.</p>
-            <span class="count">27 bakeries</span>
-          </button>
-          <button
-            class="category-card"
-            type="button"
-            data-category="donuts"
-            aria-pressed="false"
-          >
-            <h2>Donuts</h2>
-            <p>Glazed, filled, and everything in between.</p>
-            <span class="count">15 bakeries</span>
-          </button>
-          <button
-            class="category-card"
-            type="button"
-            data-category="cookies"
-            aria-pressed="false"
-          >
-            <h2>Cookies</h2>
-            <p>Classic chocolate chip to unusual flavors.</p>
-            <span class="count">31 bakeries</span>
-          </button>
-        </div>
-        <figure class="category-visual" aria-label="Selected bakery category">
-          <img
-            class="category-image is-visible"
-            data-category-image="cakes"
-            src="images/categories_cake.png"
-            alt="A decorated chocolate cake"
-          />
-          <img
-            class="category-image"
-            data-category-image="pastries"
-            src="images/categories_pastry.png"
-            alt="A selection of golden pastries"
-          />
-          <img
-            class="category-image"
-            data-category-image="donuts"
-            src="images/categories_donuts.png"
-            alt="Glazed donuts"
-          />
-          <img
-            class="category-image"
-            data-category-image="cookies"
-            src="images/categories_cookies.png"
-            alt="Chocolate chip cookies"
-          />
-          <a
-            class="btn category-explore"
-            id="categoryExploreLink"
-            href="explore.html?category=cakes"
-            >Explore cakes →</a
-          >
-        </figure>
-      </section>
-    </main>
-    <footer class="footer">
-      © <span data-year></span> Pinzom · Discover your next favorite bakery.
-    </footer>
-    <script src="script.js"></script>
-  </body>
+
+      <!-- PASTRIES -->
+
+      <button
+        class="category-card"
+        type="button"
+        data-category="pastries"
+        aria-pressed="false">
+
+        <h2>Pastries</h2>
+
+        <p>
+          Croissants, danishes, and other flaky, buttery things.
+        </p>
+
+        <span class="count">27 bakeries</span>
+      </button>
+
+      <!-- DONUTS -->
+
+      <button
+        class="category-card"
+        type="button"
+        data-category="donuts"
+        aria-pressed="false">
+
+        <h2>Donuts</h2>
+
+        <p>
+          Glazed, filled, and everything in between.
+        </p>
+
+        <span class="count">15 bakeries</span>
+      </button>
+
+      <!-- COOKIES -->
+
+      <button
+        class="category-card"
+        type="button"
+        data-category="cookies"
+        aria-pressed="false">
+
+        <h2>Cookies</h2>
+
+        <p>
+          Classic chocolate chip to unusual flavors.
+        </p>
+
+        <span class="count">31 bakeries</span>
+      </button>
+
+    </div>
+
+    <!-- IMAGE ON THE RIGHT -->
+
+    <figure class="category-visual"
+      aria-label="Selected bakery category">
+
+      <div class="category-image-holder">
+
+        <img
+          class="category-image is-visible"
+          data-category-image="cakes"
+          src="images/categories_cake.png"
+          alt="A decorated chocolate cake">
+
+        <img
+          class="category-image"
+          data-category-image="pastries"
+          src="images/categories_pastry.png"
+          alt="A selection of golden pastries">
+
+        <img
+          class="category-image"
+          data-category-image="donuts"
+          src="images/categories_donuts.png"
+          alt="Glazed donuts">
+
+        <img
+          class="category-image"
+          data-category-image="cookies"
+          src="images/categories_cookies.png"
+          alt="Chocolate chip cookies">
+
+      </div>
+
+      <!-- EXPLORE SELECTED CATEGORY -->
+
+      <a class="btn category-explore"
+         id="categoryExploreLink"
+         href="explore.html?category=cakes">
+        Explore cakes →
+      </a>
+
+    </figure>
+
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+  © <span data-year>2026</span> Pinzom · Discover your next favorite bakery.
+</footer>
+
+<script>
+
+/* MOBILE NAVBAR */
+
+const menuButton = document.getElementById("menuButton");
+const navLinks = document.getElementById("navLinks");
+
+menuButton.onclick = () => {
+  const open = navLinks.classList.toggle("open");
+  menuButton.setAttribute("aria-expanded", String(open));
+};
+
+/* CATEGORY SWITCHING */
+
+const cards = document.querySelectorAll(".category-card");
+const images = document.querySelectorAll(".category-image");
+const exploreLink = document.getElementById("categoryExploreLink");
+
+function selectCategory(category) {
+
+  // Highlight selected card
+  cards.forEach(card => {
+    const selected = card.dataset.category === category;
+
+    card.classList.toggle("is-active", selected);
+    card.setAttribute("aria-pressed", String(selected));
+  });
+
+  // Change dessert image
+  images.forEach(image => {
+    image.classList.toggle(
+      "is-visible",
+      image.dataset.categoryImage === category
+    );
+  });
+
+  // Update Explore button
+  exploreLink.href = "explore.html?category=" + category;
+  exploreLink.textContent = "Explore " + category + " →";
+}
+
+// Select category on click
+cards.forEach(card => {
+  card.onclick = () => selectCategory(card.dataset.category);
+});
+
+// Select category from URL if provided
+const categoryFromURL =
+  new URLSearchParams(window.location.search).get("category");
+
+if (
+  categoryFromURL &&
+  [...cards].some(card => card.dataset.category === categoryFromURL)
+) {
+  selectCategory(categoryFromURL);
+}
+
+</script>
+
+</body>
 </html>

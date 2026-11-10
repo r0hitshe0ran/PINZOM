@@ -1,0 +1,101 @@
+[
+  {
+    "file": "01_cocoa_room_card.png",
+    "source_bbox": [
+      95,
+      195,
+      428,
+      350
+    ]
+  },
+  {
+    "file": "02_top_recommend_note.png",
+    "source_bbox": [
+      995,
+      165,
+      1330,
+      322
+    ]
+  },
+  {
+    "file": "03_sugar_rye_review.png",
+    "source_bbox": [
+      110,
+      715,
+      455,
+      905
+    ]
+  },
+  {
+    "file": "04_saanvi_review.png",
+    "source_bbox": [
+      975,
+      715,
+      1300,
+      905
+    ]
+  },
+  {
+    "file": "05_bottom_recommend_badge.png",
+    "source_bbox": [
+      815,
+      865,
+      1325,
+      995
+    ]
+  },
+  {
+    "file": "06_cake_top_layer.png",
+    "source_bbox": [
+      375,
+      150,
+      1105,
+      470
+    ]
+  },
+  {
+    "file": "07_cake_middle_mousse_layer.png",
+    "source_bbox": [
+      415,
+      430,
+      1035,
+      675
+    ]
+  },
+  {
+    "file": "08_cake_third_dark_layer.png",
+    "source_bbox": [
+      410,
+      595,
+      1040,
+      790
+    ]
+  },
+  {
+    "file": "09_cake_bottom_base_layer.png",
+    "source_bbox": [
+      450,
+      775,
+      985,
+      935
+    ]
+  },
+  {
+    "file": "10_bottom_chocolate_curl.png",
+    "source_bbox": [
+      470,
+      905,
+      650,
+      1010
+    ]
+  },
+  {
+    "file": "11_floating_crumbs_particles.png",
+    "source_bbox": [
+      340,
+      160,
+      1110,
+      860
+    ]
+  }
+]

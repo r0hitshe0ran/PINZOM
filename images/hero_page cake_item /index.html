@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pinzom – Chocolate Cake</title>
+<style>
+  /* demo-only page styling (pink backdrop, spacers) – replace with your own section */
+  body { margin:0; font-family:system-ui,sans-serif; color:#5a2a3a;
+         background:radial-gradient(120% 90% at 50% 40%, #ffe9f0 0%, #fbd3e0 70%, #f7c3d5 100%); }
+  .spacer { height:70vh; display:grid; place-items:center; opacity:.6; }
+
+  /* ---------- Cake explode animation ---------- */
+  #pastries { display:grid; place-items:center; padding:1rem 0; }
+  .pastry-stage {
+    position:relative; container-type:inline-size; background:transparent;
+    width:min(92vw, calc(80vh * 1448 / 1086), 1100px);
+    aspect-ratio:1448 / 1086;
+  }
+  .layer { position:absolute; display:block; height:auto; user-select:none; pointer-events:none; will-change:transform,opacity; }
+
+  /* positions are % of the original 1448x1086 reference, so the layout never drifts */
+  .cake_base { left:31.0083%; top:72.5599%; width:36.2569%; --dy:0; }
+  .cake_third { left:28.4530%; top:55.9853%; width:43.3702%; --dy:72; }
+  .cake_mid { left:29.3508%; top:40.9761%; width:41.7818%; --dy:167; }
+  .cake_top { left:26.7265%; top:13.8122%; width:48.4116%; --dy:282; }
+  .crumbs { left:24.0331%; top:18.7845%; width:52.5552%; }
+  .card_cocoa { left:6.9751%; top:18.3241%; width:23.0663%; }
+  .card_note { left:69.8204%; top:15.2855%; width:22.0994%; }
+  .card_sugar { left:7.9420%; top:67.4033%; width:23.5497%; }
+  .card_saanvi { left:68.0249%; top:64.0884%; width:23.7569%; }
+  .card_badge { left:56.2845%; top:81.7680%; width:36.8785%; }
+
+  /* start state: cake fully assembled, extras hidden */
+  .cake_top, .cake_mid, .cake_third, .cake_base { transform:translate3d(0, calc(var(--dy) * 100cqw / 1448), 0); }
+  .crumbs { opacity:0; transform:scale(.55); transform-origin:50% 50%; }
+  .card_cocoa, .card_note, .card_sugar, .card_saanvi, .card_badge {
+    opacity:0; transform:translate3d(var(--cx,0), var(--cy,0), 0) scale(.92);
+    filter:drop-shadow(0 8px 14px rgba(150,60,90,.16));
+  }
+  .card_cocoa  { --cx:-6cqw; --cy:0; }
+  .card_note   { --cx:4cqw;  --cy:-2cqw; transform-origin:30% 60%; }
+  .card_sugar  { --cx:-5cqw; --cy:2cqw; }
+  .card_saanvi { --cx:5cqw;  --cy:2cqw; }
+  .card_badge  { --cx:0;     --cy:4cqw; }
+
+  /* timeline (total ≈ 3s): cake splits 0–2.1s, crumbs burst .5–2.3s, cards pop in 1.4–2.9s */
+  .play .cake_top, .play .cake_mid, .play .cake_third, .play .cake_base
+        { animation: split 2s cubic-bezier(.45,.05,.15,1) forwards; }
+  .play .cake_top   { animation-delay:0s; }
+  .play .cake_mid   { animation-delay:.05s; }
+  .play .cake_third { animation-delay:.1s; }
+  .play .crumbs { animation: burst 1.8s cubic-bezier(.2,.7,.2,1) .5s forwards; }
+  .play .card_cocoa, .play .card_note, .play .card_sugar, .play .card_saanvi, .play .card_badge
+        { animation: pop .9s cubic-bezier(.2,.8,.2,1) forwards; }
+  .play .card_cocoa  { animation-delay:1.4s; }
+  .play .card_note   { animation-delay:1.55s; }
+  .play .card_sugar  { animation-delay:1.7s; }
+  .play .card_saanvi { animation-delay:1.85s; }
+  .play .card_badge  { animation-delay:2s; }
+
+  @keyframes split { to { transform:translate3d(0,0,0); } }
+  @keyframes burst { to { opacity:1; transform:scale(1); } }
+  @keyframes pop   { to { opacity:1; transform:none; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .play .layer { animation-duration:.01s !important; animation-delay:0s !important; }
+  }
+
+  /* demo-only replay button, delete in production */
+  .replay { position:fixed; right:16px; bottom:16px; padding:.55rem 1rem; border:0; border-radius:999px; background:#5a2a3a; color:#fff; cursor:pointer; font:inherit; }
+</style>
+</head>
+<body>
+  <div class="spacer">↓ scroll down to Pastries</div>
+
+  <section id="pastries">
+    <div class="pastry-stage" id="pastryStage">
+      <img class="layer cake_base" src="images/cake_base.png" alt="" draggable="false">
+      <img class="layer cake_third" src="images/cake_third.png" alt="" draggable="false">
+      <img class="layer cake_mid" src="images/cake_mid.png" alt="" draggable="false">
+      <img class="layer cake_top" src="images/cake_top.png" alt="" draggable="false">
+      <img class="layer crumbs" src="images/crumbs.png" alt="" draggable="false">
+      <img class="layer card_cocoa" src="images/card_cocoa.png" alt="" draggable="false">
+      <img class="layer card_note" src="images/card_note.png" alt="" draggable="false">
+      <img class="layer card_sugar" src="images/card_sugar.png" alt="" draggable="false">
+      <img class="layer card_saanvi" src="images/card_saanvi.png" alt="" draggable="false">
+      <img class="layer card_badge" src="images/card_badge.png" alt="" draggable="false">
+    </div>
+  </section>
+
+  <div class="spacer"></div>
+  <button class="replay" id="replay">Replay</button>
+
+<script>
+  const section = document.getElementById('pastries');
+  const stage   = document.getElementById('pastryStage');
+
+  // plays once, the first time the section is ~40% visible
+  const io = new IntersectionObserver((entries) => {
+    if (entries.some(e => e.isIntersecting)) { stage.classList.add('play'); io.disconnect(); }
+  }, { threshold: 0.4 });
+  io.observe(section);
+
+  // demo-only replay
+  document.getElementById('replay').onclick = () => {
+    stage.classList.remove('play'); void stage.offsetWidth; stage.classList.add('play');
+  };
+</script>
+</body>
+</html>

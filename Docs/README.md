@@ -82,15 +82,13 @@ Detailed project documentation is available in the `docs/` directory:
 
 ## Team
 
-**Project 13 — Web Programming**
+**Project 13 - Web Programming**
 
-| Member   | Primary Responsibility                 |
-| -------- | -------------------------------------- |
-| Member 1 | Home & Discovery                       |
-| Member 2 | Explore, Search & Filters              |
-| Member 3 | Bakery Profiles & Menu                 |
-| Member 4 | Reviews & Favorites                    |
-| Member 5 | Profile, Recommendations & Integration |
+- **Member 1** - Home & Discovery
+- **Member 2** - Explore, Search & Filters
+- **Member 3** - Bakery Profiles & Menu
+- **Member 4** - Reviews & Favorites
+- **Member 5** - Profile, Recommendations & Integration
 
 > All team members contribute across HTML, CSS, JavaScript,
 > backend integration, testing, and documentation.
@@ -114,31 +112,25 @@ integration.
 
 🚧 Currently under development.
 
-## Phase 2 (2nd Evaluation) — What was added
+## Run the second evaluation locally
 
-**1. Additional pages, linked together**
+Use Node.js 20 or newer. From the repository root, run:
 
-- `bakery.html?id=...` — bakery profile page (opened from Explore cards, reviews and favorites)
-- `profile.html` — logged-in user's account, saved bakeries, reviews and saved JSON data
-- `forgot-password.html` — linked from the Log in page
-- Category page links to Explore (`explore.html?category=cakes`), header search opens `explore.html?q=...`
+    node server.js
 
-**2. JavaScript interactions** (all in `script.js`)
+Open http://127.0.0.1:3000. The server serves the HTML, CSS, and JavaScript and handles the forms. No package installation is required. Keep the server running during the demo.
 
-- Form validation with inline error messages (signup, login, forgot password, review)
-- Show / hide password button, star-rating input, toast messages
-- Explore: search box and category buttons now work together, with a "no results" message
-- Reviews: category filters work, new reviews appear instantly
-- Favorites (♡) on bakery cards, mobile menu button, header shows the logged-in user's name
+### Evaluation walkthrough
 
-**3. Form submission**
+1. **Linked pages** - Open Discover, How It Works, Explore, Categories, and Reviews from the shared header. Open a bakery from Explore to find directions, reviews, and a link back.
+2. **JavaScript interactions** - Try the Explore search and category filters, Reviews category filters and star rating, password visibility, form validation, and favorites.
+3. **Form submission** - Create an account, save the recovery code shown on signup, and post a review from a bakery page. The review appears in Reviews, on that bakery’s page, and in your profile. Log out and log back in to demonstrate that the account was saved. The recovery code lets you reset the password locally.
+4. **Local JSON files** - The server creates and updates `data/users.json` and `data/reviews.json`. Signup, password changes, and favorites update the user record. Posting a review adds a review record. Login checks the account file and starts a session. Passwords and recovery codes are stored as salted hashes.
 
-Each form is handled by one submit listener (`data-form="signup | login | forgot | review"`),
-which validates, saves, shows feedback and redirects. The old demo `alert()` was removed.
+The review form lists the bakeries from Explore. New reviews save the selected bakery's ID, name, and category. Older reviews for names outside Explore stay in the author's profile and the local JSON file.
 
-**4. Saving form data as JSON**
+On Explore or a bakery page, select **Use my location** to see straight-line estimates for bakeries with known coordinates. The browser calculates the distance locally without saving your location.
 
-Submitted data is stored as JSON (`users.json`, `reviews.json` structure) in the browser's
-storage, and the Profile page has **Download users.json / reviews.json** buttons that
-export real `.json` files. Passwords are saved as a SHA-256 hash, not plain text.
-Writing these files on the server with Express/MongoDB is part of the 3rd evaluation.
+Use fresh demo credentials for the evaluation. The server starts a new session when you log in, and any earlier browser-only accounts remain in that browser’s storage. The JSON data files are ignored by Git. Restarting the server preserves the files and ends active sessions.
+
+Set `PORT` to use a different port or `PINZOM_DATA_DIR` to use a separate folder for test data.

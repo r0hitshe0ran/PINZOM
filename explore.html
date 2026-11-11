@@ -10,169 +10,57 @@
 
   <link rel="stylesheet" href="style.css" />
 
-  <style>
-
-    /* KEEP ORIGINAL BAKERY IMAGE DESIGN */
-
-    .bakery-image {
-      overflow: hidden;
-      background: #fff;
-    }
-
-    .bakery-image img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-    }
-
-    /* FIX 1: CENTER THE PAGE HEADING */
-
-    main > .section-heading {
-      display: block;
-      width: 100%;
-      max-width: 100%;
-      margin: 0 auto;
-      padding: 65px 20px 45px;
-      text-align: center;
-    }
-
-    main > .section-heading h1 {
-      display: block;
-      width: 100%;
-      margin: 0 auto 16px;
-      text-align: center;
-      font-family: Georgia, serif;
-      font-size: clamp(42px, 5vw, 68px);
-      line-height: 1.15;
-      letter-spacing: -2px;
-      color: #352029;
-    }
-
-    main > .section-heading p {
-      display: block;
-      width: 100%;
-      max-width: 750px;
-      margin: 0 auto;
-      text-align: center;
-      font-size: 17px;
-      line-height: 1.7;
-      color: #846f7e;
-    }
-
-    /* KEEP EXISTING SEARCH AND FILTER LAYOUT */
-
-    .filter-panel input#searchBox {
-      width: 100%;
-    }
-
-    /* MOBILE HEADING ALIGNMENT */
-
-    @media (max-width: 700px) {
-
-      main > .section-heading {
-        padding: 45px 15px 30px;
-      }
-
-      main > .section-heading h1 {
-        font-size: clamp(36px, 9vw, 48px);
-      }
-
-      main > .section-heading p {
-        font-size: 15px;
-      }
-
-    }
-
-  </style>
 
 </head>
 
-<body>
+<body class="page-explore">
 
-  <!-- ORIGINAL NAVBAR -->
 
-  <header class="container nav">
-
-    <a class="logo" href="index.html">
-      pinzom<span>•</span>
-    </a>
-
-    <nav class="nav-links">
-
-      <a href="index.html">
-        Discover
-      </a>
-
-      <a href="how-it-works.html">
-        How It Works
-      </a>
-
-      <a class="active" href="explore.html">
-        Explore
-      </a>
-
-      <a href="categories.html">
-        Categories
-      </a>
-
-      <a href="reviews.html">
-        Reviews
-      </a>
-
-    </nav>
-
-    <!-- SEARCH PLACEHOLDER UPDATED -->
-
-    <input
-      class="search"
-      aria-label="Search by bakery"
-      placeholder="⌕  Search by bakery"
-    />
-
-    <a class="login-link" href="login.html">
-      Log in
-    </a>
-
-    <button
-      class="menu-toggle"
-      type="button"
-      aria-label="Open menu"
-      aria-expanded="false">
-      ☰
-    </button>
-
+  <header class="site-header">
+    <div class="site-nav">
+      <a class="logo" href="index.html" aria-label="Pinzom home">pinzom<span>•</span></a>
+      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+        <a href="index.html">Discover</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="explore.html" class="active" aria-current="page">Explore</a>
+        <a href="categories.html">Categories</a>
+        <a href="reviews.html">Reviews</a>
+      </nav>
+      <a class="login-link" href="login.html">Log in</a>
+      <button class="menu-toggle" type="button" aria-controls="navLinks"
+        aria-label="Open menu" aria-expanded="false">☰</button>
+    </div>
   </header>
 
   <main>
 
-    <!-- CENTERED PAGE HEADING -->
 
     <section class="container section-heading">
 
-      <h1>Explore bakeries</h1>
+      <h1>Explore bakeries and cafés</h1>
 
       <p>
-        Find a bakery that matches your current craving.
+        Find bakeries and cafés in Gurugram.
       </p>
+      <div class="location-control" data-location-control>
+        <button class="location-button" type="button" data-use-location>Use my location</button>
+        <div class="location-status" role="status" data-location-status></div>
+      </div>
 
     </section>
 
-    <!-- ORIGINAL EXPLORE LAYOUT -->
 
     <section class="container explore-layout">
 
-      <!-- LEFT FILTER PANEL -->
 
       <aside class="filter-panel">
 
         <h3>Search &amp; Filter</h3>
 
-        <!-- SEARCH PLACEHOLDER UPDATED -->
 
         <input
           id="searchBox"
+          type="search"
           placeholder="Search by bakery"
           aria-label="Search by bakery"
         />
@@ -180,8 +68,7 @@
         <label>Category</label>
 
         <div
-          class="chips"
-          style="justify-content: flex-start">
+          class="chips explore-filter-list">
 
           <button
             class="chip selected"
@@ -218,286 +105,14 @@
             Cookies
           </button>
 
+          <button class="chip" type="button" data-filter="cafes">Cafés</button>
+
         </div>
 
       </aside>
 
-      <!-- ALL ORIGINAL BAKERIES -->
 
-      <div class="bakery-list">
-
-        <!-- BAKERY 1 -->
-
-        <div
-          class="card bakery"
-          data-category="cakes">
-
-          <button
-            class="fav-btn"
-            type="button"
-            data-fav="fifth-avenue-cafe-bakery"
-            aria-label="Save Fifth Avenue Cafe & Bakery to favorites">
-            ♡
-          </button>
-
-          <a
-            class="card-link"
-            href="bakery.html?id=fifth-avenue-cafe-bakery">
-
-            <div class="bakery-image">
-
-              <img
-                src="images/1_Explorepage.png"
-                alt="Fresh cakes at Fifth Avenue Cafe and Bakery"
-              />
-
-            </div>
-
-          </a>
-
-          <h3>
-            <a href="bakery.html?id=fifth-avenue-cafe-bakery">
-              Fifth Avenue Cafe &amp; Bakery
-            </a>
-          </h3>
-
-          <div class="rating">
-            ★ 4.7 · 1.36 km away
-          </div>
-
-          <p>
-            Fresh cakes and desserts.
-          </p>
-
-        </div>
-
-        <!-- BAKERY 2 -->
-
-        <div
-          class="card bakery"
-          data-category="pastries">
-
-          <button
-            class="fav-btn"
-            type="button"
-            data-fav="la-vie-douce"
-            aria-label="Save La Vie Douce to favorites">
-            ♡
-          </button>
-
-          <a
-            class="card-link"
-            href="bakery.html?id=la-vie-douce">
-
-            <div class="bakery-image">
-
-              <img
-                src="images/2_Explorepage.png"
-                alt="Pastries at La Vie Douce"
-              />
-
-            </div>
-
-          </a>
-
-          <h3>
-            <a href="bakery.html?id=la-vie-douce">
-              La Vie Douce
-            </a>
-          </h3>
-
-          <div class="rating">
-            ★ 4.6 · 0.38 km away
-          </div>
-
-          <p>
-            Buttery pastries and coffee.
-          </p>
-
-        </div>
-
-        <!-- BAKERY 3 -->
-
-        <div
-          class="card bakery"
-          data-category="donuts">
-
-          <button
-            class="fav-btn"
-            type="button"
-            data-fav="krispy-kreme"
-            aria-label="Save Krispy Kreme to favorites">
-            ♡
-          </button>
-
-          <a
-            class="card-link"
-            href="bakery.html?id=krispy-kreme">
-
-            <div class="bakery-image">
-
-              <img
-                src="images/3_Explorepage.png"
-                alt="Glazed donuts at Krispy Kreme"
-              />
-
-            </div>
-
-          </a>
-
-          <h3>
-            <a href="bakery.html?id=krispy-kreme">
-              Krispy Kreme
-            </a>
-          </h3>
-
-          <div class="rating">
-            ★ 4.8 · 0.24 km away
-          </div>
-
-          <p>
-            Glazed and filled donuts.
-          </p>
-
-        </div>
-
-        <!-- BAKERY 4 -->
-
-        <div
-          class="card bakery"
-          data-category="cookies">
-
-          <button
-            class="fav-btn"
-            type="button"
-            data-fav="dwija-bake-studio"
-            aria-label="Save Dwija Bake Studio to favorites">
-            ♡
-          </button>
-
-          <a
-            class="card-link"
-            href="bakery.html?id=dwija-bake-studio">
-
-            <div class="bakery-image">
-
-              <img
-                src="images/4 (2).png"
-                alt="Cookies at Dwija Bake Studio"
-              />
-
-            </div>
-
-          </a>
-
-          <h3>
-            <a href="bakery.html?id=dwija-bake-studio">
-              Dwija Bake Studio
-            </a>
-          </h3>
-
-          <div class="rating">
-            ★ 4.8 · 0.23 km away
-          </div>
-
-          <p>
-            Cookies and baked treats.
-          </p>
-
-        </div>
-
-        <!-- BAKERY 5 -->
-
-        <div
-          class="card bakery"
-          data-category="cakes">
-
-          <button
-            class="fav-btn"
-            type="button"
-            data-fav="sugar-and-rye"
-            aria-label="Save Sugar & Rye to favorites">
-            ♡
-          </button>
-
-          <a
-            class="card-link"
-            href="bakery.html?id=sugar-and-rye">
-
-            <div class="bakery-image">
-
-              <img
-                src="images/5_Explorepage.png"
-                alt="Specialty cakes at Sugar and Rye"
-              />
-
-            </div>
-
-          </a>
-
-          <h3>
-            <a href="bakery.html?id=sugar-and-rye">
-              Sugar &amp; Rye
-            </a>
-          </h3>
-
-          <div class="rating">
-            ★ 4.8 · 0.52 km away
-          </div>
-
-          <p>
-            Celebration cakes and desserts.
-          </p>
-
-        </div>
-
-        <!-- BAKERY 6 -->
-
-        <div
-          class="card bakery"
-          data-category="pastries">
-
-          <button
-            class="fav-btn"
-            type="button"
-            data-fav="campus-bakehouse"
-            aria-label="Save Campus Bakehouse to favorites">
-            ♡
-          </button>
-
-          <a
-            class="card-link"
-            href="bakery.html?id=campus-bakehouse">
-
-            <div class="bakery-image">
-
-              <img
-                src="images/6_Explorepage.png"
-                alt="Fresh bakes at Campus Bakehouse"
-              />
-
-            </div>
-
-          </a>
-
-          <h3>
-            <a href="bakery.html?id=campus-bakehouse">
-              Campus Bakehouse
-            </a>
-          </h3>
-
-          <div class="rating">
-            ★ 4.7 · 0.71 km away
-          </div>
-
-          <p>
-            Fresh bakes and coffee.
-          </p>
-
-        </div>
-
-        <!-- NO RESULTS MESSAGE -->
-
+      <div class="bakery-list" id="exploreBakeries">
         <p
           class="empty-state"
           id="noResults"
@@ -512,13 +127,13 @@
 
   </main>
 
-  <!-- ORIGINAL FOOTER -->
 
   <footer class="footer">
     © <span data-year></span>
     Pinzom · Discover your next favorite bakery.
   </footer>
 
+  <script src="bakery-catalog.js"></script>
   <script src="script.js"></script>
 
 </body>

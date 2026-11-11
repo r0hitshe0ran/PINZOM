@@ -6,30 +6,21 @@
     <title>Your Profile | Pinzom</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
-    <header class="container nav">
-      <a class="logo" href="index.html">pinzom<span>•</span></a>
-      <nav class="nav-links">
-        <a class="" href="index.html">Discover</a>
-        <a class="" href="how-it-works.html">How It Works</a>
-        <a class="" href="explore.html">Explore</a>
-        <a class="" href="categories.html">Categories</a>
-        <a class="" href="reviews.html">Reviews</a>
-      </nav>
-      <input
-        class="search"
-        aria-label="Search bakeries"
-        placeholder="⌕  Search bakeries near you"
-      />
-      <a class="login-link" href="login.html">Log in</a>
-      <button
-        class="menu-toggle"
-        type="button"
-        aria-label="Open menu"
-        aria-expanded="false"
-      >
-        ☰
-      </button>
+  <body class="page-profile">
+    <header class="site-header">
+      <div class="site-nav">
+        <a class="logo" href="index.html" aria-label="Pinzom home">pinzom<span>•</span></a>
+        <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+          <a href="index.html">Discover</a>
+          <a href="how-it-works.html">How It Works</a>
+          <a href="explore.html">Explore</a>
+          <a href="categories.html">Categories</a>
+          <a href="reviews.html">Reviews</a>
+        </nav>
+        <a class="login-link" href="login.html">Log in</a>
+        <button class="menu-toggle" type="button" aria-controls="navLinks"
+          aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
     </header>
 
     <main>
@@ -73,7 +64,7 @@
               <div class="bakery-list" id="favoriteList"></div>
               <p class="empty-state" id="noFavorites" hidden>
                 Nothing saved yet. Tap the ♡ on a bakery in
-                <a href="explore.html" style="color: #d92d6c">Explore</a>.
+                <a href="explore.html" class="accent-link">Explore</a>.
               </p>
             </div>
 
@@ -82,7 +73,7 @@
               <div class="bakery-list" id="myReviewList"></div>
               <p class="empty-state" id="noMyReviews" hidden>
                 You haven't written a review yet.
-                <a href="reviews.html" style="color: #d92d6c">Write one →</a>
+                <a href="reviews.html" class="accent-link">Write one →</a>
               </p>
             </div>
           </div>
@@ -94,6 +85,7 @@
       © <span data-year></span> Pinzom · Discover your next favorite bakery.
     </footer>
 
+    <script src="bakery-catalog.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

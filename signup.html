@@ -5,39 +5,22 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <title>Sign Up | Pinzom</title>
     <link rel="stylesheet" href="style.css" />
-    <style>
-      .auth-visual img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        object-position: center;
-      }
-    </style>
   </head>
-  <body>
-    <header class="container nav">
-      <a class="logo" href="index.html">pinzom<span>•</span></a>
-      <nav class="nav-links">
-        <a class="" href="index.html">Discover</a>
-        <a class="" href="how-it-works.html">How It Works</a>
-        <a class="" href="explore.html">Explore</a>
-        <a class="" href="categories.html">Categories</a>
-        <a class="" href="reviews.html">Reviews</a>
-      </nav>
-      <input
-        class="search"
-        aria-label="Search bakeries"
-        placeholder="⌕  Search bakeries near you"
-      />
-      <a class="login-link" href="login.html">Log in</a>
-      <button
-        class="menu-toggle"
-        type="button"
-        aria-label="Open menu"
-        aria-expanded="false"
-      >
-        ☰
-      </button>
+  <body class="page-auth">
+    <header class="site-header">
+      <div class="site-nav">
+        <a class="logo" href="index.html" aria-label="Pinzom home">pinzom<span>•</span></a>
+        <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+          <a href="index.html">Discover</a>
+          <a href="how-it-works.html">How It Works</a>
+          <a href="explore.html">Explore</a>
+          <a href="categories.html">Categories</a>
+          <a href="reviews.html">Reviews</a>
+        </nav>
+        <a class="login-link" href="login.html">Log in</a>
+        <button class="menu-toggle" type="button" aria-controls="navLinks"
+          aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
     </header>
     <main>
       <section class="container auth">
@@ -80,7 +63,6 @@
               ><input
                 type="checkbox"
                 name="terms"
-                style="width: auto"
                 data-rule="terms"
               />
               I agree to Pinzom's Terms and Privacy Policy</label
@@ -89,9 +71,15 @@
             <button class="btn" type="submit">Create free account</button>
             <div class="form-msg" role="status" aria-live="polite"></div>
           </form>
+          <section class="form recovery-panel" id="recoveryPanel" hidden>
+            <h2>Save your recovery code</h2>
+            <p>Keep this code somewhere safe. You’ll need it if you forget your password.</p>
+            <p><code id="recoveryCode"></code></p>
+            <a class="btn" href="profile.html">Continue to profile</a>
+          </section>
           <p>
             Already have an account?
-            <a href="login.html" style="color: #d92d6c">Log in</a>
+            <a href="login.html" class="accent-link">Log in</a>
           </p>
         </div>
         <div class="auth-visual">
@@ -102,6 +90,7 @@
     <footer class="footer">
       © <span data-year></span> Pinzom · Discover your next favorite bakery.
     </footer>
+    <script src="bakery-catalog.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

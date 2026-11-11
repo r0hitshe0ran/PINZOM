@@ -6,65 +6,51 @@
     <title>Bakery | Pinzom</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
-    <header class="container nav">
-      <a class="logo" href="index.html">pinzom<span>•</span></a>
-      <nav class="nav-links">
-        <a class="" href="index.html">Discover</a>
-        <a class="" href="how-it-works.html">How It Works</a>
-        <a class="active" href="explore.html">Explore</a>
-        <a class="" href="categories.html">Categories</a>
-        <a class="" href="reviews.html">Reviews</a>
-      </nav>
-      <input
-        class="search"
-        aria-label="Search bakeries"
-        placeholder="⌕  Search bakeries near you"
-      />
-      <a class="login-link" href="login.html">Log in</a>
-      <button
-        class="menu-toggle"
-        type="button"
-        aria-label="Open menu"
-        aria-expanded="false"
-      >
-        ☰
-      </button>
+  <body class="page-bakery">
+    <header class="site-header">
+      <div class="site-nav">
+        <a class="logo" href="index.html" aria-label="Pinzom home">pinzom<span>•</span></a>
+        <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+          <a href="index.html">Discover</a>
+          <a href="how-it-works.html">How It Works</a>
+          <a href="explore.html" class="active" aria-current="page">Explore</a>
+          <a href="categories.html">Categories</a>
+          <a href="reviews.html">Reviews</a>
+        </nav>
+        <a class="login-link" href="login.html">Log in</a>
+        <button class="menu-toggle" type="button" aria-controls="navLinks"
+          aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
     </header>
     <main>
       <section class="container hero bakery-hero" id="bakeryContent" hidden>
         <div>
           <span class="eyebrow" id="bakeryCategory"></span>
           <h1 id="bakeryName"></h1>
-          <div class="rating" id="bakeryRating"></div>
+          <div class="bakery-summary">
+            <div class="rating" id="bakeryRating"></div>
+            <span class="bakery-distance" data-distance="" hidden></span>
+          </div>
+          <div class="location-control" data-location-control>
+            <button class="location-button" type="button" data-use-location>Use my location</button>
+            <div class="location-status" role="status" data-location-status></div>
+          </div>
           <p id="bakeryDescription"></p>
-          <div class="actions">
-            <button
-              class="btn"
-              id="favoriteButton"
-              type="button"
-              data-label
-              data-fav=""
-            >
+          <p class="bakery-address" id="bakeryAddress" hidden></p>
+          <a class="accent-link" id="bakeryWebsite" target="_blank" rel="noopener" hidden>Visit website ↗</a>
+          <div class="actions bakery-main-actions">
+            <a class="btn" id="directionsLink" target="_blank" rel="noopener">Get directions ↗</a>
+            <a class="btn secondary" id="reviewLink" href="reviews.html">Write a review</a>
+          </div>
+          <div class="actions bakery-more-actions">
+            <button class="btn secondary" id="favoriteButton" type="button" data-label data-fav="">
               ♡ Save to favorites
             </button>
-            <a class="btn secondary" id="reviewLink" href="reviews.html"
-              >Write a review</a
-            >
-          </div>
-          <div class="actions">
-            <a
-              id="directionsLink"
-              href="https://www.google.com/maps"
-              target="_blank"
-              rel="noopener"
-              >Get directions →</a
-            >
-            <a href="explore.html">← Back to Explore</a>
+            <a class="btn secondary" href="explore.html">← Back to Explore</a>
           </div>
         </div>
         <div class="visual">
-          <img class="bakery-photo" id="bakeryImage" src="" alt="" />
+          <img class="bakery-photo" id="bakeryImage" alt="" />
         </div>
       </section>
 
@@ -72,7 +58,7 @@
         <h2 class="section-title" id="bakeryReviewCount">Reviews</h2>
         <div class="cards" id="bakeryReviews"></div>
         <p class="empty-state" id="noBakeryReviews" hidden>
-          No reviews yet. <a href="reviews.html" style="color: #d92d6c">Be the first to write one →</a>
+          No reviews yet. <a href="reviews.html" class="accent-link" id="firstReviewLink">Be the first to write one →</a>
         </p>
       </section>
 
@@ -87,6 +73,7 @@
     <footer class="footer">
       © <span data-year></span> Pinzom · Discover your next favorite bakery.
     </footer>
+    <script src="bakery-catalog.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

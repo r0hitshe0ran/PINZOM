@@ -6,64 +6,6 @@ document
    DATA + HELPERS
    ========================================================== */
 
-//BAKERY DATA (the same six bakeries that are shown on the Explore page)
-const BAKERIES = [
-  {
-    id: "fifth-avenue-cafe-bakery",
-    name: "Fifth Avenue Cafe & Bakery",
-    category: "cakes",
-    rating: 4.7,
-    distance: "1.36 km away",
-    description: "Fresh cakes and desserts.",
-    image: "images/1_Explorepage.png",
-  },
-  {
-    id: "la-vie-douce",
-    name: "La Vie Douce",
-    category: "pastries",
-    rating: 4.6,
-    distance: "0.38 km away",
-    description: "Buttery pastries and coffee.",
-    image: "images/2_Explorepage.png",
-  },
-  {
-    id: "krispy-kreme",
-    name: "Krispy Kreme",
-    category: "donuts",
-    rating: 4.8,
-    distance: "0.24 km away",
-    description: "Glazed and filled donuts.",
-    image: "images/3_Explorepage.png",
-  },
-  {
-    id: "dwija-bake-studio",
-    name: "Dwija Bake Studio",
-    category: "cookies",
-    rating: 4.8,
-    distance: "0.23 km away",
-    description: "Cookies and baked treats.",
-    image: "images/4 (2).png",
-  },
-  {
-    id: "sugar-and-rye",
-    name: "Sugar & Rye",
-    category: "cakes",
-    rating: 4.8,
-    distance: "0.52 km away",
-    description: "Celebration cakes and desserts.",
-    image: "images/5_Explorepage.png",
-  },
-  {
-    id: "campus-bakehouse",
-    name: "Campus Bakehouse",
-    category: "pastries",
-    rating: 4.7,
-    distance: "0.71 km away",
-    description: "Fresh bakes and coffee.",
-    image: "images/6_Explorepage.png",
-  },
-];
-
 //SMALL HELPERS
 function el(tag, className, text) {
   const node = document.createElement(tag);
@@ -89,97 +31,40 @@ function timeAgo(isoDate) {
   return weeks + (weeks === 1 ? " week ago" : " weeks ago");
 }
 
-function findBakeryByName(name) {
-  const wanted = name.trim().toLowerCase();
-  return BAKERIES.find((b) => b.name.toLowerCase() === wanted) || null;
-}
-
-//SAVING FORM DATA AS JSON
-//Every form saves its data as JSON text (users / reviews). The browser keeps it
-//between pages and visits, and "Download" gives a real .json file.
-//(Writing to a file on the server comes later, with Express in the 3rd evaluation.)
-const KEYS = {
-  users: "pinzom_users",
-  reviews: "pinzom_reviews",
-  session: "pinzom_session",
-};
-
-const Store = {
-  read(key) {
-    try {
-      return JSON.parse(localStorage.getItem(key)) || [];
-    } catch {
-      return [];
-    }
-  },
-  write(key, data) {
-    try {
-      localStorage.setItem(key, JSON.stringify(data, null, 2));
-      return true;
-    } catch {
-      return false;
-    }
-  },
-};
-
-function downloadJSON(filename, data) {
-  const blob = new Blob([JSON.stringify(data, null, 2)], {
-    type: "application/json",
+// Same-origin requests to the local JSON server.
+async function api(route, body) {
+  const response = await fetch("api/" + route, body === undefined ? undefined : {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
   });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  URL.revokeObjectURL(url);
+  if (!response.headers.get("content-type")?.includes("application/json")) {
+    throw new Error("Start Pinzom with node server.js to use account and review forms.");
+  }
+
+  const data = await response.json();
+  if (!response.ok) {
+    const error = new Error(data.message);
+    error.field = data.field;
+    throw error;
+  }
+  return data;
 }
 
-//Passwords are stored as a hash, never as plain text.
-async function hashPassword(password) {
-  if (window.crypto && crypto.subtle) {
-    const bytes = new TextEncoder().encode(password);
-    const digest = await crypto.subtle.digest("SHA-256", bytes);
-    return [...new Uint8Array(digest)]
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
-  }
-  let hash = 5381; //simple fallback when crypto.subtle is not available
-  for (const char of password) hash = (hash * 33) ^ char.charCodeAt(0);
-  return "x" + (hash >>> 0).toString(16);
+const pageParams = new URLSearchParams(window.location.search);
+const loginLink = document.querySelector(".login-link");
+let currentUser = null;
+let savedReviews = [];
+
+function setCurrentUser(user) {
+  currentUser = user;
+  loginLink.textContent = user ? "My profile" : "Log in";
+  loginLink.href = user ? "profile.html" : "login.html";
 }
 
-//LOGGED-IN USER (session)
-function getSession() {
-  try {
-    return localStorage.getItem(KEYS.session);
-  } catch {
-    return null;
-  }
-}
-function setSession(email) {
-  try {
-    localStorage.setItem(KEYS.session, email);
-  } catch {}
-}
-function clearSession() {
-  try {
-    localStorage.removeItem(KEYS.session);
-  } catch {}
-}
-function getCurrentUser() {
-  const email = getSession();
-  if (!email) return null;
-  return Store.read(KEYS.users).find((u) => u.email === email) || null;
-}
-function saveUser(user) {
-  const users = Store.read(KEYS.users).map((u) => (u.id === user.id ? user : u));
-  return Store.write(KEYS.users, users);
-}
-function redirectTo(page) {
-  setTimeout(() => (window.location.href = page), 900);
-}
+const sessionReady = window.location.protocol === "file:"
+  ? Promise.resolve()
+  : api("session").then(({ user }) => setCurrentUser(user)).catch(() => {});
 
 //TOAST MESSAGE (small popup instead of alert())
 function showToast(message, linkText, linkHref) {
@@ -204,31 +89,26 @@ function showToast(message, linkText, linkHref) {
    HEADER (all pages)
    ========================================================== */
 
-//LOGIN LINK SHOWS THE USER'S NAME WHEN LOGGED IN
-const loginLink = document.querySelector(".login-link");
-const loggedInUser = getCurrentUser();
-if (loginLink && loggedInUser) {
-  loginLink.textContent = loggedInUser.fullName.split(" ")[0];
-  loginLink.href = "profile.html";
-  loginLink.title = "Your profile";
-}
-
-//MOBILE MENU BUTTON
 const menuToggle = document.querySelector(".menu-toggle");
 const navLinks = document.querySelector(".nav-links");
-if (menuToggle && navLinks) {
-  menuToggle.addEventListener("click", () => {
-    const isOpen = navLinks.classList.toggle("open");
-    menuToggle.setAttribute("aria-expanded", String(isOpen));
-    menuToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
-  });
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      navLinks.classList.remove("open");
-      menuToggle.setAttribute("aria-expanded", "false");
-    }
-  });
+
+function setMenu(open) {
+  navLinks.classList.toggle("open", open);
+  menuToggle.setAttribute("aria-expanded", String(open));
+  menuToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  menuToggle.textContent = open ? "✕" : "☰";
 }
+
+menuToggle.addEventListener("click", () =>
+  setMenu(menuToggle.getAttribute("aria-expanded") !== "true"),
+);
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && navLinks.classList.contains("open")) {
+    setMenu(false);
+    menuToggle.focus();
+  }
+});
 
 /* ==========================================================
    EXPLORE + REVIEWS PAGE FILTERING
@@ -237,10 +117,63 @@ if (menuToggle && navLinks) {
 const filterButtons = document.querySelectorAll("[data-filter]");
 const searchBox = document.getElementById("searchBox");
 const noResults = document.getElementById("noResults");
+const exploreBakeries = document.getElementById("exploreBakeries");
+
+function buildBakeryCard(bakery, showDistance = false) {
+  const card = el("article", "card bakery");
+  card.dataset.category = bakery.category;
+  const href = "bakery.html?id=" + encodeURIComponent(bakery.id);
+
+  const favorite = el("button", "fav-btn", "♡");
+  favorite.type = "button";
+  favorite.dataset.fav = bakery.id;
+  favorite.setAttribute("aria-label", "Favorite " + bakery.name);
+  card.append(favorite);
+
+  if (bakery.image) {
+    const imageLink = el("a", "card-link");
+    imageLink.href = href;
+    const frame = el("div", "bakery-image");
+    const image = el("img");
+    image.src = bakery.image;
+    image.alt = bakery.name;
+    image.loading = "lazy";
+    frame.append(image);
+    imageLink.append(frame);
+    card.append(imageLink);
+  } else {
+    card.classList.add("bakery-text-card");
+  }
+
+  const title = el("h3");
+  const link = el("a", "", bakery.name);
+  link.href = href;
+  title.append(link);
+  card.append(title);
+
+  const summary = el("div", "bakery-summary");
+  if (bakery.rating) summary.append(el("span", "rating", "★ " + bakery.rating));
+  if (showDistance) {
+    const distance = el("span", "bakery-distance");
+    distance.dataset.distance = bakery.id;
+    distance.hidden = true;
+    summary.append(distance);
+  }
+  card.append(summary, el("p", "", bakery.description));
+  if (bakery.address) card.append(el("p", "bakery-address", bakery.address));
+  return card;
+}
+
+if (exploreBakeries) {
+  noResults.before(...BAKERIES.map((bakery) => buildBakeryCard(bakery, true)));
+}
 
 function selectFilterButton(button) {
-  filterButtons.forEach((b) => b.classList.remove("selected"));
-  button.classList.add("selected");
+  filterButtons.forEach((candidate) => {
+    const selected = candidate === button;
+    candidate.classList.toggle("selected", selected);
+    candidate.setAttribute("aria-pressed", String(selected));
+  });
 }
 
 function applyFilters() {
@@ -253,7 +186,7 @@ function applyFilters() {
     .querySelectorAll(".bakery[data-category], .review-card[data-category]")
     .forEach((item) => {
       const text =
-        [...item.querySelectorAll("h3, p")].map((n) => n.textContent).join(" ") +
+        [...item.querySelectorAll("h3, p, blockquote")].map((n) => n.textContent).join(" ") +
         " " +
         item.dataset.category;
       const matches =
@@ -274,60 +207,45 @@ filterButtons.forEach((button) => {
 });
 if (searchBox) searchBox.addEventListener("input", applyFilters);
 
-//HEADER SEARCH BOX: press Enter to search bakeries
-const headerSearch = document.querySelector(".nav .search");
-if (headerSearch) {
-  headerSearch.addEventListener("keydown", (event) => {
-    if (event.key !== "Enter") return;
-    const query = headerSearch.value.trim();
-    if (searchBox) {
-      searchBox.value = query;
-      applyFilters();
-    } else {
-      window.location.href =
-        "explore.html" + (query ? "?q=" + encodeURIComponent(query) : "");
-    }
-  });
-}
-
-//OPENING EXPLORE FROM ANOTHER PAGE (?category=cakes&q=rye)
-if (searchBox) {
-  const params = new URLSearchParams(window.location.search);
-  const wantedCategory = params.get("category");
-  const wantedButton = [...filterButtons].find(
-    (b) => b.dataset.filter === wantedCategory,
+if (filterButtons.length) {
+  const initialFilter = [...filterButtons].find(
+    (button) => button.dataset.filter === pageParams.get("category"),
   );
-  if (wantedButton) selectFilterButton(wantedButton);
-  if (params.get("q")) {
-    searchBox.value = params.get("q");
-    if (headerSearch) headerSearch.value = params.get("q");
-  }
+  selectFilterButton(initialFilter || filterButtons[0]);
+  if (searchBox) searchBox.value = pageParams.get("q") || "";
+  applyFilters();
 }
-applyFilters();
 
 /* ==========================================================
    FAVORITES (heart buttons on Explore + Bakery page)
    Saved inside the logged-in user's record in users.json
    ========================================================== */
-function toggleFavorite(bakeryId) {
-  const user = getCurrentUser();
-  if (!user) {
+async function toggleFavorite(bakeryId) {
+  await sessionReady;
+  if (!currentUser) {
     showToast("Please log in to save favorites.", "Log in", "login.html");
     return;
   }
-  user.favorites = user.favorites || [];
-  const index = user.favorites.indexOf(bakeryId);
-  if (index === -1) user.favorites.push(bakeryId);
-  else user.favorites.splice(index, 1);
-  saveUser(user);
-  showToast(index === -1 ? "Saved to your favorites." : "Removed from favorites.");
-  document.dispatchEvent(new CustomEvent("favoritesChanged"));
+
+  try {
+    const { user, saved } = await api("favorites", { bakeryId });
+    setCurrentUser(user);
+    showToast(saved ? "Saved to your favorites." : "Removed from favorites.");
+    document.dispatchEvent(new CustomEvent("favoritesChanged"));
+  } catch (error) {
+    showToast(error.message);
+  }
 }
 
 function refreshFavoriteButtons() {
-  const user = getCurrentUser();
+  const user = currentUser;
   document.querySelectorAll("[data-fav]").forEach((button) => {
     const saved = !!user && (user.favorites || []).includes(button.dataset.fav);
+    const bakery = findCatalogBakery(button.dataset.fav);
+    if (bakery && !("label" in button.dataset)) {
+      button.setAttribute("aria-label", (saved ? "Remove " : "Save ") + bakery.name +
+        (saved ? " from favorites" : " to favorites"));
+    }
     const icon = saved ? "♥" : "♡";
     button.classList.toggle("is-saved", saved);
     button.setAttribute("aria-pressed", String(saved));
@@ -340,10 +258,12 @@ function refreshFavoriteButtons() {
 
 document.addEventListener("click", (event) => {
   const button = event.target.closest("[data-fav]");
-  if (button) toggleFavorite(button.dataset.fav);
+  if (!button || !button.dataset.fav || button.disabled) return;
+  button.disabled = true;
+  toggleFavorite(button.dataset.fav).finally(() => { button.disabled = false; });
 });
 document.addEventListener("favoritesChanged", refreshFavoriteButtons);
-refreshFavoriteButtons();
+sessionReady.then(refreshFavoriteButtons);
 
 /* ==========================================================
    FORM VALIDATION (signup, login, forgot password, review)
@@ -352,7 +272,7 @@ const RULES = {
   fullName(value) {
     if (!value) return "Please enter your full name.";
     if (value.length < 2) return "Name must be at least 2 characters.";
-    if (!/^\p{L}[\p{L} .'-]*$/u.test(value))
+    if (!/^\p{L}[\p{L}\p{M} .'-]*$/u.test(value))
       return "Name can only contain letters, spaces, . ' and -";
     return "";
   },
@@ -374,16 +294,11 @@ const RULES = {
       return "Passwords do not match.";
     return "";
   },
-  required(value, field) {
+  required(value) {
     return value ? "" : "Please fill in this field.";
   },
   terms(checked) {
     return checked ? "" : "You need to accept the Terms and Privacy Policy.";
-  },
-  bakery(value) {
-    if (!value) return "Please tell us which bakery you are reviewing.";
-    if (value.length < 2) return "Bakery name is too short.";
-    return "";
   },
   reviewText(value) {
     if (!value) return "Please write a few words about your visit.";
@@ -397,6 +312,8 @@ const RULES = {
 
 function fieldValue(field) {
   if (field.type === "checkbox") return field.checked;
+  if (field.type === "password" || field.name === "password" || field.name === "confirmPassword")
+    return field.value;
   if ("value" in field && field.value !== undefined && field.tagName !== "DIV")
     return field.value.trim();
   return field.dataset.value || ""; //star rating group
@@ -410,7 +327,11 @@ function setFieldError(field, message) {
     : null;
   field.classList.toggle("invalid", !!message);
   field.setAttribute("aria-invalid", String(!!message));
-  if (errorBox) errorBox.textContent = message;
+  if (errorBox) {
+    errorBox.id ||= "error-" + key;
+    field.setAttribute("aria-describedby", errorBox.id);
+    errorBox.textContent = message;
+  }
 }
 
 function validateField(field) {
@@ -469,135 +390,97 @@ document.querySelectorAll(".form input[type='password']").forEach((input) => {
    FORM SUBMISSION HANDLERS
    ========================================================== */
 
-//SIGN UP -> adds a user to users.json
 async function handleSignup(form) {
-  const f = form.elements;
-  const email = f.email.value.trim().toLowerCase();
-  const users = Store.read(KEYS.users);
-  if (users.some((u) => u.email === email)) {
-    setFieldError(f.email, "An account with this email already exists.");
-    f.email.focus();
-    return;
-  }
-  const user = {
-    id: "u" + Date.now(),
-    fullName: f.fullName.value.trim().replace(/\s+/g, " "),
-    email,
-    passwordHash: await hashPassword(f.password.value),
-    acceptedTerms: true,
-    favorites: [],
-    createdAt: new Date().toISOString(),
-  };
-  users.push(user);
-  if (!Store.write(KEYS.users, users)) {
-    showFormMessage(form, "error", "Could not save your account in this browser.");
-    return;
-  }
-  setSession(user.email);
-  showFormMessage(form, "success", "Account created! Taking you to your profile…");
-  redirectTo("profile.html");
+  const fields = form.elements;
+  const { user, recoveryCode } = await api("signup", {
+    fullName: fields.fullName.value.trim(),
+    email: fields.email.value.trim(),
+    password: fields.password.value,
+    acceptedTerms: fields.terms.checked,
+  });
+  setCurrentUser(user);
+  form.reset();
+  form.hidden = true;
+  document.getElementById("recoveryCode").textContent = recoveryCode;
+  const panel = document.getElementById("recoveryPanel");
+  panel.hidden = false;
+  panel.querySelector("a").focus();
 }
 
-//LOG IN -> checks the saved users
 async function handleLogin(form) {
-  const f = form.elements;
-  const id = f.identifier.value.trim().toLowerCase();
-  const user = Store.read(KEYS.users).find(
-    (u) => u.email === id || u.fullName.toLowerCase() === id,
-  );
-  if (!user) {
-    showFormMessage(form, "error", "No account found for that email or username.", "Sign up", "signup.html");
-    return;
-  }
-  if (user.passwordHash !== (await hashPassword(f.password.value))) {
-    showFormMessage(form, "error", "Incorrect password. Please try again.");
-    return;
-  }
-  setSession(user.email);
-  showFormMessage(form, "success", "Welcome back, " + user.fullName.split(" ")[0] + "! Taking you to your profile…");
-  redirectTo("profile.html");
+  const fields = form.elements;
+  const { user } = await api("login", {
+    identifier: fields.identifier.value.trim(),
+    password: fields.password.value,
+  });
+  setCurrentUser(user);
+  const bakery = pageParams.get("reviewBakery");
+  window.location.href = pageParams.has("reviewBakery")
+    ? "reviews.html" + (bakery ? "?bakery=" + encodeURIComponent(bakery) : "")
+    : "profile.html";
 }
 
-//FORGOT PASSWORD -> updates the saved password (no email is sent in this demo)
 async function handleForgot(form) {
-  const f = form.elements;
-  const email = f.email.value.trim().toLowerCase();
-  const users = Store.read(KEYS.users);
-  const user = users.find((u) => u.email === email);
-  if (!user) {
-    setFieldError(f.email, "No account found with this email.");
-    f.email.focus();
-    return;
-  }
-  user.passwordHash = await hashPassword(f.password.value);
-  user.updatedAt = new Date().toISOString();
-  if (!Store.write(KEYS.users, users)) {
-    showFormMessage(form, "error", "Could not save the new password in this browser.");
-    return;
-  }
+  const fields = form.elements;
+  await api("reset-password", {
+    email: fields.email.value.trim(),
+    password: fields.password.value,
+    recoveryCode: fields.recoveryCode.value.trim(),
+  });
+  setCurrentUser(null);
   form.reset();
   showFormMessage(form, "success", "Password updated.", "Log in →", "login.html");
 }
 
-//REVIEW -> adds a review to reviews.json and shows it on the page
 function buildReviewCard(review) {
-  const card = el("article", "card review-card");
+  const card = el("article", "review-card");
   card.dataset.category = review.category || "";
 
-  const person = el("div", "review-person");
-  person.append(el("span", "review-avatar", review.author.charAt(0).toUpperCase()));
+  const person = el("header", "reviewer");
+  const avatar = el("span", "avatar", review.author.charAt(0).toUpperCase());
+  avatar.setAttribute("aria-hidden", "true");
   const info = el("div");
-  info.append(el("strong", "", review.author), el("small", "", timeAgo(review.createdAt)));
-  person.append(info);
+  info.append(
+    el("h2", "reviewer-name", review.author),
+    el("p", "review-date", timeAgo(review.createdAt)),
+  );
+  person.append(avatar, info);
 
-  const title = el("h3");
+  const title = el("h3", "bakery-name", review.bakery);
   if (review.bakeryId) {
     const link = el("a", "", review.bakery);
-    link.href = "bakery.html?id=" + review.bakeryId;
-    title.append(link);
-  } else {
-    title.textContent = review.bakery;
+    link.href = "bakery.html?id=" + encodeURIComponent(review.bakeryId);
+    title.replaceChildren(link);
   }
 
-  card.append(
-    person,
-    el("div", "rating", stars(review.rating)),
-    title,
-    el("p", "", "“" + review.text + "”"),
-  );
+  const rating = el("div", "stars", stars(review.rating));
+  rating.setAttribute("aria-label", review.rating + " out of 5 stars");
+  card.append(person, rating, title, el("blockquote", "", "“" + review.text + "”"));
   return card;
 }
 
-function handleReview(form) {
-  const user = getCurrentUser();
-  if (!user) {
-    showFormMessage(form, "error", "Please log in to post a review.", "Log in", "login.html");
+async function handleReview(form) {
+  await sessionReady;
+  const fields = form.elements;
+  if (!currentUser) {
+    const loginHref = "login.html?reviewBakery=" + encodeURIComponent(fields.bakeryId.value);
+    showFormMessage(form, "error", "Please log in to post a review.", "Log in", loginHref);
     return;
   }
-  const f = form.elements;
+
+  await reviewsReady;
   const ratingGroup = form.querySelector(".star-input");
-  const bakeryName = f.bakery.value.trim();
-  const match = findBakeryByName(bakeryName);
-  const review = {
-    id: "r" + Date.now(),
-    bakeryId: match ? match.id : null,
-    bakery: match ? match.name : bakeryName,
-    category: match ? match.category : "",
+  const { review } = await api("reviews", {
+    bakeryId: fields.bakeryId.value,
     rating: Number(ratingGroup.dataset.value),
-    text: f.text.value.trim(),
-    author: user.fullName,
-    email: user.email,
-    createdAt: new Date().toISOString(),
-  };
-  const reviews = Store.read(KEYS.reviews);
-  reviews.push(review);
-  if (!Store.write(KEYS.reviews, reviews)) {
-    showFormMessage(form, "error", "Could not save your review in this browser.");
-    return;
-  }
-  document.querySelector(".reviews-grid").prepend(buildReviewCard(review));
+    text: fields.text.value.trim(),
+  });
+  document.querySelector(".reviews").prepend(buildReviewCard(review));
   form.reset();
+  ratingGroup.dataset.value = "";
   paintStars(ratingGroup, 0);
+  const selected = document.querySelector("[data-filter].selected")?.dataset.filter;
+  if (selected !== "all" && selected !== review.category) selectFilterButton(filterButtons[0]);
   applyFilters();
   showToast("Thanks! Your review has been posted.");
 }
@@ -628,56 +511,66 @@ document.querySelectorAll("form[data-form]").forEach((form) => {
     form.dataset.busy = "true";
     try {
       await formHandlers[form.dataset.form](form);
+    } catch (error) {
+      const field = form.elements[error.field];
+      if (field && field instanceof HTMLElement) {
+        setFieldError(field, error.message);
+        field.focus();
+      } else {
+        showFormMessage(form, "error", error.message);
+      }
     } finally {
       delete form.dataset.busy;
     }
   });
 });
 
-//GOOGLE BUTTON (not connected yet)
-document.querySelectorAll("[data-google]").forEach((button) => {
-  button.addEventListener("click", () =>
-    showFormMessage(
-      button.form,
-      "info",
-      "Google sign-in isn't available yet. Please use your email and password.",
-    ),
-  );
-});
-
 /* ==========================================================
    REVIEWS PAGE
    ========================================================== */
-function paintStars(group, value) {
+const reviewForm = document.querySelector("[data-form='review']");
+const reviewsGrid = document.querySelector(".reviews");
+const reviewsReady = (reviewsGrid || document.getElementById("bakeryContent") || document.getElementById("profileMain"))
+  && window.location.protocol !== "file:"
+  ? api("reviews").then(({ reviews }) => { savedReviews = reviews; }).catch(() => {})
+  : Promise.resolve();
+
+function paintStars(group, value, selected = value) {
   group.querySelectorAll(".star").forEach((star) => {
-    const filled = Number(star.dataset.value) <= value;
-    star.textContent = filled ? "★" : "☆";
-    star.setAttribute("aria-checked", String(Number(star.dataset.value) === value));
+    const rating = Number(star.dataset.value);
+    star.textContent = rating <= value ? "★" : "☆";
+    star.setAttribute("aria-pressed", String(rating === selected));
   });
 }
 
-const reviewForm = document.querySelector("[data-form='review']");
-const reviewsGrid = document.querySelector(".reviews-grid");
 if (reviewForm && reviewsGrid) {
-  //show reviews saved earlier (newest first)
-  Store.read(KEYS.reviews).forEach((review) =>
-    reviewsGrid.prepend(buildReviewCard(review)),
-  );
+  reviewsReady.then(() => {
+    savedReviews
+      .filter((review) => review.bakeryId)
+      .forEach((review) => reviewsGrid.prepend(buildReviewCard(review)));
+    applyFilters();
+  });
 
-  //bakery name suggestions
-  const options = document.getElementById("bakeryOptions");
-  if (options)
-    BAKERIES.forEach((b) => {
-      const option = document.createElement("option");
-      option.value = b.name;
-      options.appendChild(option);
-    });
+  const bakeryField = reviewForm.elements.bakeryId;
+  for (const bakery of BAKERIES) {
+    const option = el("option", "", bakery.name);
+    option.value = bakery.id;
+    bakeryField.appendChild(option);
+  }
 
-  //?bakery=La Vie Douce pre-fills the form (link from a bakery page)
-  const wantedBakery = new URLSearchParams(window.location.search).get("bakery");
-  if (wantedBakery) reviewForm.elements.bakery.value = wantedBakery;
+  const wantedBakery = findCatalogBakery(pageParams.get("bakery"))?.id || "";
+  bakeryField.value = wantedBakery;
+  sessionReady.then(() => {
+    const notice = reviewForm.querySelector(".login-notice");
+    const login = notice.querySelector("a");
+    const updateLoginLink = () => {
+      login.href = "login.html?reviewBakery=" + encodeURIComponent(bakeryField.value);
+    };
+    notice.hidden = !!currentUser;
+    updateLoginLink();
+    bakeryField.addEventListener("change", updateLoginLink);
+  });
 
-  //star rating
   const ratingGroup = reviewForm.querySelector(".star-input");
   ratingGroup.addEventListener("click", (event) => {
     const star = event.target.closest(".star");
@@ -688,15 +581,11 @@ if (reviewForm && reviewsGrid) {
   });
   ratingGroup.addEventListener("mouseover", (event) => {
     const star = event.target.closest(".star");
-    if (star) paintStars(ratingGroup, Number(star.dataset.value));
+    if (star) paintStars(ratingGroup, Number(star.dataset.value), Number(ratingGroup.dataset.value));
   });
   ratingGroup.addEventListener("mouseleave", () =>
-    paintStars(ratingGroup, Number(ratingGroup.dataset.value || 0)),
+    paintStars(ratingGroup, Number(ratingGroup.dataset.value)),
   );
-
-  if (!getCurrentUser())
-    showFormMessage(reviewForm, "info", "Log in to post your own review.", "Log in", "login.html");
-  applyFilters();
 }
 
 /* ==========================================================
@@ -713,42 +602,60 @@ if (bakeryContent) {
   } else {
     document.title = bakery.name + " | Pinzom";
     const image = document.getElementById("bakeryImage");
-    image.src = bakery.image;
-    image.alt = bakery.name;
+    const visual = image.closest(".visual");
+    visual.hidden = !bakery.image;
+    if (bakery.image) {
+      image.src = bakery.image;
+      image.alt = bakery.name;
+    }
     document.getElementById("bakeryCategory").textContent =
-      bakery.category.charAt(0).toUpperCase() + bakery.category.slice(1);
+      bakery.category === "cafes" ? "Cafés" :
+        bakery.category.charAt(0).toUpperCase() + bakery.category.slice(1);
     document.getElementById("bakeryName").textContent = bakery.name;
-    document.getElementById("bakeryRating").textContent =
-      "★ " + bakery.rating + " · " + bakery.distance;
+    const rating = document.getElementById("bakeryRating");
+    rating.hidden = !bakery.rating;
+    if (bakery.rating) rating.textContent = "★ " + bakery.rating;
+    bakeryContent.querySelector("[data-distance]").dataset.distance = bakery.id;
     document.getElementById("bakeryDescription").textContent = bakery.description;
+    const address = document.getElementById("bakeryAddress");
+    address.textContent = bakery.address || bakery.mapsDestination || "";
+    address.hidden = !address.textContent;
+    const website = document.getElementById("bakeryWebsite");
+    if (bakery.website) {
+      website.href = bakery.website;
+      website.hidden = false;
+    }
     document.getElementById("favoriteButton").dataset.fav = bakery.id;
-    document.getElementById("reviewLink").href =
-      "reviews.html?bakery=" + encodeURIComponent(bakery.name);
+    const reviewHref = "reviews.html?bakery=" + encodeURIComponent(bakery.id);
+    document.getElementById("reviewLink").href = reviewHref;
+    document.getElementById("firstReviewLink").href = reviewHref;
     document.getElementById("directionsLink").href =
-      "https://www.google.com/maps/search/?api=1&query=" +
-      encodeURIComponent(bakery.name);
+      "https://www.google.com/maps/dir/?api=1&destination=" +
+      encodeURIComponent(bakery.mapsDestination || bakery.name + ", " + bakery.address);
     bakeryContent.hidden = false;
     refreshFavoriteButtons();
 
-    //reviews that visitors saved for this bakery
-    const list = document.getElementById("bakeryReviews");
-    const saved = Store.read(KEYS.reviews)
-      .filter((r) => r.bakeryId === bakery.id)
-      .reverse();
-    document.getElementById("bakeryReviewCount").textContent = saved.length
-      ? "Reviews (" + saved.length + ")"
-      : "Reviews";
-    saved.forEach((r) => {
-      const card = el("article", "card review-card");
-      card.append(
-        el("h4", "", r.author),
-        el("div", "rating", stars(r.rating)),
-        el("p", "", "“" + r.text + "”"),
-        el("span", "review-meta", timeAgo(r.createdAt)),
-      );
-      list.appendChild(card);
+    reviewsReady.then(() => {
+      //reviews that visitors saved for this bakery
+      const list = document.getElementById("bakeryReviews");
+      const saved = savedReviews
+        .filter((r) => r.bakeryId === bakery.id)
+        .reverse();
+      document.getElementById("bakeryReviewCount").textContent = saved.length
+        ? "Reviews (" + saved.length + ")"
+        : "Reviews";
+      saved.forEach((r) => {
+        const card = el("article", "card review-card");
+        card.append(
+          el("h4", "", r.author),
+          el("div", "rating", stars(r.rating)),
+          el("p", "", "“" + r.text + "”"),
+          el("span", "review-meta", timeAgo(r.createdAt)),
+        );
+        list.appendChild(card);
+      });
+      document.getElementById("noBakeryReviews").hidden = saved.length > 0;
     });
-    document.getElementById("noBakeryReviews").hidden = saved.length > 0;
   }
 }
 
@@ -756,8 +663,8 @@ if (bakeryContent) {
    PROFILE PAGE
    ========================================================== */
 const profileMain = document.getElementById("profileMain");
-if (profileMain) {
-  const user = getCurrentUser();
+if (profileMain) Promise.all([sessionReady, reviewsReady]).then(() => {
+  const user = currentUser;
   document.getElementById("profileGuest").hidden = !!user;
   profileMain.hidden = !user;
 
@@ -770,46 +677,17 @@ if (profileMain) {
       user.createdAt,
     ).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
 
-    //saved bakeries + this user's reviews + a preview of the saved JSON
+    // Saved bakeries and reviews from the signed-in account.
     const renderProfileData = () => {
-      const fresh = getCurrentUser();
+      const fresh = currentUser;
       const favList = document.getElementById("favoriteList");
       favList.replaceChildren();
       const favorites = BAKERIES.filter((b) => (fresh.favorites || []).includes(b.id));
-      favorites.forEach((b) => {
-        const card = el("div", "card bakery");
-        const heart = el("button", "fav-btn", "♥");
-        heart.type = "button";
-        heart.dataset.fav = b.id;
-        heart.setAttribute("aria-label", "Remove " + b.name + " from favorites");
-
-        const imageLink = el("a", "card-link");
-        imageLink.href = "bakery.html?id=" + b.id;
-        const frame = el("div", "bakery-image");
-        const img = document.createElement("img");
-        img.src = b.image;
-        img.alt = b.name;
-        frame.appendChild(img);
-        imageLink.appendChild(frame);
-
-        const title = el("h3");
-        const titleLink = el("a", "", b.name);
-        titleLink.href = "bakery.html?id=" + b.id;
-        title.appendChild(titleLink);
-
-        card.append(
-          heart,
-          imageLink,
-          title,
-          el("div", "rating", "★ " + b.rating + " · " + b.distance),
-          el("p", "", b.description),
-        );
-        favList.appendChild(card);
-      });
+      favList.append(...favorites.map((bakery) => buildBakeryCard(bakery)));
       document.getElementById("noFavorites").hidden = favorites.length > 0;
 
-      const myReviews = Store.read(KEYS.reviews)
-        .filter((r) => r.email === fresh.email)
+      const myReviews = savedReviews
+        .filter((r) => r.userId === fresh.id)
         .reverse();
       const reviewList = document.getElementById("myReviewList");
       reviewList.replaceChildren();
@@ -829,29 +707,29 @@ if (profileMain) {
           el("p", "", "“" + r.text + "”"),
           el("span", "review-meta", timeAgo(r.createdAt)),
         );
+        if (!r.bakeryId) {
+          card.append(el("p", "review-meta", "This bakery is outside the current Explore catalog."));
+        }
         reviewList.appendChild(card);
       });
       document.getElementById("noMyReviews").hidden = myReviews.length > 0;
 
-      document.getElementById("dataPreview").textContent = JSON.stringify(fresh, null, 2);
+      refreshFavoriteButtons();
     };
     renderProfileData();
     document.addEventListener("favoritesChanged", renderProfileData);
 
-    document.getElementById("downloadUsers").addEventListener("click", () => {
-      downloadJSON("users.json", Store.read(KEYS.users));
-      showToast("users.json downloaded.");
-    });
-    document.getElementById("downloadReviews").addEventListener("click", () => {
-      downloadJSON("reviews.json", Store.read(KEYS.reviews));
-      showToast("reviews.json downloaded.");
-    });
-    document.getElementById("logoutButton").addEventListener("click", () => {
-      clearSession();
-      window.location.href = "login.html";
+    document.getElementById("logoutButton").addEventListener("click", async () => {
+      try {
+        await api("logout", {});
+        setCurrentUser(null);
+        window.location.href = "login.html";
+      } catch (error) {
+        showToast(error.message);
+      }
     });
   }
-}
+});
 
 /* ==========================================================
    CATEGORY PAGE BUTTONS
@@ -863,6 +741,11 @@ const categoryImages = document.querySelectorAll("[data-category-image]");
 const categoryExploreLink = document.getElementById("categoryExploreLink");
 
 if (categoryButtons.length && categoryImages.length) {
+  categoryButtons.forEach((button) => {
+    const count = BAKERIES.filter((bakery) => bakery.category === button.dataset.category).length;
+    const label = button.dataset.category === "cafes" ? "cafés" : count === 1 ? "bakery" : "bakeries";
+    button.querySelector(".count").textContent = count + " " + label;
+  });
   const validCategories = [...categoryButtons].map(
     (button) => button.dataset.category,
   );
@@ -887,7 +770,7 @@ if (categoryButtons.length && categoryImages.length) {
     );
     if (categoryExploreLink) {
       categoryExploreLink.href = "explore.html?category=" + selectedCategory;
-      categoryExploreLink.textContent = "Explore " + selectedCategory + " →";
+      categoryExploreLink.textContent = "Explore " + (selectedCategory === "cafes" ? "cafés" : selectedCategory) + " →";
     }
   }
 
@@ -897,4 +780,104 @@ if (categoryButtons.length && categoryImages.length) {
     ),
   );
   selectCategory(requestedCategory || "cakes");
+}
+
+function distanceInKilometres(from, to) {
+  const radians = Math.PI / 180;
+  const latitude = (to.latitude - from.latitude) * radians;
+  const longitude = (to.longitude - from.longitude) * radians;
+  const halfChord =
+    Math.sin(latitude / 2) ** 2 +
+    Math.cos(from.latitude * radians) * Math.cos(to.latitude * radians) *
+    Math.sin(longitude / 2) ** 2;
+  return 2 * 6371 * Math.asin(Math.sqrt(Math.min(1, halfChord)));
+}
+
+const locationControl = document.querySelector("[data-location-control]");
+if (locationControl) {
+  const button = locationControl.querySelector("[data-use-location]");
+  const status = locationControl.querySelector("[data-location-status]");
+  const distances = [...document.querySelectorAll("[data-distance]")]
+    .filter((node) => node.dataset.distance)
+    .map((node) => ({ node, coordinates: findCatalogBakery(node.dataset.distance)?.coordinates }));
+  const available = distances.filter(({ coordinates }) => coordinates);
+
+  if (!available.length) {
+    button.hidden = true;
+    if (distances.length) status.textContent = "Distance unavailable for this bakery.";
+  } else {
+    button.addEventListener("click", () => {
+      if (!window.isSecureContext) {
+        status.textContent = "Location access requires localhost or a secure connection.";
+        return;
+      }
+      if (!navigator.geolocation) {
+        status.textContent = "This browser doesn’t support location access.";
+        return;
+      }
+      button.disabled = true;
+      status.textContent = "Getting your location…";
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        for (const { node, coordinates } of distances) {
+          if (coordinates) {
+            const km = distanceInKilometres(coords, coordinates);
+            const amount = km < 0.1 ? "Less than 0.1" : km.toFixed(km < 10 ? 1 : 0);
+            node.textContent = amount + " km away";
+          } else {
+            node.textContent = "Distance unavailable";
+          }
+          node.hidden = false;
+        }
+        status.textContent = "Distance estimates follow the shortest direct path.";
+        button.textContent = "Update my location";
+        button.disabled = false;
+      }, (error) => {
+        for (const { node } of distances) node.hidden = true;
+        status.textContent = error.code === 1
+          ? "Location access is blocked. Allow it in your browser’s site settings and try again."
+          : "Couldn’t get your location. Try again.";
+        button.textContent = "Use my location";
+        button.disabled = false;
+      }, { timeout: 10000 });
+    });
+  }
+}
+
+// Assemble the dessert layers as the page scrolls.
+if (document.body.classList.contains("page-home") &&
+    !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const stages = [...document.querySelectorAll(".split-stage")].map((stage) => ({
+    stage,
+    layers: [...stage.querySelectorAll("[data-shift]")],
+    originalWidth: stage.classList.contains("pastry-stage") ? 941 : 1122,
+  }));
+  let framePending = false;
+
+  function animateDesserts() {
+    framePending = false;
+    const viewportHeight = window.innerHeight;
+    const start = viewportHeight * 0.94;
+    const end = viewportHeight * 0.24;
+
+    for (const { stage, layers, originalWidth } of stages) {
+      const { top, width } = stage.getBoundingClientRect();
+      const progress = Math.min(1, Math.max(0, (start - top) / (start - end)));
+      const eased = progress * progress * (3 - 2 * progress);
+      const separation = (1 - eased) * 2.4 * width / originalWidth;
+      for (const layer of layers) {
+        layer.style.transform = "translateY(" + Number(layer.dataset.shift) * separation + "px)";
+      }
+    }
+  }
+
+  function scheduleDesserts() {
+    if (framePending) return;
+    framePending = true;
+    requestAnimationFrame(animateDesserts);
+  }
+
+  animateDesserts();
+  window.addEventListener("scroll", scheduleDesserts, { passive: true });
+  window.addEventListener("resize", scheduleDesserts);
+  window.addEventListener("load", scheduleDesserts);
 }

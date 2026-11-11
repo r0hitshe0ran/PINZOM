@@ -1,5 +1,6 @@
 "use strict";
 
+// Dependencies: Node APIs and the shared bakery catalog
 const http = require("node:http");
 const { createReadStream } = require("node:fs");
 const fs = require("node:fs/promises");
@@ -8,6 +9,7 @@ const { randomBytes, randomUUID, scrypt, timingSafeEqual } = require("node:crypt
 const { promisify } = require("node:util");
 const { BAKERIES, findCatalogBakery } = require("./bakery-catalog.js");
 
+// Configuration: local address, data directory, and request limits
 const HOST = "127.0.0.1";
 const PORT = Number(process.env.PORT || 3000);
 const DATA_DIR = path.resolve(process.env.PINZOM_DATA_DIR || path.join(__dirname, "data"));
@@ -16,6 +18,7 @@ const SESSION_SECONDS = 24 * 60 * 60;
 const MAX_BODY_BYTES = 16 * 1024;
 const deriveKey = promisify(scrypt);
 const sessions = new Map();
+// Public files: pages, scripts, styles, and supported media types
 const pages = new Set([
   "index.html", "how-it-works.html", "explore.html", "categories.html",
   "reviews.html", "bakery.html", "login.html", "signup.html",
@@ -32,6 +35,7 @@ const fileTypes = {
   ".svg": "image/svg+xml",
 };
 
+// HTTP helpers: send JSON and validate incoming request bodies
 class RequestError extends Error {
   constructor(status, message, field) {
     super(message);
@@ -80,6 +84,7 @@ async function readBody(request) {
   return body;
 }
 
+// Account input: normalize text and validate credentials
 function cleanText(value) {
   return typeof value === "string" ? value.trim() : "";
 }
@@ -99,6 +104,7 @@ function validatePassword(password) {
   }
 }
 
+// Credential storage: salt and hash passwords and recovery codes
 async function hashSecret(secret) {
   const salt = randomBytes(16).toString("hex");
   const hash = await deriveKey(secret, salt, 64);
@@ -111,6 +117,7 @@ async function verifySecret(secret, stored) {
   return timingSafeEqual(hash, Buffer.from(stored.hash, "hex"));
 }
 
+// Account sessions: return public fields and manage session cookies
 function publicUser({ id, fullName, email, acceptedTerms, favorites, createdAt }) {
   return { id, fullName, email, acceptedTerms, favorites, createdAt };
 }
@@ -152,6 +159,7 @@ function startSession(request, user) {
   return { "Set-Cookie": sessionCookie(token, SESSION_SECONDS) };
 }
 
+// JSON storage: load records and serialize writes to disk
 let users = [];
 let reviews = [];
 let pendingWrite = Promise.resolve();
@@ -189,6 +197,7 @@ async function loadData(filename) {
   return records;
 }
 
+// Account endpoints: signup, login, and password recovery
 async function signup(request, response, body) {
   const fullName = cleanText(body.fullName).replace(/\s+/g, " ");
   const email = cleanText(body.email).toLowerCase();
@@ -263,6 +272,7 @@ async function resetPassword(request, response, body) {
   sendJson(response, 200, {}, headers);
 }
 
+// Favorites endpoint: toggle a saved bakery for the signed-in account
 async function favorite(request, response, body) {
   const bakeryId = body.bakeryId;
   if (typeof bakeryId !== "string" || !BAKERIES.some((bakery) => bakery.id === bakeryId)) {
@@ -281,6 +291,7 @@ async function favorite(request, response, body) {
   sendJson(response, 200, result);
 }
 
+// Reviews endpoint: validate a catalog bakery and save the review
 async function postReview(request, response, body) {
   const bakery = body.bakeryId === undefined
     ? findCatalogBakery(body.bakery)
@@ -311,6 +322,7 @@ async function postReview(request, response, body) {
   sendJson(response, 201, { review });
 }
 
+// API routing: dispatch form submissions and load session or review data
 const postHandlers = new Map([
   ["/api/signup", signup],
   ["/api/login", login],
@@ -345,6 +357,7 @@ async function serveApi(request, response, pathname) {
   await handler(request, response, await readBody(request));
 }
 
+// Static routing: serve public assets from the allowlist
 async function servePage(request, response, pathname) {
   if (request.method !== "GET" && request.method !== "HEAD") {
     throw new RequestError(405, "Only GET and HEAD are supported here.");
@@ -372,6 +385,7 @@ async function servePage(request, response, pathname) {
   }
 }
 
+// Startup: load local data and listen for HTTP requests
 async function start() {
   await fs.mkdir(DATA_DIR, { recursive: true });
   [users, reviews] = await Promise.all([loadData("users.json"), loadData("reviews.json")]);

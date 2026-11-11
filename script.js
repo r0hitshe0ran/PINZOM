@@ -1,12 +1,9 @@
+// Shared footer: display the current year
 document
   .querySelectorAll("[data-year]")
   .forEach((el) => (el.textContent = new Date().getFullYear()));
 
-/* ==========================================================
-   DATA + HELPERS
-   ========================================================== */
-
-//SMALL HELPERS
+// Shared helpers: DOM elements, ratings, and relative dates
 function el(tag, className, text) {
   const node = document.createElement(tag);
   if (className) node.className = className;
@@ -51,6 +48,7 @@ async function api(route, body) {
   return data;
 }
 
+// Shared session: load the signed-in account and update the header
 const pageParams = new URLSearchParams(window.location.search);
 const loginLink = document.querySelector(".login-link");
 let currentUser = null;
@@ -66,7 +64,7 @@ const sessionReady = window.location.protocol === "file:"
   ? Promise.resolve()
   : api("session").then(({ user }) => setCurrentUser(user)).catch(() => {});
 
-//TOAST MESSAGE (small popup instead of alert())
+// Shared feedback: temporary messages and optional links
 function showToast(message, linkText, linkHref) {
   let toast = document.querySelector(".toast");
   if (!toast) {
@@ -85,10 +83,7 @@ function showToast(message, linkText, linkHref) {
   toast.hideTimer = setTimeout(() => toast.classList.remove("show"), 4000);
 }
 
-/* ==========================================================
-   HEADER (all pages)
-   ========================================================== */
-
+// Shared header: open and close the mobile menu
 const menuToggle = document.querySelector(".menu-toggle");
 const navLinks = document.querySelector(".nav-links");
 
@@ -110,10 +105,7 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-/* ==========================================================
-   EXPLORE + REVIEWS PAGE FILTERING
-   (category buttons and the search box now work together)
-   ========================================================== */
+// Explore: build bakery cards for Explore and My Profile
 const filterButtons = document.querySelectorAll("[data-filter]");
 const searchBox = document.getElementById("searchBox");
 const noResults = document.getElementById("noResults");
@@ -168,6 +160,7 @@ if (exploreBakeries) {
   noResults.before(...BAKERIES.map((bakery) => buildBakeryCard(bakery, true)));
 }
 
+// Explore and Reviews: apply category and search filters
 function selectFilterButton(button) {
   filterButtons.forEach((candidate) => {
     const selected = candidate === button;
@@ -216,10 +209,7 @@ if (filterButtons.length) {
   applyFilters();
 }
 
-/* ==========================================================
-   FAVORITES (heart buttons on Explore + Bakery page)
-   Saved inside the logged-in user's record in users.json
-   ========================================================== */
+// Explore, Bakery, and My Profile: save and remove favorites
 async function toggleFavorite(bakeryId) {
   await sessionReady;
   if (!currentUser) {
@@ -265,9 +255,7 @@ document.addEventListener("click", (event) => {
 document.addEventListener("favoritesChanged", refreshFavoriteButtons);
 sessionReady.then(refreshFavoriteButtons);
 
-/* ==========================================================
-   FORM VALIDATION (signup, login, forgot password, review)
-   ========================================================== */
+// Shared forms: validation rules, field errors, and feedback
 const RULES = {
   fullName(value) {
     if (!value) return "Please enter your full name.";
@@ -369,7 +357,7 @@ function clearFormMessage(form) {
   }
 }
 
-//SHOW / HIDE BUTTON ON PASSWORD FIELDS
+// Account forms: show or hide passwords
 document.querySelectorAll(".form input[type='password']").forEach((input) => {
   const wrap = el("div", "pw-wrap");
   input.parentNode.insertBefore(wrap, input);
@@ -386,10 +374,7 @@ document.querySelectorAll(".form input[type='password']").forEach((input) => {
   wrap.appendChild(toggle);
 });
 
-/* ==========================================================
-   FORM SUBMISSION HANDLERS
-   ========================================================== */
-
+// Account pages: sign up, log in, and reset passwords
 async function handleSignup(form) {
   const fields = form.elements;
   const { user, recoveryCode } = await api("signup", {
@@ -432,6 +417,7 @@ async function handleForgot(form) {
   showFormMessage(form, "success", "Password updated.", "Log in →", "login.html");
 }
 
+// Reviews: build cards and submit a review
 function buildReviewCard(review) {
   const card = el("article", "review-card");
   card.dataset.category = review.category || "";
@@ -485,7 +471,7 @@ async function handleReview(form) {
   showToast("Thanks! Your review has been posted.");
 }
 
-//ONE SUBMIT LISTENER FOR EVERY FORM (data-form="signup | login | forgot | review")
+// Shared forms: validate and dispatch submissions
 const formHandlers = {
   signup: handleSignup,
   login: handleLogin,
@@ -525,9 +511,7 @@ document.querySelectorAll("form[data-form]").forEach((form) => {
   });
 });
 
-/* ==========================================================
-   REVIEWS PAGE
-   ========================================================== */
+// Reviews: load saved reviews, preselect a bakery, and handle star ratings
 const reviewForm = document.querySelector("[data-form='review']");
 const reviewsGrid = document.querySelector(".reviews");
 const reviewsReady = (reviewsGrid || document.getElementById("bakeryContent") || document.getElementById("profileMain"))
@@ -588,9 +572,7 @@ if (reviewForm && reviewsGrid) {
   );
 }
 
-/* ==========================================================
-   BAKERY PAGE (bakery.html?id=...)
-   ========================================================== */
+// Bakery details: fill the profile, directions, and reviews
 const bakeryContent = document.getElementById("bakeryContent");
 if (bakeryContent) {
   const bakeryId = new URLSearchParams(window.location.search).get("id");
@@ -659,9 +641,7 @@ if (bakeryContent) {
   }
 }
 
-/* ==========================================================
-   PROFILE PAGE
-   ========================================================== */
+// My Profile: render account details, favorites, reviews, and logout
 const profileMain = document.getElementById("profileMain");
 if (profileMain) Promise.all([sessionReady, reviewsReady]).then(() => {
   const user = currentUser;
@@ -731,9 +711,7 @@ if (profileMain) Promise.all([sessionReady, reviewsReady]).then(() => {
   }
 });
 
-/* ==========================================================
-   CATEGORY PAGE BUTTONS
-   ========================================================== */
+// Categories: switch the preview and link to filtered Explore results
 const categoryButtons = document.querySelectorAll(
   ".category-card[data-category]",
 );
@@ -782,6 +760,7 @@ if (categoryButtons.length && categoryImages.length) {
   selectCategory(requestedCategory || "cakes");
 }
 
+// Explore and Bakery: calculate distances after location permission
 function distanceInKilometres(from, to) {
   const radians = Math.PI / 180;
   const latitude = (to.latitude - from.latitude) * radians;
@@ -843,7 +822,7 @@ if (locationControl) {
   }
 }
 
-// Assemble the dessert layers as the page scrolls.
+// Discover: assemble dessert layers as the page scrolls
 if (document.body.classList.contains("page-home") &&
     !matchMedia("(prefers-reduced-motion: reduce)").matches) {
   const stages = [...document.querySelectorAll(".split-stage")].map((stage) => ({

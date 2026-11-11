@@ -1,4 +1,8 @@
-/* Shared foundations and components */
+/* Pinzom stylesheet
+   Shared foundations and components come first.
+   Page sections follow for Discover, How It Works, Explore, Categories, and Reviews.
+   Header, distance, and form refinements are grouped at the end.
+*/
 * {
   box-sizing: border-box;
 }
@@ -20,6 +24,7 @@ a {
   margin: auto;
 }
 
+/* Shared layout: hero and common page spacing */
 .hero {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -55,6 +60,7 @@ a {
   max-width: 480px;
 }
 
+/* Shared buttons and action groups */
 .btn {
   display: inline-block;
   background: #df2d70;
@@ -140,6 +146,7 @@ a {
   right: 18px;
 }
 
+/* Shared category chips and section headings */
 .chips {
   display: flex;
   justify-content: center;
@@ -225,6 +232,7 @@ a {
   font-weight: 700;
 }
 
+/* Explore and Profile: filters and bakery card grids */
 .explore-layout {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -271,6 +279,7 @@ a {
   color: #e7a91b;
 }
 
+/* Login, Signup, and Password Reset: form layout */
 .auth {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -316,6 +325,7 @@ a {
   box-shadow: 0 0 0 1px #eadde1;
 }
 
+/* Shared review form and review card defaults */
 .review-form {
   background: white;
   border: 1px solid #eadde1;
@@ -351,6 +361,7 @@ a {
   font-size: 14px;
 }
 
+/* Shared responsive layout */
 @media (max-width:800px) {
   .hero,
   .auth,
@@ -421,6 +432,7 @@ button.chip {
   border-color: #c62828;
 }
 
+/* Forms: validation messages and password visibility controls */
 .field-error {
   display: block;
   margin-top: 6px;
@@ -495,6 +507,7 @@ button.chip {
   object-position: center;
 }
 
+/* Shared feedback: toast messages */
 .toast {
   position: fixed;
   left: 50%;
@@ -525,6 +538,7 @@ button.chip {
   text-decoration: underline;
 }
 
+/* Bakery cards: images, links, favorites, and empty states */
 .bakery {
   position: relative;
 }
@@ -578,6 +592,7 @@ button.chip {
   padding: 30px 0;
 }
 
+/* Bakery details: hero, photo, and review list */
 .bakery-hero {
   min-height: 520px;
   margin-bottom: 40px;
@@ -622,6 +637,7 @@ button.chip {
   justify-content: center;
 }
 
+/* My Profile: account and saved items */
 .profile-section {
   margin-bottom: 40px;
 }
@@ -865,6 +881,7 @@ body.page-home {
   background: #f6e6df;
 }
 
+/* Discover: dessert stage and animated image layers */
 :where(.page-home) .split-stage {
   position: relative;
   width: min(100%,430px);
@@ -1445,6 +1462,7 @@ body.page-categories {
   display: none;
 }
 
+/* Categories: selected preview image */
 :where(.page-categories) .category-image-holder {
   display: grid;
   place-items: center;
@@ -1620,6 +1638,7 @@ body.page-reviews {
   font-size: 16px;
 }
 
+/* Reviews: form fields, rating stars, and submission */
 :where(.page-reviews) .review-form {
   padding: 16px 22px 0;
   border: 1px solid #e8e0db;
@@ -1700,6 +1719,7 @@ body.page-reviews {
   text-decoration: underline;
 }
 
+/* Reviews: category filters and community cards */
 :where(.page-reviews) .filters {
   display: flex;
   justify-content: center;
